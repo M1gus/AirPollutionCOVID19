@@ -1,0 +1,128 @@
+---
+title: "25 April 2020 - Link between Air pollutants and COVID"
+author: "Yizhou Yu"
+date: "26/04/2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is a data analysis pipeline linked to a manuscript in review titled *Links between air pollution and COVID-19 in England* (link: https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2). This pipeline relates to data included in *Table 2* and *Table 3*.
+
+The main aims of the workflow presented here were as follows: <br>
+1. Determine a relationship between air pollutants and COVID-19-associated deaths/cases in England<br>
+2. Investigate whether any relationship between air pollution and COVID-19 remains significant in the presence of counfounding factors<br>
+3. Determine whether the model described here responds differently using data obtained befored the start of UK lockdown i.e. the deaths before 8 April 2020
+
+The general workflow is: <br>
+1. Preliminary analyses: Deaths/cases ~ air pollutants + population <br>
+2. Download and curate counfounding variables <br> 
+3. Model comparisons <br> 
+
+The points and aims are 2 and 3 are not published here. They will be featured in our upcoming iteration, which will be available soon.
+
+Note:<br> 
+*stargazer* is a very useful R package that offers high-quality summaries of outcomes. However, it was found to be incompatible with R markdown (Rmd). I I pasted the html format in a blank document for the tables.
+
+Note2:<br>
+The preliminary analysis (Aim1) does not contain detailed interpretations of the models but it is aimed at providing an overview of the specified aims of the project.
+For a more thourough explanation of model outcomes as well as limitations, please refer to (Aim2).
+
+
+## Aim 1: Preliminary analysis
+
+Load packages
+
+```{r}
+library(MASS)
+library(stargazer)
+library(ggplot2)
+```
+
+Please note: <br> the following packages may need to be installed: 
+liblapack-dev<br>
+liblapack3<br>
+libopenblas-base<br>
+libopenblas-dev<br>
+can be done with apt-get on ubuntu 
+
+### View the data
+
+Read and verify the data:
+```{r}
+preL_dt = read.csv("data/26-4-2020_yyAIR_COVID_PRE_LD_dt.csv")[,-1]
+head(preL_dt)
+```
+
+
+Quickly visualise the distribution of each variable:
+
+```{r}
+require (reshape)
+#normalise per column & reshape the data for plotting
+preL_dt_scale = as.data.frame(sapply(preL_dt[,-c(1,4)], scale))
+preL_dt_scale$Region = preL_dt$Region
+preL_dt_long = melt(preL_dt_scale, in.vars = "Region")
+ggplot(preL_dt_long, aes (value)) +
+    geom_density() +
+  geom_histogram() +
+    facet_wrap(~variable) + 
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+```
+
+### Models
+Analyse the death data:
+
+```{r}
+summary(full_lm <- lm(data = preL_dt, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+# the model is overdispersed - use negative binomial or poisson regressions 
+```
+
+The poisson and Negative Binomial models work better with count data. Changing these will not affect the OLS results.
+```{r}
+preL_dt$NO.levels = round(preL_dt$NO.levels * 1000)
+preL_dt$NO2.levels = round(preL_dt$NO2.levels * 1000)
+preL_dt$O3.levels = round(preL_dt$O3.levels * 1000)
+preL_dt$Average_Pop_density_personkm2 = round(preL_dt$Average_Pop_density_personkm2)
+```
+
+Please note it is important to ensure that they are integers:
+
+```{r}
+preL_dt_int = as.data.frame(sapply(preL_dt[,2:ncol(preL_dt)], as.integer))
+preL_dt_int$Region = preL_dt$Region
+preL_dt_int
+```
+
+
+```{r}
+### Number of death
+summary(full_lm.nb <- glm.nb(data = preL_dt_int, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(full_lm.p <- glm(data = preL_dt_int, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels, family = "poisson"))
+
+#pchisq(2 * (logLik(full_lm.nb) - logLik(full_lm.p)), df = 1, lower.tail = FALSE)
+#(est <- cbind(Estimate = coef(full_lm.nb), confint(full_lm.nb)))
+```
+
+```{r}
+stargazer(full_lm, full_lm.p, full_lm.nb,type="html",
+          dep.var.labels="Number of deaths until 8 April 2020",
+          ci=TRUE, ci.level=0.95, single.row=TRUE)
+```
+
+Analyse the Cases data:
+
+```{r}
+summary(cases_lm <- lm(data = preL_dt, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(cases_lm.nb <- glm.nb(data = preL_dt_int, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(cases_lm.p <- glm(data = preL_dt_int, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels, family = "poisson"))
+
+```
+
+```{r}
+stargazer(cases_lm, cases_lm.p, cases_lm.nb,type="html",
+          dep.var.labels="Number of cases until 8 April 2020",
+          ci=TRUE, ci.level=0.95, single.row=TRUE)
+```
