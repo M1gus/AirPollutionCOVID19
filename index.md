@@ -1633,14 +1633,14 @@ summary {
 
 
 
-<h1 class="title toc-ignore">25 April 2020 - Link between Air pollutants and COVID</h1>
-<h4 class="author">Yizhou Yu</h4>
+<h1 class="title toc-ignore">Travaglio et al., medRxiv 2020 (v03)</h1>
+<h4 class="author">Yizhou Yu, MRC Toxicology Unit, University of Cambridge (yzy21@cam.ac.uk)</h4>
 <h4 class="date">26/04/2020</h4>
 
 </div>
 
 
-<p>This is a data analysis pipeline linked to preprint study with the title <em>Links between air pollution and COVID-19 in England</em> (link: <a href="https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2" class="uri">https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2</a>). This pipeline relates to data included in <em>Table 2</em> and <em>Table 3</em>.</p>
+<p>This is a data analysis pipeline linked to a study published in medRxiv, with the title <em>Links between air pollution and COVID-19 in England</em> (link: <a href="https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2" class="uri">https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2</a>). This pipeline relates to data included in <em>Table 2</em> and <em>Table 3</em>.</p>
 <p>The main aims of the workflow presented here were as follows: <br> 1. Determine a relationship between air pollutants and COVID-19-associated deaths/cases in England<br> 2. Investigate whether any relationship between air pollution and COVID-19 remains significant in the presence of counfounding factors<br> 3. Determine whether the model described here responds differently using data obtained befored the start of UK lockdown i.e. the deaths before 8 April 2020</p>
 <p>The general workflow is: <br> 1. Preliminary analyses: Deaths/cases ~ air pollutants + population <br> 2. Download and curate counfounding variables <br> 3. Model comparisons <br></p>
 <p>The points and aims are 2 and 3 are not published here. They will be featured in a future version of our analysis, which will be available soon.</p>
