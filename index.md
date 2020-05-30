@@ -1374,7 +1374,7 @@ summary {
 }
 
 .tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -1382,12 +1382,12 @@ summary {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
+  content: "";
   border: none;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -1518,7 +1518,7 @@ div.tocify {
 
 <div id="general-information" class="section level1">
 <h1>General information</h1>
-<p>This is a data analysis pipeline linked to a manuscript deposited in medRxiv titled <strong>Links between air pollution and COVID-19 in England</strong> (link: <a href="https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v4" class="uri">https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2</a>). This pipeline relates to data included in <strong>Figure 3</strong> to <strong>Figure 6</strong> of the manuscript as well as Supplementary tables included in the supplementary materials.</p>
+<p>This is a data analysis pipeline linked to a manuscript deposited in medRxiv titled <strong>Links between air pollution and COVID-19 in England</strong> (link: <a href="https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2" class="uri">https://www.medrxiv.org/content/10.1101/2020.04.16.20067405v2</a>). This pipeline relates to data included in <strong>Figure 3</strong> to <strong>Figure 6</strong> of the manuscript as well as Supplementary tables included in the supplementary materials.</p>
 <p>The input files for this analysis pipeline are on the master branch of this GitHub page (link: <a href="https://github.com/M1gus/AirPollutionCOVID19" class="uri">https://github.com/M1gus/AirPollutionCOVID19</a>)</p>
 <p>The main aims of the workflow presented here were as follows: <br> 1. Determine a relationship between air pollutants and COVID-19-associated deaths/cases in England<br> 2. Investigate whether any relationship between air pollution and COVID-19 remains significant in the presence of counfounding factors at the regional and subregional level<br> 3. Determine the effect of air pollutants on infectivity at individual levels. 4. Determine the main contributors of air pollution at the subregional level.</p>
 <p>Only the UK Biobank data is not available in the repository as they require separate application. Please visit ukbiobank.ac.uk for more information. A detailed list of the variables used in the UK Biobank analysis is available here:</p>
