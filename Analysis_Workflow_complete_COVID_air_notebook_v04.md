@@ -23,7 +23,7 @@ between air pollution and COVID-19 remains significant in the presence
 of counfounding factors at the regional and subregional level<br> 3.
 Determine the effect of air pollutants on infectivity at individual
 levels. <br> 4. Determine the main contributors of air pollution at the
-subregional level.
+subregional level. <br>
 
 Only the UK Biobank data is not available in the repository as they
 require separate application. Please visit ukbiobank.ac.uk for more
@@ -34,12 +34,454 @@ analysis is available here:
 
 ``` r
 library(stargazer)
-stargazer(read.csv("data_v4/suppl_table_1.csv"), summary=FALSE, rownames=FALSE)
+stargazer(read.csv("data_v4/suppl_table_1.csv"), summary=FALSE, rownames=FALSE, type = "html")
 ```
 
-% Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard
-University. E-mail: hlavac at fas.harvard.edu % Date and time: Sat, May
-30, 2020 - 21:40:51
+<table style="text-align:center">
+
+<tr>
+
+<td colspan="3" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+Variable.name
+
+</td>
+
+<td>
+
+UK.Biobank.ID
+
+</td>
+
+<td>
+
+Description.of.the.variable
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="3" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+x\_coord
+
+</td>
+
+<td>
+
+20074
+
+</td>
+
+<td>
+
+Home location at assessment - east co-ordinate
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+y\_coord
+
+</td>
+
+<td>
+
+20075
+
+</td>
+
+<td>
+
+Home location at assessment - north co-ordinate
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+townsend
+
+</td>
+
+<td>
+
+189
+
+</td>
+
+<td>
+
+Townsend deprivation index at recruitment
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+Age
+
+</td>
+
+<td>
+
+34
+
+</td>
+
+<td>
+
+2020 subtracted by year of birth
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+whr
+
+</td>
+
+<td>
+
+48, 49
+
+</td>
+
+<td>
+
+Waist circumference divided by hip circumference
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+hypertension
+
+</td>
+
+<td>
+
+4079, 4080
+
+</td>
+
+<td>
+
+Diastolic blood pressure
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+WP\_dusty
+
+</td>
+
+<td>
+
+22609
+
+</td>
+
+<td>
+
+Workplace very dusty\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+WP\_chemicals
+
+</td>
+
+<td>
+
+22610
+
+</td>
+
+<td>
+
+Workplace full of chemical or other fumes\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+WP\_cig
+
+</td>
+
+<td>
+
+22611
+
+</td>
+
+<td>
+
+Workplace had a lot of cigarette smoke from other people smoking\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+WP\_diesel
+
+</td>
+
+<td>
+
+22615
+
+</td>
+
+<td>
+
+Workplace had a lot of diesel exhaust\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+breathing
+
+</td>
+
+<td>
+
+22616
+
+</td>
+
+<td>
+
+Breathing problems during period of job
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+whistling
+
+</td>
+
+<td>
+
+2316
+
+</td>
+
+<td>
+
+Wheeze or whistling in the chest in last year
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+sex
+
+</td>
+
+<td>
+
+31
+
+</td>
+
+<td>
+
+Sex
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+fev
+
+</td>
+
+<td>
+
+20153
+
+</td>
+
+<td>
+
+Forced expiratory volume in 1-second (FEV1), predicted\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+copd
+
+</td>
+
+<td>
+
+22130
+
+</td>
+
+<td>
+
+Doctor diagnosed COPD (chronic obstructive pulmonary disease)\*
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+diabetes
+
+</td>
+
+<td>
+
+2443
+
+</td>
+
+<td>
+
+Diabetes diagnosed by doctor
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+n\_cancers
+
+</td>
+
+<td>
+
+134
+
+</td>
+
+<td>
+
+Number of self-reported cancers
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+smoking
+
+</td>
+
+<td>
+
+20116
+
+</td>
+
+<td>
+
+Smoking status
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="3" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+</table>
 
 <br>\*These variables contained too few data and were excluded from
 analysis.<br>The detailed information for every variable can be
