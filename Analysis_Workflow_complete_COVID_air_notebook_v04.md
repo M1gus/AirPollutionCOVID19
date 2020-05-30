@@ -1,18 +1,9 @@
----
-title: "Travaglio et al., medRxiv 2020 (v04)"
-author: "Yizhou Yu, MRC Toxicology Unit, University of Cambridge, (yzy21@mrc-tox.cam.ac.uk)"
-date: "26/04/2020"
-output:
-  html_document:
-    toc: yes
-    toc_depth: 4
-    toc_float: yes
-    keep_md: true
-  pdf_document:
-    toc: yes
-    toc_depth: '4'
-  output: rmarkdown::github_document
----
+# Travaglio et al., medRxiv 2020 (v04)
+## authors: Yizhou Yu & Marco Travaglio, MRC Toxicology Unit, University of Cambridge, (yzy21@mrc-tox.cam.ac.uk)
+
+
+date: 26/05/2020
+
 
 
   
@@ -446,7 +437,8 @@ stargazer(cases_lm.p, cases_lm.nb,type="html",
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>1,436.081</td><td>132.868</td></tr>
 <tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Each column of the table corresponds to a different type of regression model as indicated at the top. The raw estimate values of each model are listed with their 95% confidence intervals in parentheses. The p-values are indicated using the number of asterisks beside the estimates. OLS, ordinary least square; Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxide levels; NO2.levels, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria; Residual Std. Error, Residual standard error.
 
 
@@ -476,7 +468,8 @@ stargazer(full_lm.p, full_lm.nb,type="html",
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>109.094</td><td>91.745</td></tr>
 <tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>Each column of the table corresponds to a different type of regression model as indicated at the top. The raw estimate values of each model are listed with their 95% confidence intervals in parentheses. The p-values are indicated using the number of asterisks beside the estimates. OLS, ordinary least square; Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxide levels; NO2.levels, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria; Residual Std. Error, Residual standard error.
+
+<br>Each column of the table corresponds to a different type of regression model as indicated at the top. The raw estimate values of each model are listed with their 95% confidence intervals in parentheses. The p-values are indicated using the number of asterisks beside the estimates. OLS, ordinary least square; Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxide levels; NO2.levels, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria; Residual Std. Error, Residual standard error.
 
 
 ## Aim 2: subregional level analysis
@@ -1783,7 +1776,8 @@ stargazer(pm25_cases.nb, pm10_cases.nb, nox_cases.nb, no2_cases.nb,
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>3,583.745</td><td>3,581.297</td><td>3,584.364</td><td>3,583.468</td><td>3,574.114</td><td>3,584.864</td></tr>
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br> 
+
+<br> 
 The value in parentheses represent the standard error. <br>
 Summary of the effects of individual air pollutant species on lab-confirmed COVID-related cases up to April 10th 2020. The three asterisks near the theta indicate that the models are significantly better than null.
 
@@ -1818,7 +1812,8 @@ stargazer(pm25_deaths.nb, pm10_deaths.nb, nox_deaths.nb, no2_deaths.nb,
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>2,801.130</td><td>2,799.577</td><td>2,794.865</td><td>2,792.853</td><td>2,794.640</td><td>2,796.854</td></tr>
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br> Summary of the effects of individual air pollutant species on lab-confirmed COVID-related deaths up to April 10th 2020. The three asterisks near the theta indicate that the models are significantly better than null. The MRR (mortality rate ratios) of O3 is interesting: more O3 = ~3% less deaths. NOx, NO2 and SO2 are all significant predictors; they will increase the number of deaths by 1.3, 2.4 and 17.2% respectively, per 1 µg/m3.
+
+<br> Summary of the effects of individual air pollutant species on lab-confirmed COVID-related deaths up to April 10th 2020. The three asterisks near the theta indicate that the models are significantly better than null. The MRR (mortality rate ratios) of O3 is interesting: more O3 = ~3% less deaths. NOx, NO2 and SO2 are all significant predictors; they will increase the number of deaths by 1.3, 2.4 and 17.2% respectively, per 1 µg/m3.
 
 ## Aim 3: Individual level analysis
 
@@ -3847,7 +3842,8 @@ stargazer(ukb_covid_pm25.b, ukb_covid_pm10.b, ukb_covid_nox.b, ukb_covid_no2.b,
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>1,986.469</td><td>1,988.185</td><td>1,987.362</td><td>1,985.271</td><td>1,994.211</td><td>1,992.572</td></tr>
 <tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Each column of the table corresponds to a binary model used to predict whether one would get infected based on the concentration of an air pollutant, as well as covariates. We used different models to characterise each pollutant because the pollutants are highly correlated. The raw estimate values of each model are listed with their standard error in parentheses. The p-values are indicated using the number of asterisks beside the estimates. Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxides levels; no2_val, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria
 
 
@@ -7994,7 +7990,8 @@ stargazer(model_NO2_gamma.final.v2, model_NO2_gamma.final.rsd, model_NO2_gamma.g
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>1,720.440</td><td>1,633.288</td><td>1,752.104</td></tr>
 <tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Summary of reported contributions of fossil fuel consumption sources on annual mean nitrogen dioxide concentration. Each column represents an individual single-pollutant generalized linear model (gamma) used to assess the effects of road transport fuels (1), residual fuels (2) and gas consumption (3) on annual average concentration of nitrogen dioxide. Each value corresponds to the estimate of the model, with the standard error in parentheses. The p-values are indicated using the number of asterisks beside the estimates. glm, generalized linear model; no2_val, annual mean nitrogen dioxide values; Akaike Inf. Crit., Akaike’s Information Criteria.
 
 
@@ -8066,7 +8063,8 @@ stargazer(model_NOx_gamma_final, model_NOx_gamma.final.rsd3, model_NOx_gamma.gas
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>1,975.747</td><td>1,893.123</td><td>2,005.257</td></tr>
 <tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Summary of reported contributions of fossil fuel consumption sources on annual mean nitrogen oxides concentration. Each column represents an individual single-pollutant generalized linear model (gamma) used to assess the effects of road transport fuels (1), residual fuels (2) and gas consumption (3) on annual average concentration of nitrogen oxide. Each value in the columns corresponds to the estimate of the model, with the standard error in parentheses. The p-values are indicated using the number of asterisks beside the estimates. glm, generalized linear model; nox_val, annual mean nitrogen oxide values; Akaike Inf. Crit., Akaike’s Information Criteria.
 
 
@@ -8142,7 +8140,8 @@ stargazer(model_O3_gamma_final, model_O3_gamma_final.rsd, model_O3_gamma.gas.v2,
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>1,452.092</td><td>1,575.942</td><td>1,568.852</td></tr>
 <tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Summary of reported contributions of fossil fuel consumption sources on annual mean ozone concentration. Each column represents an individual single-pollutant generalized linear model (gaussian) used to assess the effects of road transport fuels (1), residual fuels (2) and gas consumption (3) on annual average concentration of ozone. Each value corresponds to the estimate of the model, with the standard error in parentheses. The p-values are indicated using the number of asterisks beside the estimates. glm, generalized linear model; o3_val, annual mean ozone values; Akaike Inf. Crit., Akaike’s Information Criteria.
 
 
@@ -8215,7 +8214,8 @@ stargazer(model_SO2_gamma_final, model_SO2_gamma.final.rsd, model_SO2_gamma.gas.
 <tr><td style="text-align:left">Akaike Inf. Crit.</td><td>371.308</td><td>303.964</td><td>419.348</td></tr>
 <tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
 </table>
-\*: p<0.1; \*\*: p<0.05; \*\*\*: p<0.01 <br>
+
+<br>
 Summary of reported contributions of fossil fuel consumption sources on annual mean SO2 concentration. Each column represents an individual single-pollutant generalized linear model (gamma) used to assess the effects of road transport fuels (1), residual fuels (2) and gas consumption (3) on annual average concentration of SO2. The p-values are indicated using the number of asterisks beside the estimates. glm, generalized linear model; so2_val, annual mean sulphur dioxide values; Akaike Inf. Crit., Akaike’s Information Criteria.
 
 
