@@ -191,7 +191,7 @@ Waist circumference divided by hip circumference
 
 <td style="text-align:left">
 
-hypertension
+highBP
 
 </td>
 
@@ -203,7 +203,7 @@ hypertension
 
 <td>
 
-Diastolic blood pressure
+High Blood pressure\*
 
 </td>
 
@@ -313,7 +313,7 @@ breathing
 
 <td>
 
-Breathing problems during period of job
+Breathing problems during period of job\*
 
 </td>
 
@@ -467,7 +467,7 @@ smoking
 
 <td>
 
-Smoking status
+Smoking status\*
 
 </td>
 
@@ -3414,6 +3414,362 @@ ggplot(LA_covid_CASES_onlyPoll, aes(x=reorder(names, OR), y=OR, color=significan
 ggsave('fig_out_v4/LA_CASES_odds_IRR.pdf')
 ```
 
+Save the numbers
+
+``` r
+library(stargazer)
+stargazer(LA_covid_CASES_onlyPoll, summary=FALSE ,type="html",out 
+          ="fig_out_v4/LA_covid_infectivity_IRR.html")
+```
+
+<table style="text-align:center">
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+</td>
+
+<td>
+
+OR
+
+</td>
+
+<td>
+
+X2.5..
+
+</td>
+
+<td>
+
+X97.5..
+
+</td>
+
+<td>
+
+p\_value
+
+</td>
+
+<td>
+
+names
+
+</td>
+
+<td>
+
+significance
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+pm25\_val
+
+</td>
+
+<td>
+
+0.908
+
+</td>
+
+<td>
+
+0.860
+
+</td>
+
+<td>
+
+0.958
+
+</td>
+
+<td>
+
+0.001
+
+</td>
+
+<td>
+
+pm25\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+pm10\_val
+
+</td>
+
+<td>
+
+0.935
+
+</td>
+
+<td>
+
+0.903
+
+</td>
+
+<td>
+
+0.967
+
+</td>
+
+<td>
+
+0.0001
+
+</td>
+
+<td>
+
+pm10\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+nox\_val
+
+</td>
+
+<td>
+
+1.018
+
+</td>
+
+<td>
+
+1.008
+
+</td>
+
+<td>
+
+1.028
+
+</td>
+
+<td>
+
+0.001
+
+</td>
+
+<td>
+
+nox\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+no2\_val
+
+</td>
+
+<td>
+
+1.031
+
+</td>
+
+<td>
+
+1.014
+
+</td>
+
+<td>
+
+1.047
+
+</td>
+
+<td>
+
+0.001
+
+</td>
+
+<td>
+
+no2\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+o3\_val
+
+</td>
+
+<td>
+
+0.949
+
+</td>
+
+<td>
+
+0.928
+
+</td>
+
+<td>
+
+0.970
+
+</td>
+
+<td>
+
+0.00000
+
+</td>
+
+<td>
+
+o3\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+so2\_val
+
+</td>
+
+<td>
+
+1.267
+
+</td>
+
+<td>
+
+1.103
+
+</td>
+
+<td>
+
+1.459
+
+</td>
+
+<td>
+
+0.002
+
+</td>
+
+<td>
+
+so2\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+</table>
+
 ### Summary tables of models in Aim 2
 
 Add <br> \#\#\#\# Supplementary Table 4. Effect of air pollutants on the
@@ -4913,14 +5269,29 @@ ggplot(data = covid_id_unique, aes(x = result))+
   geom_histogram(stat="count")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
 
 ``` r
 ggplot(data = covid_id_unique, aes(x = origin))+
   geom_histogram(stat="count")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-30-2.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-31-2.png)<!-- -->
+Look at time
+
+``` r
+covid_df_time = covid_df
+covid_df_time$specdate = as.Date(covid_df_time$specdate, format="%d/%m/%Y")
+covid_df_time<-covid_df_time %>% 
+group_by(specdate) %>%
+mutate(culm_cases=cumsum(result))
+
+ggplot(covid_df_time, aes(x=specdate, y=culm_cases)) +
+  geom_bar(stat="identity") + 
+  scale_x_date(date_labels = "%d/%m/%Y")
+```
+
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
 
 #### load non-covid UKB phenotype data
 
@@ -5116,7 +5487,7 @@ ggplot(data = world) +
            xlim = c(min(ukb_covid_ll_df$ukb_lon)-4, max(ukb_covid_ll_df$ukb_lon)+3), expand = FALSE)
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 ``` r
 ggsave('fig_out_v4/UKB_COVID_participants_locations.pdf')
@@ -5554,6 +5925,167 @@ ukb_additional_pol = merge(ukb_additional_pol, pm10_ukb, by = 'eid')
 
 ukb_covid_allPol_df = merge(ukb_covid_pm25_popDens_df, ukb_additional_pol, by = 'eid')
 ```
+
+#### Descriptive statistics of the UK Biobank data
+
+``` r
+library(arsenal)
+ukb_descript_stats <- tableby(result ~ ., data = ukb_covid_allPol_df[,3:ncol(ukb_covid_allPol_df)])
+summary(ukb_descript_stats, title = "Descriptive statistics of the UK Biobank data")
+```
+
+    ## 
+    ## Table: Descriptive statistics of the UK Biobank data
+    ## 
+    ## |                                       |        0 (N=800)        |        1 (N=664)        |     Total (N=1464)      | p value|
+    ## |:--------------------------------------|:-----------------------:|:-----------------------:|:-----------------------:|-------:|
+    ## |**origin**                             |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      0.672 (0.470)      |      0.858 (0.349)      |      0.757 (0.429)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.000 - 1.000      |      0.000 - 1.000      |      0.000 - 1.000      |        |
+    ## |**n_cancers**                          |                         |                         |                         |   0.173|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            0            |            1            |            1            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      0.119 (0.350)      |      0.095 (0.309)      |      0.108 (0.332)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.000 - 2.000      |      0.000 - 2.000      |      0.000 - 2.000      |        |
+    ## |**townsend**                           |                         |                         |                         |   0.042|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     -0.338 (3.506)      |      0.038 (3.551)      |     -0.167 (3.530)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     -6.156 - 8.873      |     -6.079 - 8.940      |     -6.156 - 8.940      |        |
+    ## |**x_coord**                            |                         |                         |                         |   0.010|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            | 428271.250 (56003.689)  | 436143.072 (60211.610)  | 431841.530 (58062.493)  |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                | 321000.000 - 542000.000 | 327000.000 - 540000.000 | 321000.000 - 542000.000 |        |
+    ## |**y_coord**                            |                         |                         |                         |   0.108|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            | 342893.750 (133805.914) | 331689.759 (131765.710) | 337812.158 (132956.294) |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                | 149000.000 - 580000.000 | 152000.000 - 580000.000 | 149000.000 - 580000.000 |        |
+    ## |**smoking**                            |                         |                         |                         |   0.002|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            0            |            2            |            2            |        |
+    ## |&nbsp;&nbsp;&nbsp;Current              |       135 (16.9%)       |       68 (10.3%)        |       203 (13.9%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Never                |       353 (44.1%)       |       302 (45.6%)       |       655 (44.8%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Prefer not to answer |        4 (0.5%)         |        6 (0.9%)         |        10 (0.7%)        |        |
+    ## |&nbsp;&nbsp;&nbsp;Previous             |       308 (38.5%)       |       286 (43.2%)       |       594 (40.6%)       |        |
+    ## |**fev**                                |                         |                         |                         |   0.084|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           559           |           484           |          1043           |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      2.899 (0.531)      |      2.992 (0.567)      |      2.939 (0.548)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      1.658 - 4.522      |      1.954 - 4.098      |      1.658 - 4.522      |        |
+    ## |**copd**                               |                         |                         |                         |   0.055|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           644           |           564           |          1208           |        |
+    ## |&nbsp;&nbsp;&nbsp;No                   |       147 (94.2%)       |       99 (99.0%)        |       246 (96.1%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Yes                  |        9 (5.8%)         |        1 (1.0%)         |        10 (3.9%)        |        |
+    ## |**WP_dusty**                           |                         |                         |                         |   0.189|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           645           |           566           |          1211           |        |
+    ## |&nbsp;&nbsp;&nbsp;Often                |        7 (4.5%)         |       10 (10.2%)        |        17 (6.7%)        |        |
+    ## |&nbsp;&nbsp;&nbsp;Rarely/never         |       119 (76.8%)       |       73 (74.5%)        |       192 (75.9%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Sometimes            |       29 (18.7%)        |       15 (15.3%)        |       44 (17.4%)        |        |
+    ## |**WP_chemicals**                       |                         |                         |                         |   0.182|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           646           |           566           |          1212           |        |
+    ## |&nbsp;&nbsp;&nbsp;Do not know          |        1 (0.6%)         |        2 (2.0%)         |        3 (1.2%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Often                |        2 (1.3%)         |        5 (5.1%)         |        7 (2.8%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Rarely/never         |       136 (88.3%)       |       79 (80.6%)        |       215 (85.3%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Sometimes            |        15 (9.7%)        |       12 (12.2%)        |       27 (10.7%)        |        |
+    ## |**WP_cig**                             |                         |                         |                         |   0.843|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           645           |           566           |          1211           |        |
+    ## |&nbsp;&nbsp;&nbsp;Do not know          |        1 (0.6%)         |        0 (0.0%)         |        1 (0.4%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Often                |        8 (5.2%)         |        6 (6.1%)         |        14 (5.5%)        |        |
+    ## |&nbsp;&nbsp;&nbsp;Rarely/never         |       115 (74.2%)       |       74 (75.5%)        |       189 (74.7%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Sometimes            |       31 (20.0%)        |       18 (18.4%)        |       49 (19.4%)        |        |
+    ## |**WP_diesel**                          |                         |                         |                         |   0.383|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           645           |           566           |          1211           |        |
+    ## |&nbsp;&nbsp;&nbsp;Do not know          |        2 (1.3%)         |        3 (3.1%)         |        5 (2.0%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Often                |        2 (1.3%)         |        4 (4.1%)         |        6 (2.4%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Rarely/never         |       141 (91.0%)       |       85 (86.7%)        |       226 (89.3%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Sometimes            |        10 (6.5%)        |        6 (6.1%)         |        16 (6.3%)        |        |
+    ## |**breathing**                          |                         |                         |                         |   0.256|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           645           |           566           |          1211           |        |
+    ## |&nbsp;&nbsp;&nbsp;No                   |       144 (92.9%)       |       87 (88.8%)        |       231 (91.3%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Yes                  |        11 (7.1%)        |       11 (11.2%)        |        22 (8.7%)        |        |
+    ## |**whistling**                          |                         |                         |                         |   0.834|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            0            |            2            |            2            |        |
+    ## |&nbsp;&nbsp;&nbsp;Do not know          |        25 (3.1%)        |        16 (2.4%)        |        41 (2.8%)        |        |
+    ## |&nbsp;&nbsp;&nbsp;No                   |       527 (65.9%)       |       442 (66.8%)       |       969 (66.3%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Prefer not to answer |        2 (0.2%)         |        1 (0.2%)         |        3 (0.2%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Yes                  |       246 (30.8%)       |       203 (30.7%)       |       449 (30.7%)       |        |
+    ## |**diabetes**                           |                         |                         |                         |   0.816|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            0            |            2            |            2            |        |
+    ## |&nbsp;&nbsp;&nbsp;Do not know          |        3 (0.4%)         |        3 (0.5%)         |        6 (0.4%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;No                   |       721 (90.1%)       |       588 (88.8%)       |      1309 (89.5%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Prefer not to answer |        2 (0.2%)         |        1 (0.2%)         |        3 (0.2%)         |        |
+    ## |&nbsp;&nbsp;&nbsp;Yes                  |        74 (9.2%)        |       70 (10.6%)        |       144 (9.8%)        |        |
+    ## |**sex**                                |                         |                         |                         |   0.043|
+    ## |&nbsp;&nbsp;&nbsp;Female               |       393 (49.1%)       |       291 (43.8%)       |       684 (46.7%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;Male                 |       407 (50.9%)       |       373 (56.2%)       |       780 (53.3%)       |        |
+    ## |**birthYear**                          |                         |                         |                         |   0.396|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |    1950.341 (8.665)     |    1950.729 (8.737)     |    1950.517 (8.697)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |   1937.000 - 1970.000   |   1937.000 - 1969.000   |   1937.000 - 1970.000   |        |
+    ## |**diaBP**                              |                         |                         |                         |   0.045|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           16            |           21            |           37            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     81.922 (10.923)     |     83.075 (10.603)     |     82.441 (10.791)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |    46.000 - 125.000     |    57.000 - 120.000     |    46.000 - 125.000     |        |
+    ## |**sysBP**                              |                         |                         |                         |   0.361|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           17            |           21            |           38            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |    136.498 (19.270)     |    137.440 (19.499)     |    136.923 (19.372)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |    92.000 - 219.000     |    91.000 - 229.000     |    91.000 - 229.000     |        |
+    ## |**waist**                              |                         |                         |                         |   0.010|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            7            |            5            |           12            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     94.368 (15.035)     |     96.393 (14.517)     |     95.287 (14.831)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |    61.000 - 151.000     |    62.000 - 166.000     |    61.000 - 166.000     |        |
+    ## |**hip**                                |                         |                         |                         |   0.142|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            7            |            5            |           12            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |    104.880 (11.008)     |    105.732 (11.006)     |    105.267 (11.012)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |    83.000 - 158.000     |    82.000 - 172.000     |    82.000 - 172.000     |        |
+    ## |**height**                             |                         |                         |                         |   0.995|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            8            |            7            |           15            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     168.848 (9.503)     |     168.851 (9.247)     |     168.849 (9.385)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |    143.000 - 197.000    |    141.000 - 196.000    |    141.000 - 197.000    |        |
+    ## |**age**                                |                         |                         |                         |   0.396|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     69.659 (8.665)      |     69.271 (8.737)      |     69.483 (8.697)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     50.000 - 83.000     |     51.000 - 83.000     |     50.000 - 83.000     |        |
+    ## |**whr**                                |                         |                         |                         |   0.010|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            7            |            5            |           12            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      0.898 (0.092)      |      0.910 (0.090)      |      0.904 (0.091)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.642 - 1.211      |      0.660 - 1.194      |      0.642 - 1.211      |        |
+    ## |**highBP**                             |                         |                         |                         |   0.199|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |           16            |           21            |           37            |        |
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      0.189 (0.392)      |      0.216 (0.412)      |      0.201 (0.401)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.000 - 1.000      |      0.000 - 1.000      |      0.000 - 1.000      |        |
+    ## |**inpatient_covid**                    |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      0.672 (0.470)      |      0.858 (0.349)      |      0.757 (0.429)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.000 - 1.000      |      0.000 - 1.000      |      0.000 - 1.000      |        |
+    ## |**distance**                           |                         |                         |                         |   0.070|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |    963.123 (21.328)     |    961.081 (21.525)     |    962.197 (21.434)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |   930.406 - 1001.337    |   930.476 - 1001.203    |   930.406 - 1001.337    |        |
+    ## |**pm25_val**                           |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      8.859 (1.853)      |      9.218 (1.924)      |      9.022 (1.893)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     5.630 - 13.650      |     5.769 - 13.667      |     5.630 - 13.667      |        |
+    ## |**merged_popDens_km2**                 |                         |                         |                         |   0.008|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |   2770.719 (2909.404)   |   3197.601 (3228.642)   |   2964.332 (3064.644)   |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |   64.000 - 16097.000    |   64.000 - 16097.000    |   64.000 - 16097.000    |        |
+    ## |**smoker**                             |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;N-Miss               |            0            |            2            |            2            |        |
+    ## |&nbsp;&nbsp;&nbsp;not_smoking          |       665 (83.1%)       |       594 (89.7%)       |      1259 (86.1%)       |        |
+    ## |&nbsp;&nbsp;&nbsp;smoking              |       135 (16.9%)       |       68 (10.3%)        |       203 (13.9%)       |        |
+    ## |**no2_val**                            |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     15.485 (6.074)      |     16.789 (6.469)      |     16.076 (6.288)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     4.987 - 48.672      |     5.632 - 48.672      |     4.987 - 48.672      |        |
+    ## |**so2_val**                            |                         |                         |                         |   0.027|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      1.668 (0.546)      |      1.731 (0.544)      |      1.697 (0.545)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |      0.661 - 5.108      |      0.700 - 4.578      |      0.661 - 5.108      |        |
+    ## |**o3_val**                             |                         |                         |                         |   0.753|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |      5.621 (2.653)      |      5.576 (2.668)      |      5.601 (2.659)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     0.000 - 13.188      |     0.000 - 12.731      |     0.000 - 13.188      |        |
+    ## |**nox_val**                            |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     21.955 (10.770)     |     24.163 (11.841)     |     22.956 (11.318)     |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     6.254 - 95.880      |     7.116 - 95.880      |     6.254 - 95.880      |        |
+    ## |**pm10_val**                           |                         |                         |                         | < 0.001|
+    ## |&nbsp;&nbsp;&nbsp;Mean (SD)            |     13.430 (2.683)      |     13.925 (2.816)      |     13.655 (2.755)      |        |
+    ## |&nbsp;&nbsp;&nbsp;Range                |     8.244 - 21.178      |     8.735 - 21.207      |     8.244 - 21.207      |        |
+
+``` r
+write2pdf(ukb_descript_stats, "ukb_descript_stats_4_2020.pdf")
+```
+
+    ##   |                                                                              |                                                                      |   0%  |                                                                              |......................................................................| 100%
+    ##   ordinary text without R code
+    ## 
+    ## 
+    ## /usr/local/bin/pandoc +RTS -K512m -RTS ukb_descript_stats_4_2020.pdf.utf8.md --to latex --from markdown+autolink_bare_uris+tex_math_single_backslash --output ukb_descript_stats_4_2020.tex --self-contained --highlight-style tango --pdf-engine pdflatex --variable graphics --lua-filter /Users/yizhouyu/Library/R/4.0/library/rmarkdown/rmd/lua/pagebreak.lua --lua-filter /Users/yizhouyu/Library/R/4.0/library/rmarkdown/rmd/lua/latex-div.lua --variable 'geometry:margin=1in'
 
 ### model with all pollutants: glm
 
@@ -8047,11 +8579,363 @@ ggplot(ukb_covid_onlyPoll, aes(x=reorder(names, OR), y=OR, color=significance)) 
   ylim(0.75, 1.6)
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
 ``` r
 ggsave('fig_out_v4/UKB_infectivityOR_bar.pdf')
 ```
+
+``` r
+stargazer(ukb_covid_onlyPoll, type ="html", single.row=TRUE, summary = FALSE, out = "fig_out_v4/ukb_covid_onlyPoll.html")
+```
+
+<table style="text-align:center">
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+</td>
+
+<td>
+
+OR
+
+</td>
+
+<td>
+
+X2.5..
+
+</td>
+
+<td>
+
+X97.5..
+
+</td>
+
+<td>
+
+p\_value
+
+</td>
+
+<td>
+
+names
+
+</td>
+
+<td>
+
+significance
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+pm25\_val
+
+</td>
+
+<td>
+
+1.120
+
+</td>
+
+<td>
+
+1.036
+
+</td>
+
+<td>
+
+1.211
+
+</td>
+
+<td>
+
+0.004
+
+</td>
+
+<td>
+
+pm25\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+pm10\_val
+
+</td>
+
+<td>
+
+1.074
+
+</td>
+
+<td>
+
+1.017
+
+</td>
+
+<td>
+
+1.136
+
+</td>
+
+<td>
+
+0.011
+
+</td>
+
+<td>
+
+pm10\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+nox\_val
+
+</td>
+
+<td>
+
+1.023
+
+</td>
+
+<td>
+
+1.006
+
+</td>
+
+<td>
+
+1.041
+
+</td>
+
+<td>
+
+0.008
+
+</td>
+
+<td>
+
+nox\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+no2\_val
+
+</td>
+
+<td>
+
+1.047
+
+</td>
+
+<td>
+
+1.017
+
+</td>
+
+<td>
+
+1.079
+
+</td>
+
+<td>
+
+0.002
+
+</td>
+
+<td>
+
+no2\_val
+
+</td>
+
+<td>
+
+p-value \< 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+o3\_val
+
+</td>
+
+<td>
+
+1.014
+
+</td>
+
+<td>
+
+0.973
+
+</td>
+
+<td>
+
+1.057
+
+</td>
+
+<td>
+
+0.507
+
+</td>
+
+<td>
+
+o3\_val
+
+</td>
+
+<td>
+
+p-value \> 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left">
+
+so2\_val
+
+</td>
+
+<td>
+
+1.168
+
+</td>
+
+<td>
+
+0.946
+
+</td>
+
+<td>
+
+1.444
+
+</td>
+
+<td>
+
+0.150
+
+</td>
+
+<td>
+
+so2\_val
+
+</td>
+
+<td>
+
+p-value \> 0.05
+
+</td>
+
+</tr>
+
+<tr>
+
+<td colspan="7" style="border-bottom: 1px solid black">
+
+</td>
+
+</tr>
+
+</table>
 
 ## Aim 4: Identifying the main contributors of air pollution
 
@@ -8104,7 +8988,7 @@ NOx.plot <- ggplot(data = NOx_emissions, mapping = aes(y = Emissions, x = Year, 
 NOx.plot + scale_x_continuous(breaks = c(1990, 2005, 2018),labels=c(1990, 2005, 2018))
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/Main_NOx_emission_sector_V2.pdf")
@@ -8145,7 +9029,7 @@ SO2.plot <- ggplot(data = So2_emissions, mapping = aes(y = Emissions, x = Year, 
 SO2.plot + scale_x_continuous(breaks = c(1990, 2005, 2018),labels=c(1990, 2005, 2018))
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/Main_SO2_emission_sector_V2.pdf")
@@ -8365,7 +9249,7 @@ we will use the following functions:
 hist(fossilfuel_2017$no2_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017$no2_val, main="QQplot of NO2")
@@ -8379,7 +9263,7 @@ skewness(fossilfuel_2017$no2_val)
 hist(fossilfuel_2017$nox_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-50-2.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-54-2.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017$nox_val, main="QQplot of NOx")
@@ -8392,7 +9276,7 @@ skewness(fossilfuel_2017$nox_val)
 hist(fossilfuel_2017$o3_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-50-3.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-54-3.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017$o3_val, main="QQplot of O3")
@@ -8405,7 +9289,7 @@ skewness(fossilfuel_2017$o3_val)
 hist(fossilfuel_2017$so2_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-50-4.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-54-4.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017$so2_val, main="QQplot of SO2")
@@ -8739,7 +9623,7 @@ ggplot(NO2_pca_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   xlab("NO2 PCA")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 ``` r
 # plot for NOx PCA
@@ -8754,7 +9638,7 @@ ggplot(NOx_pca_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   xlab("NOx PCA")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-53-2.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-57-2.png)<!-- -->
 
 ``` r
 # plot for O3 PCA
@@ -8769,7 +9653,7 @@ ggplot(O3_pca_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   xlab("O3 PCA")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-53-3.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-57-3.png)<!-- -->
 
 ``` r
 # plot for SO2 PCA
@@ -8784,7 +9668,7 @@ ggplot(SO2_pca_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   xlab("SO2 PCA")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-53-4.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-57-4.png)<!-- -->
 
 #### Supplementary Table 9. Summary of the generalised linear models based on principal components of the effect of fossil fuel consumption on air pollutant levels
 
@@ -10271,7 +11155,7 @@ functions:
 hist(fossilfuel_2017.omit$nox_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-66-1.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017.omit$nox_val, main="QQplot of NOx")
@@ -10914,7 +11798,7 @@ functions:
 hist(fossilfuel_2017.omit$o3_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-71-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-75-1.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017.omit$o3_val, main="QQplot of O3")
@@ -11485,7 +12369,7 @@ functions:
 hist(fossilfuel_2017.omit$so2_val, main="Histogram of Yield", xlab="Yield (quintals/ha)") 
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-80-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-84-1.png)<!-- -->
 
 ``` r
 #qqnorm(fossilfuel_2017.omit$so2_val, main="QQplot of SO2")
@@ -12510,7 +13394,7 @@ ggplot(NO2_ff_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   ylim(0.75, 1.6)
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-89-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-93-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/NO2_sources.pdf")
@@ -12999,7 +13883,7 @@ ggplot(NOx_ff_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   ylim(0.75, 1.6)
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-91-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/NOx_sources.pdf")
@@ -13505,7 +14389,7 @@ ggplot(O3_ff_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   xlab("O3")
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-93-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-97-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/O3_sources.pdf")
@@ -14039,7 +14923,7 @@ ggplot(SO2_ff_onlyPoll, aes(x=reorder(names, OR), y=OR, color= significance)) +
   ylim(0.75, 1.6)
 ```
 
-![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
+![](Analysis_Workflow_complete_COVID_air_notebook_v04_files/figure-gfm/unnamed-chunk-99-1.png)<!-- -->
 
 ``` r
 ggsave("fig_out_v4/SO2_sources.pdf")
