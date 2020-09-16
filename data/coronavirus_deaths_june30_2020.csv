@@ -1,0 +1,337 @@
+﻿Cause of death,Area type,Area code,Area name,March,April,May,June,Overall
+COVID-19,Unitary Authority,E06000001,Hartlepool,5.4,61.4,39,8.3,114.1
+COVID-19,Unitary Authority,E06000002,Middlesbrough,13.4,109.4,47.3,7.9,178
+COVID-19,Unitary Authority,E06000003,Redcar and Cleveland,4.3,40.5,30.9,10,85.7
+COVID-19,Unitary Authority,E06000004,Stockton-on-Tees,4.6,27.5,35.9,11.9,79.9
+COVID-19,Unitary Authority,E06000005,Darlington,3.1,40.7,26.2,8,78.1
+COVID-19,Unitary Authority,E06000006,Halton,4.1,65.8,28.6,17.4,115.8
+COVID-19,Unitary Authority,E06000007,Warrington,3,74.9,33.6,5.6,117.1
+COVID-19,Unitary Authority,E06000008,Blackburn with Darwen,:,55.3,23.9,5.4,86.4
+COVID-19,Unitary Authority,E06000009,Blackpool,1.9,49.2,32,11.5,94.5
+COVID-19,Unitary Authority,E06000010,"Kingston upon Hull, City of",1.9,37.9,51.3,18,109
+COVID-19,Unitary Authority,E06000011,East Riding of Yorkshire,2.1,33.1,25.6,10.3,71.1
+COVID-19,Unitary Authority,E06000012,North East Lincolnshire,3,13.2,3.2,:,20
+COVID-19,Unitary Authority,E06000013,North Lincolnshire,:,27,23.1,3.3,54.5
+COVID-19,Unitary Authority,E06000014,York,2.4,43.2,28.8,4.6,79
+COVID-19,Unitary Authority,E06000015,Derby,9.6,83.9,26.4,12.5,132.4
+COVID-19,Unitary Authority,E06000016,Leicester,7,64.6,37.4,14.6,123.6
+COVID-19,Unitary Authority,E06000017,Rutland,:,19.1,21.6,:,44.4
+COVID-19,Unitary Authority,E06000018,Nottingham,6.1,72.9,26.4,6.9,112.3
+COVID-19,Unitary Authority,E06000019,"Herefordshire, County of",2.9,18.2,26,3.6,50.6
+COVID-19,Unitary Authority,E06000020,Telford and Wrekin,4.6,35.3,23.7,3.9,67.5
+COVID-19,Unitary Authority,E06000021,Stoke-on-Trent,3.1,41.1,35.4,10,89.6
+COVID-19,Unitary Authority,E06000022,Bath and North East Somerset,5,32.1,6.3,1.5,44.9
+COVID-19,Unitary Authority,E06000023,"Bristol, City of",6.3,50.5,12.9,5.3,74.9
+COVID-19,Unitary Authority,E06000024,North Somerset,2.4,19.9,22.4,7.9,52.6
+COVID-19,Unitary Authority,E06000025,South Gloucestershire,4.5,35.4,16.4,2.2,58.5
+COVID-19,Unitary Authority,E06000026,Plymouth,1.7,21,10.9,2.4,36
+COVID-19,Unitary Authority,E06000027,Torbay,3.8,18.6,7.3,:,30.1
+COVID-19,Unitary Authority,E06000030,Swindon,1.7,58.7,25.5,3.9,89.9
+COVID-19,Unitary Authority,E06000031,Peterborough,:,30.4,23.3,6.8,61.8
+COVID-19,Unitary Authority,E06000032,Luton,12.9,88.7,29.2,9.6,140.3
+COVID-19,Unitary Authority,E06000033,Southend-on-Sea,8.4,59,25.7,8.9,102
+COVID-19,Unitary Authority,E06000034,Thurrock,10.9,80.3,20,10.3,121.6
+COVID-19,Unitary Authority,E06000035,Medway,10,51.7,21,3.5,86.2
+COVID-19,Unitary Authority,E06000036,Bracknell Forest,6.1,52.1,12.4,5.3,76
+COVID-19,Unitary Authority,E06000037,West Berkshire,6.5,61.5,15.5,:,84.8
+COVID-19,Unitary Authority,E06000038,Reading,6.4,100.8,33.3,5.8,146.3
+COVID-19,Unitary Authority,E06000039,Slough,20.7,83.5,19.7,4,127.9
+COVID-19,Unitary Authority,E06000040,Windsor and Maidenhead,10.7,52,14.4,1.7,78.8
+COVID-19,Unitary Authority,E06000041,Wokingham,6.4,57.9,23.2,3.6,91.1
+COVID-19,Unitary Authority,E06000042,Milton Keynes,13.5,74.6,14.6,2.1,104.8
+COVID-19,Unitary Authority,E06000043,Brighton and Hove,8.2,38.3,19.4,5.8,71.7
+COVID-19,Unitary Authority,E06000044,Portsmouth,9.3,45.1,6.7,2,63.1
+COVID-19,Unitary Authority,E06000045,Southampton,8.2,53,24.9,3.7,89.9
+COVID-19,Unitary Authority,E06000046,Isle of Wight,1.9,17.2,18.1,:,38.2
+COVID-19,Unitary Authority,E06000047,County Durham,5.7,70.6,44.5,12.3,133.2
+COVID-19,Unitary Authority,E06000049,Cheshire East,5.6,58.9,35.7,15.9,116.1
+COVID-19,Unitary Authority,E06000050,Cheshire West and Chester,3.3,56.7,29.7,13.4,103.1
+COVID-19,Unitary Authority,E06000051,Shropshire,5.7,22.9,24,8.7,61.2
+COVID-19,Unitary Authority,E06000052,Cornwall,3.9,19.5,5.9,0.5,29.8
+COVID-19,Unitary Authority,E06000053,Isles of Scilly,:,:,:,:,:
+COVID-19,Unitary Authority,E06000054,Wiltshire,3.7,34.2,21,4.4,63.3
+COVID-19,Unitary Authority,E06000055,Bedford,10.5,42.5,32.7,14.7,100.3
+COVID-19,Unitary Authority,E06000056,Central Bedfordshire,6.4,55.4,27.4,14.1,103.3
+COVID-19,Unitary Authority,E06000057,Northumberland,2.2,39.2,22.9,5.2,69.5
+COVID-19,Unitary Authority,E06000058,"Bournemouth, Christchurch and Poole",1.5,28.1,6.6,1.7,37.9
+COVID-19,Unitary Authority,E06000059,Dorset,1.8,18.7,6.2,0.7,27.3
+COVID-19,Unitary Authority,E06000060,Buckinghamshire,9.1,42.4,15,3.2,69.6
+COVID-19,Non-Metropolitan District,E07000008,Cambridge,:,58.5,20.3,:,81.9
+COVID-19,Non-Metropolitan District,E07000009,East Cambridgeshire,:,38.2,12.5,:,52.9
+COVID-19,Non-Metropolitan District,E07000010,Fenland,3.5,29.3,28.2,4.7,65.7
+COVID-19,Non-Metropolitan District,E07000011,Huntingdonshire,4.4,29.5,28.2,8.5,70.6
+COVID-19,Non-Metropolitan District,E07000012,South Cambridgeshire,3.3,22.8,7.1,3.7,37
+COVID-19,Non-Metropolitan District,E07000026,Allerdale,6.5,31.4,12,3.8,53.6
+COVID-19,Non-Metropolitan District,E07000027,Barrow-in-Furness,12,75.9,16.2,:,107.9
+COVID-19,Non-Metropolitan District,E07000028,Carlisle,11.2,49,37.3,5.6,103.2
+COVID-19,Non-Metropolitan District,E07000029,Copeland,7,49.1,16.7,9.9,82.7
+COVID-19,Non-Metropolitan District,E07000030,Eden,5.4,28.8,17.5,4,55.7
+COVID-19,Non-Metropolitan District,E07000031,South Lakeland,12.2,59.7,19.1,3.6,94.6
+COVID-19,Non-Metropolitan District,E07000032,Amber Valley,5.4,39.1,16.5,10,71
+COVID-19,Non-Metropolitan District,E07000033,Bolsover,6.4,32.4,26.5,:,68.2
+COVID-19,Non-Metropolitan District,E07000034,Chesterfield,2.6,37.8,29.2,5.2,74.9
+COVID-19,Non-Metropolitan District,E07000035,Derbyshire Dales,4.9,42.9,20.2,10.1,78.2
+COVID-19,Non-Metropolitan District,E07000036,Erewash,7.2,37.9,19.3,14.6,78.9
+COVID-19,Non-Metropolitan District,E07000037,High Peak,:,73.5,21.2,12.3,109.1
+COVID-19,Non-Metropolitan District,E07000038,North East Derbyshire,9.2,58.7,44.6,6.7,119.3
+COVID-19,Non-Metropolitan District,E07000039,South Derbyshire,8.9,71.7,30.1,5.7,116.3
+COVID-19,Non-Metropolitan District,E07000040,East Devon,:,11.8,5.3,2.4,20.1
+COVID-19,Non-Metropolitan District,E07000041,Exeter,6.1,24.9,:,:,32.8
+COVID-19,Non-Metropolitan District,E07000042,Mid Devon,:,12.1,3.9,:,17.1
+COVID-19,Non-Metropolitan District,E07000043,North Devon,:,18.6,:,:,20.1
+COVID-19,Non-Metropolitan District,E07000044,South Hams,:,5.7,2.4,:,9.5
+COVID-19,Non-Metropolitan District,E07000045,Teignbridge,3.5,10.6,3.2,:,17.7
+COVID-19,Non-Metropolitan District,E07000046,Torridge,:,17.6,4.8,:,22.5
+COVID-19,Non-Metropolitan District,E07000047,West Devon,:,13,3.8,:,18
+COVID-19,Non-Metropolitan District,E07000061,Eastbourne,4.3,18.8,14.7,2.7,40.5
+COVID-19,Non-Metropolitan District,E07000062,Hastings,:,6,:,:,9.7
+COVID-19,Non-Metropolitan District,E07000063,Lewes,5.8,40.4,21.5,6.1,73.8
+COVID-19,Non-Metropolitan District,E07000064,Rother,2.1,12.4,16.2,2.9,33.5
+COVID-19,Non-Metropolitan District,E07000065,Wealden,2.9,26.7,15.8,4.3,49.8
+COVID-19,Non-Metropolitan District,E07000066,Basildon,10.4,75,26,9.4,120.8
+COVID-19,Non-Metropolitan District,E07000067,Braintree,5.1,45.9,18.1,4.3,73.4
+COVID-19,Non-Metropolitan District,E07000068,Brentwood,9.6,59.1,21.3,6,96
+COVID-19,Non-Metropolitan District,E07000069,Castle Point,7,41.1,17.5,18,83.6
+COVID-19,Non-Metropolitan District,E07000070,Chelmsford,9.4,45.8,20.3,6.2,81.8
+COVID-19,Non-Metropolitan District,E07000071,Colchester,1.8,40.8,19.2,1.9,63.7
+COVID-19,Non-Metropolitan District,E07000072,Epping Forest,11.6,100.3,13.3,4.1,129.3
+COVID-19,Non-Metropolitan District,E07000073,Harlow,11.2,76.6,9.7,3.7,101.1
+COVID-19,Non-Metropolitan District,E07000074,Maldon,6,27.7,8.2,:,43.3
+COVID-19,Non-Metropolitan District,E07000075,Rochford,9.8,41.9,25.9,8.7,86.2
+COVID-19,Non-Metropolitan District,E07000076,Tendring,7.1,38.9,19.5,8.3,73.7
+COVID-19,Non-Metropolitan District,E07000077,Uttlesford,6.5,34.4,21.3,:,63.2
+COVID-19,Non-Metropolitan District,E07000078,Cheltenham,5.1,77.8,18.6,:,102.5
+COVID-19,Non-Metropolitan District,E07000079,Cotswold,3.7,35.2,8.4,:,48.1
+COVID-19,Non-Metropolitan District,E07000080,Forest of Dean,5.3,28.5,8.8,2.8,45.4
+COVID-19,Non-Metropolitan District,E07000081,Gloucester,7,84.3,33.8,:,125.1
+COVID-19,Non-Metropolitan District,E07000082,Stroud,4.6,48.6,13.4,:,68.3
+COVID-19,Non-Metropolitan District,E07000083,Tewkesbury,2.7,80.6,11,:,96.1
+COVID-19,Non-Metropolitan District,E07000084,Basingstoke and Deane,7,48.9,14.4,4.7,75
+COVID-19,Non-Metropolitan District,E07000085,East Hampshire,5,30.7,14.9,1.9,52.5
+COVID-19,Non-Metropolitan District,E07000086,Eastleigh,5.3,41,21.5,3.5,71.3
+COVID-19,Non-Metropolitan District,E07000087,Fareham,13.3,38.9,12.5,2.1,66.8
+COVID-19,Non-Metropolitan District,E07000088,Gosport,9.9,44.1,9,:,63.1
+COVID-19,Non-Metropolitan District,E07000089,Hart,3.7,34.9,4.9,3,46.4
+COVID-19,Non-Metropolitan District,E07000090,Havant,6.1,41.9,17.6,1.8,67.3
+COVID-19,Non-Metropolitan District,E07000091,New Forest,1.4,28.7,11.3,1.6,43
+COVID-19,Non-Metropolitan District,E07000092,Rushmoor,5,82.6,17.9,7.1,112.7
+COVID-19,Non-Metropolitan District,E07000093,Test Valley,3.3,48.2,24.6,4.8,80.9
+COVID-19,Non-Metropolitan District,E07000094,Winchester,5,39,26.4,2.1,72.4
+COVID-19,Non-Metropolitan District,E07000095,Broxbourne,18.1,47.5,12.6,:,78.2
+COVID-19,Non-Metropolitan District,E07000096,Dacorum,8.8,58,11.6,4.3,82.7
+COVID-19,Non-Metropolitan District,E07000098,Hertsmere,22.9,117.7,22.9,3.2,166.7
+COVID-19,Non-Metropolitan District,E07000099,North Hertfordshire,3,39.6,23.4,2.9,68.9
+COVID-19,Non-Metropolitan District,E07000102,Three Rivers,8,64.6,19.1,:,92.6
+COVID-19,Non-Metropolitan District,E07000103,Watford,13.5,116.3,26.7,8.6,165.2
+COVID-19,Non-Metropolitan District,E07000105,Ashford,2.3,40.7,36.7,36.5,116.2
+COVID-19,Non-Metropolitan District,E07000106,Canterbury,2.1,36.2,19.5,10.7,68.5
+COVID-19,Non-Metropolitan District,E07000107,Dartford,9.6,87.8,20,12.9,130.4
+COVID-19,Non-Metropolitan District,E07000108,Dover,2.8,36.8,25.5,21.7,86.8
+COVID-19,Non-Metropolitan District,E07000109,Gravesham,6,59.8,14.6,7.6,88
+COVID-19,Non-Metropolitan District,E07000110,Maidstone,5.4,40.4,16.3,4.5,66.6
+COVID-19,Non-Metropolitan District,E07000111,Sevenoaks,5.6,47.9,10.6,5.8,69.9
+COVID-19,Non-Metropolitan District,E07000112,Folkestone and Hythe,:,34.3,31.9,21.7,89.4
+COVID-19,Non-Metropolitan District,E07000113,Swale,4.5,52.2,21,8.3,85.9
+COVID-19,Non-Metropolitan District,E07000114,Thanet,3.6,54.8,18.7,7.8,84.9
+COVID-19,Non-Metropolitan District,E07000115,Tonbridge and Malling,7.8,20.5,24.3,6.6,59.2
+COVID-19,Non-Metropolitan District,E07000116,Tunbridge Wells,2.4,24,17.8,12.3,56.5
+COVID-19,Non-Metropolitan District,E07000117,Burnley,:,45.3,20.9,7.2,74.7
+COVID-19,Non-Metropolitan District,E07000118,Chorley,:,56.7,30.6,13.9,102.7
+COVID-19,Non-Metropolitan District,E07000119,Fylde,2.6,38.7,24,12.2,77.4
+COVID-19,Non-Metropolitan District,E07000120,Hyndburn,5.8,40.7,25.9,7.7,80
+COVID-19,Non-Metropolitan District,E07000121,Lancaster,4,28.8,11.2,2,46
+COVID-19,Non-Metropolitan District,E07000122,Pendle,5.5,45.8,26.7,9.6,87.6
+COVID-19,Non-Metropolitan District,E07000123,Preston,7.6,46.1,51.1,14.5,119.4
+COVID-19,Non-Metropolitan District,E07000124,Ribble Valley,:,25.2,5.3,6.7,37.2
+COVID-19,Non-Metropolitan District,E07000125,Rossendale,:,45,32.4,:,82.2
+COVID-19,Non-Metropolitan District,E07000126,South Ribble,2.6,40,24.2,8.7,75.5
+COVID-19,Non-Metropolitan District,E07000127,West Lancashire,3.3,63.6,19.4,5.5,91.8
+COVID-19,Non-Metropolitan District,E07000128,Wyre,:,29.9,30.3,9.5,70.5
+COVID-19,Non-Metropolitan District,E07000129,Blaby,6.2,29.9,26.9,11.9,74.9
+COVID-19,Non-Metropolitan District,E07000130,Charnwood,5.1,32.3,23.3,6.9,67.7
+COVID-19,Non-Metropolitan District,E07000131,Harborough,7.5,29.1,17.1,:,53.8
+COVID-19,Non-Metropolitan District,E07000132,Hinckley and Bosworth,5.5,38.9,22.8,14.8,81.9
+COVID-19,Non-Metropolitan District,E07000133,Melton,:,29.5,15.9,:,48.8
+COVID-19,Non-Metropolitan District,E07000134,North West Leicestershire,3.9,44.2,10.9,6,64.9
+COVID-19,Non-Metropolitan District,E07000135,Oadby and Wigston,3.4,47.2,19.8,16.6,87
+COVID-19,Non-Metropolitan District,E07000136,Boston,3.8,27.3,13.4,:,47.2
+COVID-19,Non-Metropolitan District,E07000137,East Lindsey,2,14.5,6.7,2.4,25.6
+COVID-19,Non-Metropolitan District,E07000138,Lincoln,3.7,18.3,6.8,3.4,32.2
+COVID-19,Non-Metropolitan District,E07000139,North Kesteven,:,26,2,:,29.9
+COVID-19,Non-Metropolitan District,E07000140,South Holland,3.2,17.9,20.1,5.8,47
+COVID-19,Non-Metropolitan District,E07000141,South Kesteven,2.2,21.3,11.4,6.6,41.5
+COVID-19,Non-Metropolitan District,E07000142,West Lindsey,:,14.5,5.7,:,20.2
+COVID-19,Non-Metropolitan District,E07000143,Breckland,1.5,26.5,18.5,:,47.7
+COVID-19,Non-Metropolitan District,E07000144,Broadland,1.8,19.4,17.6,1.7,40.4
+COVID-19,Non-Metropolitan District,E07000145,Great Yarmouth,:,23.9,6.4,7.4,39.4
+COVID-19,Non-Metropolitan District,E07000146,King's Lynn and West Norfolk,5.2,41.4,22.4,2,71
+COVID-19,Non-Metropolitan District,E07000147,North Norfolk,1.6,16.1,9.8,1.8,29.2
+COVID-19,Non-Metropolitan District,E07000148,Norwich,:,8.7,7.9,3.1,20.6
+COVID-19,Non-Metropolitan District,E07000149,South Norfolk,2.2,14.1,12.8,1.7,30.8
+COVID-19,Non-Metropolitan District,E07000150,Corby,:,52.3,34.3,14.8,101.4
+COVID-19,Non-Metropolitan District,E07000151,Daventry,6.6,44.8,18.9,18.1,88.4
+COVID-19,Non-Metropolitan District,E07000152,East Northamptonshire,5.9,54.5,22.7,12.9,96
+COVID-19,Non-Metropolitan District,E07000153,Kettering,7.2,32.7,48.6,16.2,104.7
+COVID-19,Non-Metropolitan District,E07000154,Northampton,5.9,73.9,48.8,19.4,148
+COVID-19,Non-Metropolitan District,E07000155,South Northamptonshire,3.2,35.8,14.2,7.5,60.7
+COVID-19,Non-Metropolitan District,E07000156,Wellingborough,:,47,33.1,5.1,87.8
+COVID-19,Non-Metropolitan District,E07000163,Craven,5,54.5,16,4.8,80.3
+COVID-19,Non-Metropolitan District,E07000164,Hambleton,:,41.4,8,7.4,58.3
+COVID-19,Non-Metropolitan District,E07000165,Harrogate,2.8,43,25.9,18.6,90.3
+COVID-19,Non-Metropolitan District,E07000166,Richmondshire,6.8,33.3,37,9.7,86.8
+COVID-19,Non-Metropolitan District,E07000167,Ryedale,:,25.9,10.3,:,40.2
+COVID-19,Non-Metropolitan District,E07000168,Scarborough,2,31.8,16.4,3.3,53.5
+COVID-19,Non-Metropolitan District,E07000169,Selby,:,21.8,21.2,4.6,50.3
+COVID-19,Non-Metropolitan District,E07000170,Ashfield,7.5,71.6,34.7,3.4,117.1
+COVID-19,Non-Metropolitan District,E07000171,Bassetlaw,:,29.9,15.2,9.7,54.9
+COVID-19,Non-Metropolitan District,E07000172,Broxtowe,6.6,48.8,19.6,4.9,79.9
+COVID-19,Non-Metropolitan District,E07000173,Gedling,6.2,62.6,25,4.2,98
+COVID-19,Non-Metropolitan District,E07000174,Mansfield,9,37.9,10.5,10.4,67.8
+COVID-19,Non-Metropolitan District,E07000175,Newark and Sherwood,3.6,38.9,11.1,3.8,57.4
+COVID-19,Non-Metropolitan District,E07000176,Rushcliffe,4.6,34.7,17.7,4.9,61.9
+COVID-19,Non-Metropolitan District,E07000177,Cherwell,4.8,54.6,17.2,:,77.3
+COVID-19,Non-Metropolitan District,E07000178,Oxford,7.7,48.5,8.2,4.5,68.9
+COVID-19,Non-Metropolitan District,E07000179,South Oxfordshire,5,40,23.1,3.2,71.3
+COVID-19,Non-Metropolitan District,E07000180,Vale of White Horse,6.2,60.2,13.7,:,81.4
+COVID-19,Non-Metropolitan District,E07000181,West Oxfordshire,6,56.7,20.3,4.5,87.6
+COVID-19,Non-Metropolitan District,E07000187,Mendip,2.2,9,7.6,:,19.5
+COVID-19,Non-Metropolitan District,E07000188,Sedgemoor,2.5,22.8,16.5,3.5,45.3
+COVID-19,Non-Metropolitan District,E07000189,South Somerset,:,15.8,6.7,2.7,25.6
+COVID-19,Non-Metropolitan District,E07000192,Cannock Chase,6.2,49.6,17.6,5,78.5
+COVID-19,Non-Metropolitan District,E07000193,East Staffordshire,10,91,21.3,6.9,129.2
+COVID-19,Non-Metropolitan District,E07000194,Lichfield,7.4,62.9,19,4.8,94.1
+COVID-19,Non-Metropolitan District,E07000195,Newcastle-under-Lyme,5.7,53.5,30.3,10.8,100.4
+COVID-19,Non-Metropolitan District,E07000196,South Staffordshire,11.7,42.7,11,6.6,71.9
+COVID-19,Non-Metropolitan District,E07000197,Stafford,:,40.7,27.3,8.4,77
+COVID-19,Non-Metropolitan District,E07000198,Staffordshire Moorlands,4.7,30.2,18.4,10.1,63.3
+COVID-19,Non-Metropolitan District,E07000199,Tamworth,15.3,50.5,16.5,14.9,97.1
+COVID-19,Non-Metropolitan District,E07000200,Babergh,3.1,32.1,6.5,5.2,46.9
+COVID-19,Non-Metropolitan District,E07000202,Ipswich,6.7,61.7,23.7,2.9,95
+COVID-19,Non-Metropolitan District,E07000203,Mid Suffolk,2.3,32.2,17.9,7.9,60.3
+COVID-19,Non-Metropolitan District,E07000207,Elmbridge,11.3,46.4,9.9,6.6,74.1
+COVID-19,Non-Metropolitan District,E07000208,Epsom and Ewell,11.2,77.4,9.3,3.3,101.2
+COVID-19,Non-Metropolitan District,E07000209,Guildford,2.9,41.4,16.6,6,66.9
+COVID-19,Non-Metropolitan District,E07000210,Mole Valley,14.9,51.2,22.8,2.6,91.5
+COVID-19,Non-Metropolitan District,E07000211,Reigate and Banstead,14.7,78.1,15,6.6,114.3
+COVID-19,Non-Metropolitan District,E07000212,Runnymede,9.2,52.4,15.2,8,84.8
+COVID-19,Non-Metropolitan District,E07000213,Spelthorne,9.8,59.2,15.4,3.7,88
+COVID-19,Non-Metropolitan District,E07000214,Surrey Heath,3.6,49.8,31.2,6.4,90.9
+COVID-19,Non-Metropolitan District,E07000215,Tandridge,7.4,49.7,26.5,5.7,89.2
+COVID-19,Non-Metropolitan District,E07000216,Waverley,6.1,49.3,23.1,5.3,83.7
+COVID-19,Non-Metropolitan District,E07000217,Woking,4,42.7,22,6,74.7
+COVID-19,Non-Metropolitan District,E07000218,North Warwickshire,9.5,72.9,18.4,15.6,116.4
+COVID-19,Non-Metropolitan District,E07000219,Nuneaton and Bedworth,20.5,46.9,38.3,19.9,125.5
+COVID-19,Non-Metropolitan District,E07000220,Rugby,5.6,30.8,26.3,3.6,66.3
+COVID-19,Non-Metropolitan District,E07000221,Stratford-on-Avon,4.9,62.1,23.5,1.8,92.2
+COVID-19,Non-Metropolitan District,E07000222,Warwick,2.7,42.2,16.3,4.9,66
+COVID-19,Non-Metropolitan District,E07000223,Adur,:,37.9,11.7,:,50.7
+COVID-19,Non-Metropolitan District,E07000224,Arun,1.2,13.8,9.2,2.4,26.5
+COVID-19,Non-Metropolitan District,E07000225,Chichester,3,26.6,13.3,:,43.3
+COVID-19,Non-Metropolitan District,E07000226,Crawley,7.9,53.9,23.6,:,86.4
+COVID-19,Non-Metropolitan District,E07000227,Horsham,6.4,30.6,25.2,4.5,66.6
+COVID-19,Non-Metropolitan District,E07000228,Mid Sussex,5.3,61.5,27,1.7,95.5
+COVID-19,Non-Metropolitan District,E07000229,Worthing,2.2,33.4,12.9,3.7,52.3
+COVID-19,Non-Metropolitan District,E07000234,Bromsgrove,12.1,60.5,32.2,3.6,108.4
+COVID-19,Non-Metropolitan District,E07000235,Malvern Hills,2.6,29.5,7.3,:,41
+COVID-19,Non-Metropolitan District,E07000236,Redditch,4.4,45.9,24.3,5,79.5
+COVID-19,Non-Metropolitan District,E07000237,Worcester,4.4,42.3,17.3,3.1,67.1
+COVID-19,Non-Metropolitan District,E07000238,Wychavon,4.7,41.7,11.9,5.5,63.7
+COVID-19,Non-Metropolitan District,E07000239,Wyre Forest,11.7,55.2,22.7,2.9,92.5
+COVID-19,Non-Metropolitan District,E07000240,St Albans,5.2,66.4,12.8,5.2,89.6
+COVID-19,Non-Metropolitan District,E07000241,Welwyn Hatfield,12.7,50.8,30.3,5,98.8
+COVID-19,Non-Metropolitan District,E07000242,East Hertfordshire,6.1,49.6,10.3,2.1,68
+COVID-19,Non-Metropolitan District,E07000243,Stevenage,:,52.8,20.7,:,79.4
+COVID-19,Non-Metropolitan District,E07000244,East Suffolk,5,35.3,17.8,2.1,60.3
+COVID-19,Non-Metropolitan District,E07000245,West Suffolk,2.6,17.4,13.9,3,36.9
+COVID-19,Non-Metropolitan District,E07000246,Somerset West and Taunton,1.9,12.4,6.7,:,21.8
+COVID-19,Metropolitan District,E08000001,Bolton,3.1,84.6,32.5,7,127.3
+COVID-19,Metropolitan District,E08000002,Bury,10,74.3,30.7,18.5,133.4
+COVID-19,Metropolitan District,E08000003,Manchester,6.3,97.9,33.5,9.9,147.7
+COVID-19,Metropolitan District,E08000004,Oldham,12,88.4,25.1,7.9,133.3
+COVID-19,Metropolitan District,E08000005,Rochdale,15.4,66.8,24.7,13.4,120.3
+COVID-19,Metropolitan District,E08000006,Salford,23.2,109.2,27.6,6.3,166.2
+COVID-19,Metropolitan District,E08000007,Stockport,9.6,68,30,5.9,113.5
+COVID-19,Metropolitan District,E08000008,Tameside,15.7,70.6,38.1,23.9,148.3
+COVID-19,Metropolitan District,E08000009,Trafford,6.7,58.8,27.3,9,101.8
+COVID-19,Metropolitan District,E08000010,Wigan,2.7,73,34.5,8,118.2
+COVID-19,Metropolitan District,E08000011,Knowsley,4.3,66.6,29.9,5.4,106.1
+COVID-19,Metropolitan District,E08000012,Liverpool,11.8,110.4,22.8,5.4,150.4
+COVID-19,Metropolitan District,E08000013,St. Helens,2.5,73,28,4.8,108.3
+COVID-19,Metropolitan District,E08000014,Sefton,4.4,58.8,15.6,4.4,83.3
+COVID-19,Metropolitan District,E08000015,Wirral,6.8,76,26.1,7.5,116.5
+COVID-19,Metropolitan District,E08000016,Barnsley,3.4,52.4,36.1,10.9,102.9
+COVID-19,Metropolitan District,E08000017,Doncaster,:,38.2,29.2,16.1,84.1
+COVID-19,Metropolitan District,E08000018,Rotherham,2.3,72.4,29.1,18,121.9
+COVID-19,Metropolitan District,E08000019,Sheffield,5.2,70.5,33.7,2.7,112.1
+COVID-19,Metropolitan District,E08000021,Newcastle upon Tyne,5.3,61.4,30.2,7.4,104.4
+COVID-19,Metropolitan District,E08000022,North Tyneside,3.9,36.1,29.2,3,72.3
+COVID-19,Metropolitan District,E08000023,South Tyneside,3.3,53.9,42,3.6,102.9
+COVID-19,Metropolitan District,E08000024,Sunderland,5.8,91.1,27,1.6,125.5
+COVID-19,Metropolitan District,E08000025,Birmingham,25,94.3,22.8,4.8,146.9
+COVID-19,Metropolitan District,E08000026,Coventry,15.1,67.5,19.4,3.4,105.2
+COVID-19,Metropolitan District,E08000027,Dudley,13.4,59.1,15.2,5.3,93
+COVID-19,Metropolitan District,E08000028,Sandwell,18.2,88.1,25.5,8.4,140.2
+COVID-19,Metropolitan District,E08000029,Solihull,8.7,76.6,19.4,3.6,108.3
+COVID-19,Metropolitan District,E08000030,Walsall,15.1,93.3,31,5.9,145.3
+COVID-19,Metropolitan District,E08000031,Wolverhampton,28.9,73.4,19.8,7.6,129.6
+COVID-19,Metropolitan District,E08000032,Bradford,6.6,65.9,34.4,9.9,116.8
+COVID-19,Metropolitan District,E08000033,Calderdale,3.5,41.7,9.5,2.6,57.3
+COVID-19,Metropolitan District,E08000034,Kirklees,4.9,46.9,21.2,5.4,78.4
+COVID-19,Metropolitan District,E08000035,Leeds,5.9,68.2,30.5,5.8,110.4
+COVID-19,Metropolitan District,E08000036,Wakefield,6,62,28.1,7.6,103.8
+COVID-19,Metropolitan District,E08000037,Gateshead,4.6,77.3,28.6,3.6,114.2
+COVID-19,London Borough,E09000001,City of London,:,:,:,:,42.6
+COVID-19,London Borough,E09000002,Barking and Dagenham,35.9,89.1,14.5,3.5,143
+COVID-19,London Borough,E09000003,Barnet,28.5,95.7,14.6,0.9,139.7
+COVID-19,London Borough,E09000004,Bexley,14.6,61.4,17,5.6,98.6
+COVID-19,London Borough,E09000005,Brent,40.2,151.9,20,4.5,216.6
+COVID-19,London Borough,E09000006,Bromley,16.4,64.9,21.7,3.1,106.1
+COVID-19,London Borough,E09000007,Camden,16.1,68.9,6.3,:,91.4
+COVID-19,London Borough,E09000008,Croydon,28.9,111.4,24.7,3.4,168.4
+COVID-19,London Borough,E09000009,Ealing,27.3,121,16.3,4.1,168.8
+COVID-19,London Borough,E09000010,Enfield,25.9,114.8,11.9,3.9,156.6
+COVID-19,London Borough,E09000011,Greenwich,28.8,93.3,10.3,2.2,134.6
+COVID-19,London Borough,E09000012,Hackney,38.3,126.6,18,:,183.3
+COVID-19,London Borough,E09000013,Hammersmith and Fulham,35.3,107.2,12.7,3,158.3
+COVID-19,London Borough,E09000014,Haringey,40,122,18.5,4.5,185.1
+COVID-19,London Borough,E09000015,Harrow,41.7,112.2,24.5,4.4,182.8
+COVID-19,London Borough,E09000016,Havering,15.5,74.4,14,1.2,105.1
+COVID-19,London Borough,E09000017,Hillingdon,22.5,99.6,12.8,2.5,137.4
+COVID-19,London Borough,E09000018,Hounslow,30.3,78.4,15.7,5,129.4
+COVID-19,London Borough,E09000019,Islington,26.3,89.9,15,:,133.3
+COVID-19,London Borough,E09000020,Kensington and Chelsea,23.6,61,9,:,95.2
+COVID-19,London Borough,E09000021,Kingston upon Thames,9.3,62.9,22,:,95.7
+COVID-19,London Borough,E09000022,Lambeth,47.1,105.8,20.7,2.9,176.4
+COVID-19,London Borough,E09000023,Lewisham,33,118.9,18.6,5.2,175.7
+COVID-19,London Borough,E09000024,Merton,24.8,96.8,15.3,3.6,140.4
+COVID-19,London Borough,E09000025,Newham,43.7,137.8,15.6,4.5,201.6
+COVID-19,London Borough,E09000026,Redbridge,27.4,95.3,18.4,2.7,143.7
+COVID-19,London Borough,E09000027,Richmond upon Thames,12.5,64,9.5,2.5,88.5
+COVID-19,London Borough,E09000028,Southwark,46.2,97.7,20.3,2.8,166.9
+COVID-19,London Borough,E09000029,Sutton,13.8,69.4,15.3,3.4,101.9
+COVID-19,London Borough,E09000030,Tower Hamlets,38.8,116.6,8.8,4.7,168.8
+COVID-19,London Borough,E09000031,Waltham Forest,26.1,94.6,22.7,4.7,148
+COVID-19,London Borough,E09000032,Wandsworth,39.4,70.4,11.1,2.1,122.9
+COVID-19,London Borough,E09000033,Westminster,28.2,69.5,6.1,:,104.9
+COVID-19,Unitary Authority,W06000001,Isle of Anglesey,:,6.3,22.2,6.6,35.1
+COVID-19,Unitary Authority,W06000002,Gwynedd,3.6,24.1,14,4.7,46.5
+COVID-19,Unitary Authority,W06000003,Conwy,:,21.1,18.8,12.1,52.8
+COVID-19,Unitary Authority,W06000004,Denbighshire,2.4,34.9,40,14.5,91.8
+COVID-19,Unitary Authority,W06000005,Flintshire,2.4,38.4,29,11,80.8
+COVID-19,Unitary Authority,W06000006,Wrexham,:,20,23.5,15,60
+COVID-19,Unitary Authority,W06000008,Ceredigion,:,4.1,:,:,7.2
+COVID-19,Unitary Authority,W06000009,Pembrokeshire,:,15,8.8,:,23.8
+COVID-19,Unitary Authority,W06000010,Carmarthenshire,1.4,18.5,15.3,1.7,37
+COVID-19,Unitary Authority,W06000011,Swansea,5.2,55.3,16.4,3.5,80.4
+COVID-19,Unitary Authority,W06000012,Neath Port Talbot,2.2,43,22.3,2.6,70.1
+COVID-19,Unitary Authority,W06000013,Bridgend,3.8,43.4,14.6,2.2,64
+COVID-19,Unitary Authority,W06000014,Vale of Glamorgan,8,40.3,14.8,7.4,70.5
+COVID-19,Unitary Authority,W06000015,Cardiff,6.9,87.3,31.4,7,132.5
+COVID-19,Unitary Authority,W06000016,Rhondda Cynon Taf,5.8,83.9,29.6,11.5,130.9
+COVID-19,Unitary Authority,W06000018,Caerphilly,14.9,53.7,7.1,2.5,78.2
+COVID-19,Unitary Authority,W06000019,Blaenau Gwent,12.4,67.9,10.6,:,92.4
+COVID-19,Unitary Authority,W06000020,Torfaen,14,46.1,5.8,:,68.1
+COVID-19,Unitary Authority,W06000021,Monmouthshire,9.2,29.3,18.5,2.4,59.4
+COVID-19,Unitary Authority,W06000022,Newport,17.6,71,30.6,:,119.9
+COVID-19,Unitary Authority,W06000023,Powys,2.2,33.2,12.7,2.1,50.2
+COVID-19,Unitary Authority,W06000024,Merthyr Tydfil,:,84.8,26.3,:,115

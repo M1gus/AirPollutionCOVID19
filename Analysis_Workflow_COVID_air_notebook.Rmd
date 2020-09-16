@@ -1,0 +1,1660 @@
+---
+title: "Travaglio et al., 2020"
+author: "Yizhou Yu, MRC Toxicology Unit, University of Cambridge, (yzy21@mrc-tox.cam.ac.uk)"
+date: "September 2020"
+output:
+  rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+  
+# General information
+
+This pipeline relates to data included in **Figure 3** to **Figure 5** of out manuscript titled **Links between air pollution and COVID-19 in England**, as well as Supplementary tables included in the supplementary materials.
+
+The input files for this analysis pipeline are on the master branch of this GitHub page
+(link: https://github.com/M1gus/AirPollutionCOVID19)
+
+The main aims of the workflow presented here were as follows: <br>
+1. Determine a relationship between air pollutants and COVID-19-associated deaths/cases in England<br>
+2. Investigate whether any relationship between air pollution and COVID-19 remains significant in the presence of confounding factors at the regional and subregional level<br>
+3. Determine the effect of air pollutants on infectivity at individual levels. <br>
+
+Only the UK Biobank data is not available in the repository as they require separate application. Please visit ukbiobank.ac.uk for more information. A detailed list of the variables used in the UK Biobank analysis is available here:
+
+#### Supplementary Table 1. Variables from the UK Biobank.
+
+```{r results = "asis", message = FALSE, warning=FALSE}
+library(stargazer)
+stargazer(read.csv("data/suppl_table_1.csv"), summary=FALSE, rownames=FALSE, type = "html")
+
+```
+
+
+<br>*These variables contained too few data and were excluded from analysis.<br>The detailed information for every variable can be retrieved by searching for the UK Biobank ID at ukbiobank.ac.uk.
+
+
+## Aim 1: Preliminary analysis
+
+Deaths/cases ~ air pollutants + population <br>
+Then, Model comparisons <br> 
+
+### Load packages
+
+```{r packages, eval=T, echo=T, message=FALSE, warning=FALSE}
+library(MASS)
+library(stargazer)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(purrr)
+library(AER)
+library(reshape)
+library(rgdal) # for spTransform, requires sudo apt install libgdal-dev
+require(stringr)
+library(sp)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgeos)
+```
+
+Please note: <br> the following packages may need to be installed: 
+liblapack-dev<br>
+liblapack3<br>
+libopenblas-base<br>
+libopenblas-dev<br>
+texlive-fonts-recommended<br>
+lmodern<br>
+Can be done with apt-get on ubuntu 
+
+### View the data
+
+Read and verify the data:
+```{r Load sample data, eval=T, echo=T, message=FALSE, warning=FALSE}
+preL_dt = read.csv("data/26-4-2020_yyAIR_COVID_PRE_LD_dt.csv")[,-1]
+head(preL_dt)
+```
+
+
+Quickly visualise the distribution of each variable:
+
+```{r, message=FALSE, warning=FALSE}
+require (reshape)
+#normalise per column & reshape the data for plotting
+preL_dt_scale = as.data.frame(sapply(preL_dt[,-c(1,4)], scale))
+preL_dt_scale$Region = preL_dt$Region
+preL_dt_long = melt(preL_dt_scale, in.vars = "Region")
+
+ggplot(preL_dt_long, aes (value)) +
+    geom_density() +
+  geom_histogram() +
+    facet_wrap(~variable) + 
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+```
+
+### Models
+#### Analyse the death data:
+
+```{r}
+summary(full_lm <- lm(data = preL_dt, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+```
+
+The model is overdispersed - use negative binomial or poisson regressions. <br>
+The poisson and Negative Binomial models work better with count data. Changing these will not affect the OLS results.
+```{r}
+preL_dt$NO.levels = round(preL_dt$NO.levels * 1000)
+preL_dt$NO2.levels = round(preL_dt$NO2.levels * 1000)
+preL_dt$O3.levels = round(preL_dt$O3.levels * 1000)
+preL_dt$Average_Pop_density_personkm2 = round(preL_dt$Average_Pop_density_personkm2)
+```
+
+It is important to ensure that they are integers:
+
+```{r}
+preL_dt_int = as.data.frame(sapply(preL_dt[,2:ncol(preL_dt)], as.integer))
+preL_dt_int$Region = preL_dt$Region
+preL_dt_int
+```
+
+
+```{r}
+### Number of death
+summary(full_lm.nb <- glm.nb(data = preL_dt_int, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(full_lm.p <- glm(data = preL_dt_int, deaths_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels, family = "poisson"))
+
+#pchisq(2 * (logLik(full_lm.nb) - logLik(full_lm.p)), df = 1, lower.tail = FALSE)
+#(est <- cbind(Estimate = coef(full_lm.nb), confint(full_lm.nb)))
+```
+
+#### Analyse the Cases data:
+
+```{r}
+summary(cases_lm <- lm(data = preL_dt, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(cases_lm.nb <- glm.nb(data = preL_dt_int, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels))
+summary(cases_lm.p <- glm(data = preL_dt_int, cases_preL ~ Average_Pop_density_personkm2 + NO.levels + NO2.levels + O3.levels, family = "poisson"))
+
+```
+
+##### Supplementary Table 2. Effect of air pollutants on COVID-19 cases in England at the regional level.
+Cases data: table
+```{r results = "asis"}
+stargazer(cases_lm.p, cases_lm.nb,type="html",
+          dep.var.labels="Number of cases until 8 April 2020",
+          ci=TRUE, ci.level=0.95, single.row=TRUE)
+```
+ <br>
+Each column of the table corresponds to a different type of regression model as indicated at the top. The raw estimate values of each model are listed with their 95% confidence intervals in parentheses. The p-values are indicated using the number of asterisks beside the estimates. OLS, ordinary least square; Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxide levels; NO2.levels, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria; Residual Std. Error, Residual standard error.
+
+
+##### Supplementary Table 3. Effect of air pollutants on COVID-19 deaths in England at the regional level.
+```{r results = "asis"}
+stargazer(full_lm.p, full_lm.nb,type="html",
+          dep.var.labels="Number of deaths until 8 April 2020",
+          ci=TRUE, ci.level=0.95, single.row=TRUE)
+```
+ <br>Each column of the table corresponds to a different type of regression model as indicated at the top. The raw estimate values of each model are listed with their 95% confidence intervals in parentheses. The p-values are indicated using the number of asterisks beside the estimates. OLS, ordinary least square; Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxide levels; NO2.levels, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria; Residual Std. Error, Residual standard error.
+
+
+## Aim 2: subregional level analysis
+
+Aim: Analyse the effect of air pollutants on COVID cases and deaths at the regional level 
+
+### Deaths data
+
+#### Data curation 
+
+```{r}
+pop_dens = read.csv("data/2018_official_popDensity.csv")[c("Code","X2018.people.per.sq..km")]
+earnings =read.csv("data/ann_earning_2018_perLA.csv")[c("Code","Mean_ann_earnings")]
+age = read.csv("data/processed_median_age_of_population_perLA.csv")[c("Code","median_age_2018","Name")]
+covid_deaths = read.csv("data/covid_deaths_until10April_byAreaCode.csv")
+
+covid_deaths$total_deaths = covid_deaths$Home + covid_deaths$Hospital + covid_deaths$Care.home + covid_deaths$Hospice + covid_deaths$Other.communal.establishment + covid_deaths$Elsewhere
+
+covid_deaths = covid_deaths[c("Area.code","total_deaths")]
+colnames(covid_deaths) <- c("Code","deaths")
+
+nrow(pop_dens)
+nrow(earnings)
+nrow(age)
+nrow(covid_deaths)
+
+#merge data
+merged_covid_dt_LA = merge(covid_deaths, pop_dens, by = "Code")
+merged_covid_dt_LA = merge(merged_covid_dt_LA, earnings, by = "Code")
+merged_covid_dt_LA = merge(merged_covid_dt_LA, age, by = "Code")
+nrow(merged_covid_dt_LA)
+
+```
+
+**Now, we will use a python script (in the form of a Jupyter Notebook) to match air pollution data to local authorities.**
+<br>
+#### Analysis 
+<br>
+##### Data visualisation for model selection
+<br>
+Load data and set correct formats 
+```{r, message=FALSE, warning=FALSE}
+# load data 
+colnames(merged_covid_dt_LA)
+merged_covid_dt_LA$X2018.people.per.sq..km = as.numeric(gsub(",","",merged_covid_dt_LA$X2018.people.per.sq..km))
+merged_covid_dt_LA$Mean_ann_earnings = as.numeric(gsub(",","",merged_covid_dt_LA$Mean_ann_earnings))
+
+write.csv(merged_covid_dt_LA, "data_output/merged_covid_cov_dt_LA.csv")
+```
+
+re-read here
+```{r}
+covid_air_dt = read.csv("data_output/merged_covidAir_cov_dt_LA.csv", na.strings = "x")
+covid_air_dt$X2018.people.per.sq..km = as.numeric(gsub(",","",covid_air_dt$X2018.people.per.sq..km))
+covid_air_dt$Mean_ann_earnings = as.numeric(gsub(",","",covid_air_dt$Mean_ann_earnings))
+covid_air_dt$X2018.people.per.sq..km = as.numeric(covid_air_dt$X2018.people.per.sq..km)
+covid_air_dt$Mean_ann_earnings = as.numeric(covid_air_dt$Mean_ann_earnings)
+```
+
+Make sure that only England data is included
+```{r}
+covid_air_dt = covid_air_dt[startsWith(as.character(covid_air_dt$Code), 'E'),]
+nrow(covid_air_dt)
+```
+
+Visualise all numeric data
+```{r, warning=FALSE}
+covid_air_dt_vis = subset(covid_air_dt, select=c(deaths, X2018.people.per.sq..km, Mean_ann_earnings,median_age_2018,pm25_val,no2_val,o3_val,
+                                                 pm10_val,so2_val, nox_val))
+covid_air_dt_vis = as.data.frame(sapply(covid_air_dt_vis, function(x) as.numeric(x) ) )
+#normalise per column & reshape the data for plotting
+covid_air_dt_vis = as.data.frame(sapply(covid_air_dt_vis, scale))
+
+covid_air_dt_vis$Code = covid_air_dt$Code
+covid_air_dt_vis_long = melt(covid_air_dt_vis, in.vars = "Code")
+
+ggplot(covid_air_dt_vis_long, aes (value)) +
+  geom_histogram() +
+  geom_density() +
+  facet_wrap(~variable) + 
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+```
+
+
+##### Models
+
+Negative binomial regression model
+```{r}
+pm25_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                   Mean_ann_earnings + median_age_2018 + pm25_val)
+car::vif(pm25_deaths.nb)
+pm10_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                   Mean_ann_earnings + median_age_2018 + pm10_val)
+car::vif(pm10_deaths.nb)
+nox_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                  Mean_ann_earnings + median_age_2018 + nox_val)
+car::vif(nox_deaths.nb)
+no2_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                  Mean_ann_earnings + median_age_2018 + no2_val)
+car::vif(no2_deaths.nb)
+o3_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                 Mean_ann_earnings + median_age_2018 + o3_val)
+car::vif(o3_deaths.nb)
+#summary(so2_deaths.nb <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + #
+#                                  Mean_ann_earnings + median_age_2018 + so2_val))
+#car::vif(so2_deaths.nb)
+```
+
+We note that annual earnings in our models is not significant. We therefore proceed to remove this variable.
+
+```{r eval=FALSE}
+# glm -earnings, since not significant 
+summary(pm25_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                    median_age_2018 + pm25_val))
+car::vif(pm25_deaths.nb_red)
+summary(pm10_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                    median_age_2018 + pm10_val))
+car::vif(pm10_deaths.nb_red)
+summary(nox_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                   median_age_2018 + nox_val))
+car::vif(nox_deaths.nb_red)
+summary(no2_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                   median_age_2018 + no2_val))
+car::vif(no2_deaths.nb_red)
+summary(o3_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                  median_age_2018 + o3_val))
+car::vif(o3_deaths.nb_red)
+summary(so2_deaths.nb_red <- glm.nb(data = covid_air_dt, deaths ~ X2018.people.per.sq..km + 
+                                   median_age_2018 + so2_val))
+car::vif(so2_deaths.nb_red)
+```
+
+<br>
+
+##### Calculate odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+pm25_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(pm25_deaths.nb), confint(pm25_deaths.nb))), p_value = summary(pm25_deaths.nb)$coefficients[,4]))
+pm10_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(pm10_deaths.nb), confint(pm10_deaths.nb))), p_value = summary(pm10_deaths.nb)$coefficients[,4]))
+nox_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(nox_deaths.nb), confint(nox_deaths.nb))), p_value = summary(nox_deaths.nb)$coefficients[,4]))
+no2_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(no2_deaths.nb), confint(no2_deaths.nb))), p_value = summary(no2_deaths.nb)$coefficients[,4]))
+o3_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(o3_deaths.nb), confint(o3_deaths.nb))), p_value = summary(o3_deaths.nb)$coefficients[,4]))
+#so2_deaths.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(so2_deaths.nb), confint(so2_deaths.nb))), p_value = summary(so2_deaths.nb)$coefficients[,4]))
+#make a df just with the pollutants 
+
+LA_covid_onlyPoll = data.frame(rbind(pm25_deaths.nb_mrr[nrow(pm25_deaths.nb_mrr),],
+                                      pm10_deaths.nb_mrr[nrow(pm10_deaths.nb_mrr),],
+                                      nox_deaths.nb_mrr[nrow(nox_deaths.nb_mrr),],
+                                      no2_deaths.nb_mrr[nrow(no2_deaths.nb_mrr),],
+                                      o3_deaths.nb_mrr[nrow(o3_deaths.nb_mrr),]))
+```
+
+##### Plot odds ratios
+
+sort data 
+```{r}
+LA_covid_onlyPoll$names = row.names(LA_covid_onlyPoll)
+LA_covid_onlyPoll$significance = "p-value > 0.05"
+LA_covid_onlyPoll$significance[LA_covid_onlyPoll$p_value < 0.05] <- "p-value < 0.05"
+write.csv(LA_covid_onlyPoll, "data_output/LA_covid_onlyPoll_preL_AP2018.csv", row.names = F)
+```
+
+plot 
+```{r message=FALSE}
+ggplot(LA_covid_onlyPoll, aes(x=reorder(names, OR), y=OR, color=significance)) + 
+    geom_point(fill="white", shape=21, size = 2) +
+    geom_errorbar(aes(ymin=X2.5.., ymax=X97.5..),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_classic() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Mortality rate ratios") + 
+  xlab("Pollutants")+
+  ylim(0.75, 1.6)
+ggsave('fig_out/LA_deaths_MRR.pdf')
+```
+
+### Cases in local authorities
+
+#### Data curation 
+
+```{r warning=FALSE}
+cases_LA_raw = read.csv("data/coronavirus-cases_latest-18_5_2020.csv")
+cases_LA_dt = subset(cases_LA_raw, Specimen.date == "2020-04-10", select = c(Area.code, Cumulative.lab.confirmed.cases))
+cases_LA_dt.agg <-aggregate(cases_LA_dt, by=list(cases_LA_dt$Area.code), 
+  FUN=mean, na.rm=TRUE)
+nrow(cases_LA_dt.agg)
+```
+
+Merge cases data to main data 
+```{r}
+deaths_LA_dt = read.csv("data_output/merged_covidAir_cov_dt_LA.csv", na.strings = "x")
+deaths_LA_dt$X2018.people.per.sq..km = gsub(",", "", deaths_LA_dt$X2018.people.per.sq..km)
+deaths_LA_dt$X2018.people.per.sq..km = as.numeric(deaths_LA_dt$X2018.people.per.sq..km)
+deaths_LA_dt$Mean_ann_earnings = gsub(",", "", deaths_LA_dt$Mean_ann_earnings)
+deaths_LA_dt$Mean_ann_earnings = as.numeric(deaths_LA_dt$Mean_ann_earnings)
+
+cases_deaths_LA_dt = merge(deaths_LA_dt, cases_LA_dt.agg, by.x = "Code",by.y = "Group.1")
+nrow(cases_deaths_LA_dt)
+```
+
+There are only 301 observations matched. 
+
+#### Analysis of the cases data
+Visualisation 
+```{r, warning=FALSE}
+ggplot(data = cases_deaths_LA_dt, aes(x = Cumulative.lab.confirmed.cases))+
+  geom_histogram(stat="count")
+
+cases_deaths_LA_dt$X2018.people.per.sq..km = as.numeric(cases_deaths_LA_dt$X2018.people.per.sq..km)
+cases_deaths_LA_dt$Mean_ann_earnings = as.numeric(cases_deaths_LA_dt$Mean_ann_earnings)
+```
+
+Model
+```{r}
+summary(pm25_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                   Mean_ann_earnings + median_age_2018 + pm25_val))
+car::vif(pm25_cases.nb)
+summary(pm10_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                   Mean_ann_earnings + median_age_2018 + pm10_val))
+car::vif(pm10_cases.nb)
+summary(nox_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                  Mean_ann_earnings + median_age_2018 + nox_val))
+car::vif(nox_cases.nb)
+summary(no2_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                  Mean_ann_earnings + median_age_2018 + no2_val))
+car::vif(no2_cases.nb)
+summary(o3_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                 Mean_ann_earnings + median_age_2018 + o3_val))
+car::vif(o3_cases.nb)
+summary(so2_cases.nb <- glm.nb(data = cases_deaths_LA_dt, Cumulative.lab.confirmed.cases ~ X2018.people.per.sq..km + 
+                                  Mean_ann_earnings + median_age_2018 + so2_val))
+car::vif(so2_cases.nb)
+```
+
+#### Generate the table 
+```{r results = "asis"}
+stargazer(pm25_cases.nb, pm10_cases.nb, nox_cases.nb, no2_cases.nb,
+          o3_cases.nb, so2_cases.nb,type="html",out = "fig_out/LA_covid_allPoll_CASES_nb.html",
+          dep.var.labels="Number of COVID-19-related cases",
+          single.row=TRUE)
+```
+
+##### Calculate odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+pm25_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(pm25_cases.nb), confint(pm25_cases.nb))), p_value = summary(pm25_cases.nb)$coefficients[,4]))
+pm10_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(pm10_cases.nb), confint(pm10_cases.nb))), p_value = summary(pm10_cases.nb)$coefficients[,4]))
+nox_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(nox_cases.nb), confint(nox_cases.nb))), p_value = summary(nox_cases.nb)$coefficients[,4]))
+no2_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(no2_cases.nb), confint(no2_cases.nb))), p_value = summary(no2_cases.nb)$coefficients[,4]))
+o3_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(o3_cases.nb), confint(o3_cases.nb))), p_value = summary(o3_cases.nb)$coefficients[,4]))
+so2_cases.nb_irr = data.frame(cbind(exp(cbind(OR = coef(so2_cases.nb), confint(so2_cases.nb))), p_value = summary(so2_cases.nb)$coefficients[,4]))
+#make a df just with the pollutants 
+
+LA_covid_CASES_onlyPoll = data.frame(rbind(pm25_cases.nb_irr[nrow(pm25_cases.nb_irr),],
+                                      pm10_cases.nb_irr[nrow(pm10_cases.nb_irr),],
+                                      nox_cases.nb_irr[nrow(nox_cases.nb_irr),],
+                                      no2_cases.nb_irr[nrow(no2_cases.nb_irr),],
+                                      o3_cases.nb_irr[nrow(o3_cases.nb_irr),],
+                                      so2_cases.nb_irr[nrow(so2_cases.nb_irr),]))
+```
+
+##### Plot odds ratios
+
+sort data 
+```{r}
+LA_covid_CASES_onlyPoll$names = row.names(LA_covid_CASES_onlyPoll)
+LA_covid_CASES_onlyPoll$significance = "p-value > 0.05"
+LA_covid_CASES_onlyPoll$significance[LA_covid_CASES_onlyPoll$p_value < 0.05] <- "p-value < 0.05"
+
+write.csv(LA_covid_CASES_onlyPoll, "data_output/LA_covid_CASES_onlyPoll_preL_2018AP.csv", row.names = F)
+```
+
+plot 
+```{r, message=FALSE, warning=FALSE}
+ggplot(LA_covid_CASES_onlyPoll, aes(x=reorder(names, OR), y=OR, color=significance)) + 
+    geom_point(fill="white", shape=21, size = 2) +
+    geom_errorbar(aes(ymin=X2.5.., ymax=X97.5..),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_classic() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Infectivity rate ratios") + 
+  xlab("Pollutants")+
+  ylim(0.75, 1.6)
+ggsave('fig_out/LA_CASES_odds_IRR.pdf')
+```
+
+Save the numbers 
+```{r results = "asis"}
+library(stargazer)
+stargazer(LA_covid_CASES_onlyPoll, summary=FALSE ,type="html",out 
+          ="fig_out/LA_covid_infectivity_IRR.html")
+```
+
+
+### Summary tables of models in Aim 2
+Add <br>
+#### Supplementary Table 4. Effect of air pollutants on the number of COVID-related cases at the subregional level
+Add <br>
+```{r results = "asis"}
+stargazer(pm25_cases.nb, pm10_cases.nb, nox_cases.nb, no2_cases.nb,
+          o3_cases.nb, so2_cases.nb,type="html",out = "fig_out/LA_covid_allPoll_CASES_nb.html",
+          dep.var.labels="Number of COVID-19-related cases",
+          single.row=TRUE)
+```
+ <br> 
+The value in parentheses represent the standard error. <br>
+Summary of the effects of individual air pollutant species on lab-confirmed COVID-related cases up to April 10th 2020. The three asterisks near the theta indicate that the models are significantly better than null.
+
+#### Supplementary Table 5. Effect of air pollutants on the number of COVID-related deaths at the subregional level
+Add <br>
+```{r results = "asis"}
+stargazer(pm25_deaths.nb, pm10_deaths.nb, nox_deaths.nb, no2_deaths.nb,
+          o3_deaths.nb,type="html",out = "fig_out/LA_covid_allPoll_nb.html",
+          dep.var.labels="Number of COVID-19-related deaths",
+          single.row=TRUE)
+```
+ <br> Summary of the effects of individual air pollutant species on lab-confirmed COVID-related deaths up to April 10th 2020. The three asterisks near the theta indicate that the models are significantly better than null. The MRR (mortality rate ratios) of O3 is interesting: more O3 = ~3% less deaths. NOx, NO2 and SO2 are all significant predictors; they will increase the number of deaths by 1.3, 2.4 and 17.2% respectively, per 1 µg/m3.
+
+### Analysis using the 5-year average of air pollution values 
+
+#### Average PCM data for all pollutants
+
+NO2
+```{r}
+no2_2014 = read.csv("data/raw_mapno22014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'no22014')]
+no2_2015 = read.csv("data/raw_mapno22015.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'no22015')]
+no2_2016 = read.csv("data/raw_mapno22016.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'no22016')]
+no2_2017 = read.csv("data/raw_mapno22017.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'no22017')]
+no2_2018 = read.csv("data/raw_mapno22018.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'no22018')]
+no2_5y = Reduce(merge, list(no2_2014,no2_2015,no2_2016,no2_2017,no2_2018))
+no2_5y$no2_5yAvg = (no2_5y$no22014+no2_5y$no22015+no2_5y$no22016+no2_5y$no22017+no2_5y$no22018)/5
+no2_5y = no2_5y[ ,c('ukgridcode', 'no22018','no2_5yAvg')]
+```
+
+NOX
+```{r}
+nox_2014 = read.csv("data/raw_mapnox2014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'nox2014')]
+nox_2015 = read.csv("data/raw_mapnox2015.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'nox2015')]
+nox_2016 = read.csv("data/raw_mapnox2016.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'nox2016')]
+nox_2017 = read.csv("data/raw_mapnox2017.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'nox2017')]
+nox_2018 = read.csv("data/raw_mapnox2018.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'nox2018')]
+nox_5y = Reduce(merge, list(nox_2014,nox_2015,nox_2016,nox_2017,nox_2018))
+nox_5y$nox_5yAvg = (nox_5y$nox2014+nox_5y$nox2015+nox_5y$nox2016+nox_5y$nox2017+nox_5y$nox2018)/5
+nox_5y = nox_5y[ ,c('ukgridcode', 'nox2018','nox_5yAvg')]
+```
+
+PM25
+```{r}
+pm25_2014 = read.csv("data/raw_mappm252014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm252014g')]
+pm25_2015 = read.csv("data/raw_mappm252015.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm252015g')]
+pm25_2016 = read.csv("data/raw_mappm252016.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm252016g')]
+pm25_2017 = read.csv("data/raw_mappm252017.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm252017g')]
+pm25_2018 = read.csv("data/raw_mappm252018.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm252018g')]
+pm25_5y = Reduce(merge, list(pm25_2014,pm25_2015,pm25_2016,pm25_2017,pm25_2018))
+pm25_5y$pm25_5yAvg = (pm25_5y$pm252014g+pm25_5y$pm252015g+pm25_5y$pm252016g+pm25_5y$pm252017g+pm25_5y$pm252018g)/5
+pm25_5y = pm25_5y[ ,c('ukgridcode', 'pm252018g','pm25_5yAvg')]
+```
+
+PM10
+```{r}
+pm10_2014 = read.csv("data/raw_mappm102014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm102014g')]
+pm10_2015 = read.csv("data/raw_mappm102015.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm102015g')]
+pm10_2016 = read.csv("data/raw_mappm102016.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm102016g')]
+pm10_2017 = read.csv("data/raw_mappm102017.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm102017g')]
+pm10_2018 = read.csv("data/raw_mappm102018.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'pm102018g')]
+pm10_5y = Reduce(merge, list(pm10_2014,pm10_2015,pm10_2016,pm10_2017,pm10_2018))
+pm10_5y$pm10_5yAvg = (pm10_5y$pm102014g+pm10_5y$pm102015g+pm10_5y$pm102016g+pm10_5y$pm102017g+pm10_5y$pm102018g)/5
+pm10_5y = pm10_5y[ ,c('ukgridcode', 'pm102018g','pm10_5yAvg')]
+```
+
+O3
+```{r}
+o3_2014 = read.csv("data/raw_mapo312014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'dgt12014')]
+o3_2015 = read.csv("data/raw_mapo312015.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'dgt12015')]
+o3_2016 = read.csv("data/raw_mapo312016.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'dgt12016')]
+o3_2017 = read.csv("data/raw_mapo32017.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'dgt12017')]
+o3_2018 = read.csv("data/raw_mapo312018.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'dgt12018')]
+o3_5y = Reduce(merge, list(o3_2014,o3_2015,o3_2016,o3_2017,o3_2018))
+o3_5y$o3_5yAvg = (o3_5y$dgt12014+o3_5y$dgt12015+o3_5y$dgt12016+o3_5y$dgt12017+o3_5y$dgt12018)/5
+o3_5y = o3_5y[ ,c('ukgridcode', 'dgt12018','o3_5yAvg')]
+```
+
+##### Create merged df with 2018 and 5yAvg
+
+```{r}
+ap_dt = Reduce(merge, list(no2_5y,nox_5y,pm25_5y,pm10_5y,o3_5y))
+write.csv(ap_dt, "data_output/5Yaverage_AP_PCMdata.csv", row.names = F)
+write.csv(na.omit(ap_dt), "data_output/5Yaverage_AP_PCMdata_na.csv", row.names = F)
+```
+
+Convert the XY coordinates to lon-lat 
+
+```{r}
+ap_dt = read.csv("data_output/5Yaverage_AP_PCMdata_na.csv")
+
+# Add X Y coordinates from any of the data 
+
+o3_2014 = read.csv("data/raw_mapo312014.csv", skip = 5, header = T,na.strings="MISSING")[ ,c('ukgridcode', 'x','y')]
+ap_dt = merge(ap_dt,o3_2014, by = "ukgridcode")
+ap_dt_out = ap_dt[ , -which(names(ap_dt) %in% c("x","y"))]
+### convert to lon lat ----
+
+# transform: easting/northing -> long/lat
+### shortcuts (from https://stephendavidgregory.github.io/useful/UKgrid_to_LatLon)
+ukgrid <- "+init=epsg:27700"
+latlong <- "+init=epsg:4326"
+
+### Create coordinates variable
+ap_coords <- cbind(Easting = as.numeric(as.character(ap_dt$x)),
+                Northing = as.numeric(as.character(ap_dt$y)))
+
+### Create the SpatialPointsDataFrame
+ap_SP <- SpatialPointsDataFrame(ap_coords,
+                                 data = ap_dt,
+                                 proj4string = CRS("+init=epsg:27700"))
+
+### Convert
+ap_LL <- spTransform(ap_SP, CRS(latlong))
+
+ap_ll_df = data.frame('lon' = coordinates(ap_LL)[, 1], 'lat' = coordinates(ap_LL)[, 2], 'ukgridcode' = ap_LL$ukgridcode)
+
+ap_dt_ll = merge(ap_dt_out,ap_ll_df, by = "ukgridcode")
+
+write.csv(ap_dt_ll,"data_output/processed_allAP_lonlat.csv", row.names = F)
+```
+
+#### Model of Mortality based on 5YA, pre-lockdown
+
+##### Data curation
+```{r}
+avgAP_dt = read.csv("data_output/merged_covidAir_cov_LA_5YA.csv", na.strings = "x")
+
+avgAP_dt$X2018.people.per.sq..km = as.numeric(gsub(",","",avgAP_dt$X2018.people.per.sq..km))
+avgAP_dt$Mean_ann_earnings = as.numeric(gsub(",","",avgAP_dt$Mean_ann_earnings))
+avgAP_dt$X2018.people.per.sq..km = as.numeric(avgAP_dt$X2018.people.per.sq..km)
+avgAP_dt$Mean_ann_earnings = as.numeric(avgAP_dt$Mean_ann_earnings)
+```
+
+Additional variables for 5YA
+```{r}
+avgEarnings_2014 = na.omit(read.csv("data_output/avgEarnings_2014.csv", na.strings = "x")[,c("Code","avgEarn_2014")])
+avgEarnings_2015 = na.omit(read.csv("data_output/avgEarnings_2015.csv", na.strings = "x")[,c("Code","avgEarn_2015")])
+avgEarnings_2016 = na.omit(read.csv("data_output/avgEarnings_2016.csv", na.strings = "x")[,c("Code","avgEarn_2016")])
+avgEarnings_2017 = na.omit(read.csv("data_output/avgEarnings_2017.csv", na.strings = "x")[,c("Code","avgEarn_2017")])
+avgEarnings_2018 = na.omit(read.csv("data_output/avgEarnings_2018.csv", na.strings = "x")[,c("Code","avgEarn_2018")])
+
+avgEarnings_5ya = Reduce(merge, list(avgEarnings_2014,avgEarnings_2015,avgEarnings_2016,avgEarnings_2017,avgEarnings_2018))
+
+avgEarnings_5ya$avgEarn_2014 = as.numeric(gsub(",","",avgEarnings_5ya$avgEarn_2014))
+avgEarnings_5ya$avgEarn_2015 = as.numeric(gsub(",","",avgEarnings_5ya$avgEarn_2015))
+avgEarnings_5ya$avgEarn_2016 = as.numeric(gsub(",","",avgEarnings_5ya$avgEarn_2016))
+avgEarnings_5ya$avgEarn_2017 = as.numeric(gsub(",","",avgEarnings_5ya$avgEarn_2017))
+avgEarnings_5ya$avgEarn_2018 = as.numeric(gsub(",","",avgEarnings_5ya$avgEarn_2018))
+
+avgEarnings_5ya$earnings_5ya = (avgEarnings_5ya$avgEarn_2014 + avgEarnings_5ya$avgEarn_2015 + avgEarnings_5ya$avgEarn_2016 + avgEarnings_5ya$avgEarn_2017 + avgEarnings_5ya$avgEarn_2018)/5
+
+avgEarnings_5ya = avgEarnings_5ya[,c("Code","earnings_5ya")]
+
+Pop_density_5ya = read.csv("data/Pop_density_full_dt.csv")[,c("Code","pop_dens_5ya")]
+
+age_5ya = read.csv("data_output/age_5ya.csv")[,c("Code","age_5ya")]
+
+covariates_5ya = Reduce(merge, list(avgEarnings_5ya,Pop_density_5ya,age_5ya))
+#avgAP_dt = merge(avgAP_dt, covariates_5ya, by = "Code")
+avgAP_dt = merge(avgAP_dt, covariates_5ya[,-3], by = "Code")
+avgAP_dt$pop_dens_5ya = as.numeric(gsub(",","",avgAP_dt$pop_dens_5ya))
+write.csv(avgAP_dt,"data_output/merged_covidAir_cov_LA_5YA.csv", row.names = F)
+```
+
+
+```{r message=FALSE}
+summary(pm25_deaths_5YA.nb <- glm.nb(data = avgAP_dt, deaths ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + pm25_5yAvg))
+car::vif(pm25_deaths_5YA.nb)
+summary(pm10_deaths_5YA.nb <- glm.nb(data = avgAP_dt, deaths ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + pm10_5yAvg))
+car::vif(pm10_deaths_5YA.nb)
+summary(nox_deaths_5YA.nb <- glm.nb(data = avgAP_dt, deaths ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + nox_5yAvg))
+car::vif(nox_deaths_5YA.nb)
+summary(no2_deaths_5YA.nb <- glm.nb(data = avgAP_dt, deaths ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + no2_5yAvg))
+car::vif(no2_deaths_5YA.nb)
+summary(o3_deaths_5YA.nb <- glm.nb(data = avgAP_dt, deaths ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + o3_5yAvg))
+car::vif(o3_deaths_5YA.nb)
+```
+
+```{r results = "asis"}
+stargazer(pm25_deaths_5YA.nb, pm10_deaths_5YA.nb, nox_deaths_5YA.nb, no2_deaths_5YA.nb,o3_deaths_5YA.nb,type="html",out = "fig_out/LA_covid_allPoll_DEATHS_5YA_nb.html",
+          dep.var.labels="Number of COVID-19-related deaths, 5-year average",
+          single.row=TRUE)
+```
+
+##### Plot odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+pm25_deaths_5YA.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(pm25_deaths_5YA.nb), confint(pm25_deaths_5YA.nb))), p_value = summary(pm25_deaths_5YA.nb)$coefficients[,4]))
+pm10_deaths_5YA.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(pm10_deaths_5YA.nb), confint(pm10_deaths_5YA.nb))), p_value = summary(pm10_deaths_5YA.nb)$coefficients[,4]))
+nox_deaths_5YA.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(nox_deaths_5YA.nb), confint(nox_deaths_5YA.nb))), p_value = summary(nox_deaths_5YA.nb)$coefficients[,4]))
+no2_deaths_5YA.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(no2_deaths_5YA.nb), confint(no2_deaths_5YA.nb))), p_value = summary(no2_deaths_5YA.nb)$coefficients[,4]))
+o3_deaths_5YA.nb_mrr = data.frame(cbind(exp(cbind(OR = coef(o3_deaths_5YA.nb), confint(o3_deaths_5YA.nb))), p_value = summary(o3_deaths_5YA.nb)$coefficients[,4]))
+#make a df just with the pollutants 
+
+LA_covid_DEATHS_onlyPoll_5YA = data.frame(rbind(pm25_deaths_5YA.nb_mrr[nrow(pm25_deaths_5YA.nb_mrr),],
+                pm10_deaths_5YA.nb_mrr[nrow(pm10_deaths_5YA.nb_mrr),],
+                nox_deaths_5YA.nb_mrr[nrow(nox_deaths_5YA.nb_mrr),],
+                no2_deaths_5YA.nb_mrr[nrow(no2_deaths_5YA.nb_mrr),],
+                o3_deaths_5YA.nb_mrr[nrow(o3_deaths_5YA.nb_mrr),]))
+```
+
+sort data 
+```{r}
+LA_covid_DEATHS_onlyPoll_5YA$names = row.names(LA_covid_DEATHS_onlyPoll_5YA)
+LA_covid_DEATHS_onlyPoll_5YA$significance = "p-value > 0.05"
+LA_covid_DEATHS_onlyPoll_5YA$significance[LA_covid_DEATHS_onlyPoll_5YA$p_value < 0.05] <- "p-value < 0.05"
+write.csv(LA_covid_DEATHS_onlyPoll_5YA,"data_output/LA_covid_DEATHS_onlyPoll_5YA.csv", row.names = F)
+
+```
+
+plot 
+```{r, message=FALSE, warning=FALSE}
+ggplot(LA_covid_DEATHS_onlyPoll_5YA, aes(x=reorder(names, OR), y=OR, color=significance)) + 
+    geom_point(fill="white", shape=21, size = 2) +
+    geom_errorbar(aes(ymin=X2.5.., ymax=X97.5..),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Mortality rate ratios, pre-lockdown") + 
+  xlab("Pollutants, 5 year average (2014-2018)") + theme_classic()
+ggsave('fig_out/LA_CASES_odds_MRR_5YA.pdf')
+```
+
+#### Infectivity analysis with 5YA air pollution data, pre lockdown
+
+```{r}
+cases_LA_raw = read.csv("data/coronavirus-cases_latest-18_5_2020.csv")
+cases_LA_dt = subset(cases_LA_raw, Specimen.date == "2020-04-10", select = c(Area.code, Cumulative.lab.confirmed.cases))
+library(dplyr)
+cases_LA_dt = cases_LA_dt %>% 
+group_by(Area.code) %>% 
+summarise(cases = mean(Cumulative.lab.confirmed.cases))
+nrow(cases_LA_dt)
+```
+##### Model
+```{r}
+avgAP_dt = read.csv("data_output/merged_covidAir_cov_LA_5YA.csv", na.strings = "x")
+avgAP_dt$pop_dens_5ya = as.numeric(gsub(",","",avgAP_dt$pop_dens_5ya))
+avgAP_dt$X2018.people.per.sq..km = as.numeric(gsub(",","",avgAP_dt$X2018.people.per.sq..km))
+avgAP_dt$Mean_ann_earnings = as.numeric(gsub(",","",avgAP_dt$Mean_ann_earnings))
+avgAP_dt$X2018.people.per.sq..km = as.numeric(avgAP_dt$X2018.people.per.sq..km)
+avgAP_dt$Mean_ann_earnings = as.numeric(avgAP_dt$Mean_ann_earnings)
+#avgAP_dt = merge(avgAP_dt,cases_LA_dt, by.x = "Code",by.y = "Area.code")
+#write.csv(avgAP_dt,"data_output/merged_covidAir_cov_LA_5YA.csv", row.names = F)
+
+```
+
+```{r message=FALSE}
+library(MASS)
+pm25_cases_5YA.nb <- glm.nb(data = avgAP_dt, cases ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + pm25_5yAvg)
+car::vif(pm25_cases_5YA.nb)
+pm10_cases_5YA.nb <- glm.nb(data = avgAP_dt, cases ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + pm10_5yAvg)
+car::vif(pm10_cases_5YA.nb)
+nox_cases_5YA.nb <- glm.nb(data = avgAP_dt, cases ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + nox_5yAvg)
+car::vif(nox_cases_5YA.nb)
+no2_cases_5YA.nb <- glm.nb(data = avgAP_dt, cases ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + no2_5yAvg)
+car::vif(no2_cases_5YA.nb)
+o3_cases_5YA.nb <- glm.nb(data = avgAP_dt, cases ~ pop_dens_5ya +
+                                   earnings_5ya + age_5ya + o3_5yAvg)
+car::vif(o3_cases_5YA.nb)
+```
+
+```{r results = "asis"}
+stargazer(pm25_cases_5YA.nb, pm10_cases_5YA.nb, nox_cases_5YA.nb, no2_cases_5YA.nb,o3_cases_5YA.nb,type="html",out = "fig_out/LA_covid_allPoll_CASES_5YA_nb.html",
+          dep.var.labels="Number of COVID-19-related cases, pre-lockdown, 5-year averages",
+          single.row=TRUE)
+```
+
+##### Plot odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+pm25_cases_5YA.nb_irr = data.frame(cbind(exp(cbind(OR = coef(pm25_cases_5YA.nb), confint(pm25_cases_5YA.nb))), p_value = summary(pm25_cases_5YA.nb)$coefficients[,4]))
+pm10_cases_5YA.nb_irr = data.frame(cbind(exp(cbind(OR = coef(pm10_cases_5YA.nb), confint(pm10_cases_5YA.nb))), p_value = summary(pm10_cases_5YA.nb)$coefficients[,4]))
+nox_cases_5YA.nb_irr = data.frame(cbind(exp(cbind(OR = coef(nox_cases_5YA.nb), confint(nox_cases_5YA.nb))), p_value = summary(nox_cases_5YA.nb)$coefficients[,4]))
+no2_cases_5YA.nb_irr = data.frame(cbind(exp(cbind(OR = coef(no2_cases_5YA.nb), confint(no2_cases_5YA.nb))), p_value = summary(no2_cases_5YA.nb)$coefficients[,4]))
+o3_cases_5YA.nb_irr = data.frame(cbind(exp(cbind(OR = coef(o3_cases_5YA.nb), confint(o3_cases_5YA.nb))), p_value = summary(o3_cases_5YA.nb)$coefficients[,4]))
+#make a df just with the pollutants 
+
+LA_covid_cases_onlyPoll_5YA = data.frame(rbind(pm25_cases_5YA.nb_irr[nrow(pm25_cases_5YA.nb_irr),],
+                pm10_cases_5YA.nb_irr[nrow(pm10_cases_5YA.nb_irr),],
+                nox_cases_5YA.nb_irr[nrow(nox_cases_5YA.nb_irr),],
+                no2_cases_5YA.nb_irr[nrow(no2_cases_5YA.nb_irr),],
+                o3_cases_5YA.nb_irr[nrow(o3_cases_5YA.nb_irr),]))
+```
+
+sort data 
+```{r}
+LA_covid_cases_onlyPoll_5YA$names = row.names(LA_covid_cases_onlyPoll_5YA)
+LA_covid_cases_onlyPoll_5YA$significance = "p-value > 0.05"
+LA_covid_cases_onlyPoll_5YA$significance[LA_covid_cases_onlyPoll_5YA$p_value < 0.05] <- "p-value < 0.05"
+write.csv(LA_covid_cases_onlyPoll_5YA,"data_output/LA_covid_cases_onlyPoll_5YA.csv", row.names = F)
+```
+
+plot 
+```{r, message=FALSE, warning=FALSE}
+ggplot(LA_covid_cases_onlyPoll_5YA, aes(x=reorder(names, OR), y=OR, color=significance)) + 
+    geom_point(fill="white", shape=21, size = 2) +
+    geom_errorbar(aes(ymin=X2.5.., ymax=X97.5..),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Infectivity rate ratios, pre-lockdown") + 
+  xlab("Pollutants, 5 year average (2014-2018)") + theme_classic()
+ggsave('fig_out/LA_CASES_odds_IRR_5YA.pdf')
+```
+
+
+
+## Re-analysis with the cases and deaths numbers until the end of April
+
+### Prepare data: cases and death until the end of April
+
+```{r}
+april_deaths = read.csv("data_output/LA_deaths_April2020.csv")[,c("Code","april_deaths")]
+
+april_cases = read.csv("data_output/COVID_LA_cases.csv")[,c("lad19_cd","april_26_cases")]
+colnames(april_cases) <- c("Code","april_cases")
+
+april_cases= april_cases %>% 
+  group_by(Code) %>% 
+  summarise(april_cases = sum(april_cases))
+
+resub_dt = merge(april_cases,april_deaths, by = "Code")
+resub_dt = merge(avgAP_dt,resub_dt, by = "Code", all.x=T)
+
+#ADD 2018 data
+resub_dt = merge(resub_dt,
+                 read.csv("data_output/merged_covidAir_cov_dt_LA.csv")[,c("Code",
+                                                                         "pm25_val",
+                                                                         "no2_val",
+                                                                         "o3_val",
+                                                                         "pm10_val",
+                                                                         "nox_val")], by = "Code", all.x=T)
+
+write.csv(resub_dt, "data_output/LA_dt_resub_full.csv", row.names = F)
+```
+
+
+### April cases models 
+```{r results = "asis"}
+LA_covid_pm25 <-glm.nb(data = resub_dt, april_cases ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          pm25_val)
+
+LA_covid_no2 <-glm.nb(data = resub_dt, april_cases ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          no2_val)
+
+LA_covid_nox <-glm.nb(data = resub_dt, april_cases ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          nox_val)
+
+LA_covid_pm10 <-glm.nb(data = resub_dt, april_cases ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          pm10_val)
+
+LA_covid_o3 <-glm.nb(data = resub_dt, april_cases ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          o3_val)
+
+
+LA_covid_pm25_5yAvg <-glm.nb(data = resub_dt, april_cases ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          pm25_5yAvg)
+
+LA_covid_no2_5yAvg <-glm.nb(data = resub_dt, april_cases ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          no2_5yAvg)
+
+LA_covid_nox_5yAvg <-glm.nb(data = resub_dt, april_cases ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          nox_5yAvg)
+
+LA_covid_pm10_5yAvg <-glm.nb(data = resub_dt, april_cases ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          pm10_5yAvg)
+
+LA_covid_o3_5yAvg <-glm.nb(data = resub_dt, april_cases ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          o3_5yAvg)
+
+stargazer::stargazer(LA_covid_pm25,LA_covid_pm10,LA_covid_no2,LA_covid_nox,LA_covid_o3,
+                     LA_covid_pm25_5yAvg,LA_covid_pm10_5yAvg,LA_covid_no2_5yAvg,
+                         LA_covid_nox_5yAvg,LA_covid_o3_5yAvg,
+                     type="html",out = "fig_out/LA_covid_NB_model_resub_cases.html",
+          dep.var.labels="COVID positive or not",
+          single.row=TRUE)
+```
+
+##### Plot odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+
+list_df_full = do.call("rbind", list(
+                summary(LA_covid_pm25)$coefficients[nrow(summary(LA_covid_pm25)$coefficients),1:4],
+                 summary(LA_covid_pm10)$coefficients[nrow(summary(LA_covid_pm10)$coefficients),1:4],
+                 summary(LA_covid_no2)$coefficients[nrow(summary(LA_covid_no2)$coefficients),1:4],
+                 summary(LA_covid_nox)$coefficients[nrow(summary(LA_covid_nox)$coefficients),1:4],
+                 summary(LA_covid_o3)$coefficients[nrow(summary(LA_covid_o3)$coefficients),1:4],
+                 summary(LA_covid_pm25_5yAvg)$coefficients[nrow(summary(LA_covid_pm25_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_pm10_5yAvg)$coefficients[nrow(summary(LA_covid_pm10_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_no2_5yAvg)$coefficients[nrow(summary(LA_covid_no2_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_nox_5yAvg)$coefficients[nrow(summary(LA_covid_nox_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_o3_5yAvg)$coefficients[nrow(summary(LA_covid_o3_5yAvg)$coefficients),1:4]))
+#add labels 
+
+pollutants = c("pm25","pm10","no2","nox","o3",
+         "pm25_5yAvg","pm10_5yAvg","no2_5yAvg","nox_5yAvg","o3_5yAvg")
+pollutants = data.frame(pollutants)
+
+list_df_full = cbind(pollutants, list_df_full)
+
+colnames(list_df_full) <- c("pollutants", "Estimate","Std", "z","p")
+
+list_df_full$OR = exp(list_df_full$Estimate)
+list_df_full$upper = exp(list_df_full$Estimate + list_df_full$Std)
+list_df_full$lower = exp(list_df_full$Estimate - list_df_full$Std)
+
+list_df_full$significance = "p-value<0.05"
+list_df_full$significance[list_df_full$p > 0.05] <- "p-value>0.05"
+
+write.csv(list_df_full, "data_output/LA_covidInfection_RRs_fullData_resub.csv", row.names=F)
+
+## odds ratios and 95% CI
+
+library(ggplot2)
+ggplot(list_df_full, 
+       aes(x=reorder(pollutants, OR), y=OR, color = significance)) + 
+    geom_point(shape=21, size = 2) +
+    geom_errorbar(aes(ymin=lower, ymax=upper),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_classic() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Infectivity rate ratios, resub") + 
+  xlab("pollutants")
+ggsave('fig_out/LA_covidInfection_RRs_fullData_resub.pdf', width = 6, height = 4)
+
+```
+
+### April deaths model
+
+```{r results = "asis"}
+LA_covid_pm25 <-glm.nb(data = resub_dt, april_deaths ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          pm25_val)
+
+LA_covid_no2 <-glm.nb(data = resub_dt, april_deaths ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          no2_val)
+
+LA_covid_nox <-glm.nb(data = resub_dt, april_deaths ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          nox_val)
+
+LA_covid_pm10 <-glm.nb(data = resub_dt, april_deaths ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          pm10_val)
+
+LA_covid_o3 <-glm.nb(data = resub_dt, april_deaths ~ X2018.people.per.sq..km + Mean_ann_earnings + median_age_2018 +
+                          o3_val)
+
+
+LA_covid_pm25_5yAvg <-glm.nb(data = resub_dt, april_deaths ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          pm25_5yAvg)
+
+LA_covid_no2_5yAvg <-glm.nb(data = resub_dt, april_deaths ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          no2_5yAvg)
+
+LA_covid_nox_5yAvg <-glm.nb(data = resub_dt, april_deaths ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          nox_5yAvg)
+
+LA_covid_pm10_5yAvg <-glm.nb(data = resub_dt, april_deaths ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          pm10_5yAvg)
+
+LA_covid_o3_5yAvg <-glm.nb(data = resub_dt, april_deaths ~ pop_dens_5ya + earnings_5ya + age_5ya +
+                          o3_5yAvg)
+
+stargazer::stargazer(LA_covid_pm25,LA_covid_pm10,LA_covid_no2,LA_covid_nox,LA_covid_o3,
+                     LA_covid_pm25_5yAvg,LA_covid_pm10_5yAvg,LA_covid_no2_5yAvg,
+                         LA_covid_nox_5yAvg,LA_covid_o3_5yAvg,
+                     type="html",out = "fig_out/LA_covid_NB_model_resub_deaths.html",
+          dep.var.labels="COVID-19 death",
+          single.row=TRUE)
+```
+
+##### Plot odds ratios
+
+```{r, message=FALSE, warning=FALSE}
+
+list_df_full = do.call("rbind", list(
+                summary(LA_covid_pm25)$coefficients[nrow(summary(LA_covid_pm25)$coefficients),1:4],
+                 summary(LA_covid_pm10)$coefficients[nrow(summary(LA_covid_pm10)$coefficients),1:4],
+                 summary(LA_covid_no2)$coefficients[nrow(summary(LA_covid_no2)$coefficients),1:4],
+                 summary(LA_covid_nox)$coefficients[nrow(summary(LA_covid_nox)$coefficients),1:4],
+                 summary(LA_covid_o3)$coefficients[nrow(summary(LA_covid_o3)$coefficients),1:4],
+                 summary(LA_covid_pm25_5yAvg)$coefficients[nrow(summary(LA_covid_pm25_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_pm10_5yAvg)$coefficients[nrow(summary(LA_covid_pm10_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_no2_5yAvg)$coefficients[nrow(summary(LA_covid_no2_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_nox_5yAvg)$coefficients[nrow(summary(LA_covid_nox_5yAvg)$coefficients),1:4],
+                 summary(LA_covid_o3_5yAvg)$coefficients[nrow(summary(LA_covid_o3_5yAvg)$coefficients),1:4]))
+#add labels 
+
+pollutants = c("pm25","pm10","no2","nox","o3",
+         "pm25_5yAvg","pm10_5yAvg","no2_5yAvg","nox_5yAvg","o3_5yAvg")
+pollutants = data.frame(pollutants)
+
+list_df_full = cbind(pollutants, list_df_full)
+
+colnames(list_df_full) <- c("pollutants", "Estimate","Std", "z","p")
+
+list_df_full$OR = exp(list_df_full$Estimate)
+list_df_full$upper = exp(list_df_full$Estimate + list_df_full$Std)
+list_df_full$lower = exp(list_df_full$Estimate - list_df_full$Std)
+
+list_df_full$significance = "p-value<0.05"
+list_df_full$significance[list_df_full$p > 0.05] <- "p-value>0.05"
+
+write.csv(list_df_full, "data_output/LA_covidDEATH_RRs_fullData_resub.csv", row.names=F)
+
+## odds ratios and 95% CI
+
+library(ggplot2)
+ggplot(list_df_full, 
+       aes(x=reorder(pollutants, OR), y=OR, color = significance)) + 
+    geom_point(shape=21, size = 2) +
+    geom_errorbar(aes(ymin=lower, ymax=upper),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_classic() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Mortality rate ratios, resub") + 
+  xlab("pollutants")
+ggsave('fig_out/LA_covidDEATH_RRs_fullData_resub.pdf', width = 6, height = 4)
+
+```
+
+
+## Aim 3: Individual level analysis
+
+### Data curation 
+
+#### covid data curation 
+```{r, warning=FALSE, message=FALSE}
+covid_df = read.csv("data/covid19_result.txt", sep = '\t')
+covid_id = covid_df[,c(1,5,6)]
+colnames(covid_id)
+
+covid_id_unique = aggregate(covid_id, by=list(covid_id$eid), 
+                            FUN=max)
+
+ggplot(data = covid_id_unique, aes(x = result))+
+  geom_histogram(stat="count")
+ggplot(data = covid_id_unique, aes(x = origin))+
+  geom_histogram(stat="count")
+```
+Look at time
+```{r}
+covid_df_time = covid_df
+covid_df_time$specdate = as.Date(covid_df_time$specdate, format="%d/%m/%Y")
+covid_df_time<-covid_df_time %>% 
+group_by(specdate) %>%
+mutate(culm_cases=cumsum(result))
+
+ggplot(covid_df_time, aes(x=specdate, y=culm_cases)) +
+  geom_bar(stat="identity") + 
+  scale_x_date(date_labels = "%d/%m/%Y")
+```
+
+
+#### load non-covid UKB phenotype data
+
+Data curation 
+```{r}
+### load non-covid UKB phenotype data ----
+ukb_covid = read.csv("data/29_4_2020_ukb41646_covid19_subset.csv")[,-1]
+#check distribution
+
+#here, I will aggregate the columns by selecting the last results, for each 
+# reshape
+ukb_covid_t = melt(ukb_covid, id='eid')
+ukb_covid_t <- ukb_covid_t[order(ukb_covid_t$variable),] 
+#delete everything after period 
+ukb_covid_t$variable = gsub("\\..*","",ukb_covid_t$variable)
+
+#aggregate by last 
+ukb_covid_t_na = na.omit(ukb_covid_t)
+ukb_covid_t_na = aggregate(ukb_covid_t_na, by=list(ukb_covid_t_na$eid,ukb_covid_t_na$variable), FUN=last)
+
+# put it back straight 
+ukb_covid_t_na$variable = as.factor(ukb_covid_t_na$variable)
+ukb_covid_t_na = ukb_covid_t_na[,-c(1,2)]
+ukb_covid_cur = cast(ukb_covid_t_na, eid~variable)
+
+### label UKB data ----
+#get levels and labels 
+lvl.0493 <- c(-141,-131,-121,0)
+lbl.0493 <- c("Often","Sometimes","Do not know","Rarely/never")
+
+lvl.0007 <- c(0,1)
+lbl.0007 <- c("No","Yes")
+
+lvl.100349 <- c(-3,-1,0,1)
+lbl.100349 <- c("Prefer not to answer","Do not know","No","Yes")
+
+lvl.0090 <- c(-3,0,1,2)
+lbl.0090 <- c("Prefer not to answer","Never","Previous","Current")
+
+lvl.0009 <- c(0,1)
+lbl.0009 <- c("Female","Male")
+
+### eid replacement, saved here ----
+yy_replace <- function(string, patterns, replacements) {
+  for (i in seq_along(patterns))
+    string <- gsub(patterns[i], replacements[i], string, perl=TRUE)
+  string
+}
+#label = replacement, lvl = to replace
+
+ukb_covid_cur$X22609 <- yy_replace(ukb_covid_cur$X22609, lvl.0493, lbl.0493)
+ukb_covid_cur$X22610 <- yy_replace(ukb_covid_cur$X22610, lvl.0493, lbl.0493)
+ukb_covid_cur$X22611 <- yy_replace(ukb_covid_cur$X22611, lvl.0493, lbl.0493)
+ukb_covid_cur$X22615 <- yy_replace(ukb_covid_cur$X22615, lvl.0493, lbl.0493)
+ukb_covid_cur$X22616 <- yy_replace(ukb_covid_cur$X22616, lvl.0007, lbl.0007)
+ukb_covid_cur$X2316 <- yy_replace(ukb_covid_cur$X2316, lvl.100349, lbl.100349)
+ukb_covid_cur$X31 <- yy_replace(ukb_covid_cur$X31, lvl.0009, lbl.0009)
+ukb_covid_cur$X22130 <- yy_replace(ukb_covid_cur$X22130, lvl.0007, lbl.0007)
+ukb_covid_cur$X2443 <- yy_replace(ukb_covid_cur$X2443, lvl.100349, lbl.100349)
+ukb_covid_cur$X20116 <- yy_replace(ukb_covid_cur$X20116, lvl.0090, lbl.0090)
+
+
+### put custom column names----
+#get the ID that I designed
+UID_names = read.csv("data/UKB_list_columns_AIRcovid.csv")[c("FieldID","my_colname")]
+UID_names$FieldID = paste("X",UID_names$FieldID, sep = "")
+UID_names$my_colname = lapply(UID_names$my_colname,toString)
+UID_names[nrow(UID_names) + 1,] = c("eid","eid")
+
+# sort it according to the dataset
+
+UID_names_match = colnames(ukb_covid_cur)
+
+UID_sort_df = data.frame(UID_names_match)
+colnames(UID_sort_df) <- "FieldID"
+
+#merge to sort
+UID_sort_df = merge(UID_sort_df, UID_names, by = "FieldID")
+# this is now sorted according to the correct df
+
+#replace column names
+ukb_covid_df = ukb_covid_cur
+
+colnames(ukb_covid_df) <- UID_sort_df$my_colname
+
+### merge both ukb datasets together ----
+ukb_covid_merge = merge(covid_id_unique[,-1], ukb_covid_df, by = "eid")
+nrow(ukb_covid_merge)
+```
+
+further processing... 
+```{r}
+# do 2020 since COVID occurred in this year
+ukb_covid_merge$age = 2020 - ukb_covid_merge$birthYear
+ukb_covid_merge$whr = ukb_covid_merge$waist / ukb_covid_merge$hip
+
+#definition from the NHS: Diastolic >= 90 OR Systolic >=140
+ukb_covid_merge$highBP[ukb_covid_merge$diaBP>=90 | ukb_covid_merge$sysBP>=140] <-1
+ukb_covid_merge$highBP[ukb_covid_merge$diaBP<90 | ukb_covid_merge$sysBP<140] <-0
+
+# add a column: COVID + and inpatient
+ukb_covid_merge$inpatient_covid  <-0
+ukb_covid_merge$inpatient_covid [ukb_covid_merge$origin == 1 & ukb_covid_merge$origin == 1] <-1
+
+write.csv(ukb_covid_merge, "data_output/processed_29_4_2020_ukb41646_covid19.csv")
+```
+
+#### Preliminary analysis with PM2.5
+
+I will load the air pollutants & match the covid patients to their nearest pollution climate mapping location.
+```{r}
+### load pm2.5 data ----
+#note the pop weighted data have the area code, but not the x y coords
+
+pm25 = read.csv("data/processed_PM25_uk-air_annual_mean_mappm252018g.csv", na.strings = "MISSING")[c("x","y","pm252018g")]
+nrow(pm25)
+pm25_na = na.omit(pm25)
+nrow(pm25_na)
+### convert to lon lat - pm2.5 ----
+
+# transform: easting/northing -> long/lat
+### shortcuts (from https://stephendavidgregory.github.io/useful/UKgrid_to_LatLon)
+ukgrid <- "+init=epsg:27700"
+latlong <- "+init=epsg:4326"
+
+### Create coordinates variable
+pm25_coords <- cbind(Easting = as.numeric(as.character(pm25_na$x)),
+                Northing = as.numeric(as.character(pm25_na$y)))
+
+### Create the SpatialPointsDataFrame
+pm25_SP <- SpatialPointsDataFrame(pm25_coords,
+                                 data = pm25_na,
+                                 proj4string = CRS("+init=epsg:27700"))
+
+### Convert
+pm25_LL <- spTransform(pm25_SP, CRS(latlong))
+
+pm25_ll_df = data.frame('pm25_lon' = coordinates(pm25_LL)[, 1], 'pm25_lat' = coordinates(pm25_LL)[, 2], 'pm25_val' = pm25_LL$pm252018g)
+
+
+write.csv(pm25_ll_df,"data_output/processed_pm25_lonlat.csv")
+```
+
+#### convert UKB data to long lat 
+```{r, message=FALSE}
+# convert ukb data eastings northing to lon lat 
+
+ukb_covid_coord_na = na.omit(ukb_covid_merge[c("eid","x_coord","y_coord")])
+nrow(ukb_covid_coord_na)
+ukb_covid_coords <- cbind(Easting = as.numeric(as.character(ukb_covid_coord_na$x_coord)),
+                     Northing = as.numeric(as.character(ukb_covid_coord_na$y_coord)))
+### Create the SpatialPointsDataFrame
+ukb_covid_SP <- SpatialPointsDataFrame(ukb_covid_coords,
+                                  data = ukb_covid_coord_na,
+                                  proj4string = CRS("+init=epsg:27700"))
+
+### Convert
+ukb_covid_ll <- spTransform(ukb_covid_SP, CRS(latlong))
+
+ukb_covid_ll_df = data.frame('ukb_lon' = coordinates(ukb_covid_ll)[, 1], 
+                             'ukb_lat' = coordinates(ukb_covid_ll)[, 2], 
+                             'eid' = ukb_covid_ll$eid)
+write.csv(ukb_covid_ll_df, ("data_output/ukb_covid_lonlat_df.csv"))
+# plot UKB locations
+world <- ne_countries(scale = "medium", returnclass = "sf")
+ggplot(data = world) +
+  geom_sf() +
+  geom_point(data = ukb_covid_ll_df, aes(x = ukb_lon, y = ukb_lat), size = 1, 
+             shape = 23, fill = "darkred") +
+  coord_sf(ylim = c(min(ukb_covid_ll_df$ukb_lat)-2, max(ukb_covid_ll_df$ukb_lat)+4), 
+           xlim = c(min(ukb_covid_ll_df$ukb_lon)-4, max(ukb_covid_ll_df$ukb_lon)+3), expand = FALSE)
+ggsave('fig_out/UKB_COVID_participants_locations.pdf')
+```
+
+
+**I wrote a python script: match_air_to_UKB_covid**
+
+### Merge and QC data for PM2.5 
+```{r}
+
+ukb_eid_pm25_merged = read.csv('data_output/merged_ukb_pm25.csv')[c("eid","distance","pm25_val")]
+
+ukb_covid_pm25_df = merge(ukb_covid_merge, ukb_eid_pm25_merged, by = 'eid')
+colnames(ukb_covid_pm25_df)
+#omit those without coordinates in the ukb data 
+
+### merge pop density----
+ukb_cities_eid = read.csv("data_output/2_5_2020_ukb_eid_match_cities.csv")[c("eid","spec_area","gen_area")]
+nrow(ukb_cities_eid)
+popDens_2018 = read.csv("data/2018_official_popDensity.csv")[c("Name","X2018.people.per.sq..km")]
+popDens_2018$X2018.people.per.sq..km = gsub(",", "", popDens_2018$X2018.people.per.sq..km)
+popDens_2018$X2018.people.per.sq..km = as.numeric(popDens_2018$X2018.people.per.sq..km)
+
+#Make everything lower case
+ukb_cities_eid$spec_area = tolower(ukb_cities_eid$spec_area)
+ukb_cities_eid$gen_area = tolower(ukb_cities_eid$gen_area)
+popDens_2018$Name = tolower(popDens_2018$Name)
+
+#delete repeated strings
+ukb_cities_eid$spec_area = gsub("london borough of ", "", ukb_cities_eid$spec_area)
+ukb_cities_eid$spec_area = gsub("royal borough of ", "", ukb_cities_eid$spec_area)
+ukb_cities_eid$spec_area = gsub("city of ", "", ukb_cities_eid$spec_area)
+ukb_cities_eid$spec_area = gsub("st helens", "helens", ukb_cities_eid$spec_area)
+ukb_cities_eid$gen_area = gsub(" combined authority", "", ukb_cities_eid$gen_area)
+popDens_2018$Name = gsub(", city of", "", popDens_2018$Name)
+popDens_2018$Name = gsub("st. ", "", popDens_2018$Name)
+#delete west midlands because its redundant (all cities are well defined) and there are several regions called west midlands so it's confusing
+popDens_2018$Name = gsub("west midlands", "deleted_west_midlands_because_redundant", popDens_2018$Name)
+popDens_2018$Name = gsub("\\s*\\([^\\)]+\\)","",popDens_2018$Name)
+
+ukb_cities_eid_merged = merge(ukb_cities_eid, popDens_2018, by.x="spec_area",by.y="Name", all.x=TRUE)
+colnames(ukb_cities_eid_merged)[4] <- "spec_Pop_dens_perkm2"
+nrow(ukb_cities_eid_merged)
+
+#check for duplicated rows in popDens
+length(unique(popDens_2018$Name))
+length(popDens_2018$Name) # there is a dupicate
+popDens_2018$Name[duplicated(popDens_2018$Name)]
+
+ukb_cities_eid_merged2 = merge(ukb_cities_eid_merged, popDens_2018, by.x="gen_area",by.y="Name", all.x=TRUE,all.y=FALSE)
+colnames(ukb_cities_eid_merged2)[5] <- "gen_Pop_dens_perkm2"
+nrow(ukb_cities_eid_merged2)
+
+#QC
+sum(is.na(ukb_cities_eid_merged2$spec_Pop_dens_perkm2))
+sum(is.na(ukb_cities_eid_merged2$gen_Pop_dens_perkm2))
+
+ukb_cities_eid_merged2$merged_popDens_km2 <- ifelse(is.na(ukb_cities_eid_merged2$spec_Pop_dens_perkm2), 
+                                                    ukb_cities_eid_merged2$gen_Pop_dens_perkm2, ukb_cities_eid_merged2$spec_Pop_dens_perkm2)
+ukb_cities_eid_out = ukb_cities_eid_merged2[c("eid","merged_popDens_km2")]
+ukb_covid_pm25_popDens_df = merge(ukb_covid_pm25_df, ukb_cities_eid_out, by = 'eid')
+nrow(ukb_covid_pm25_df)
+
+```
+
+```{r, warning=FALSE}
+ukb_covid_pm25_popDens_df = read.csv("data_output/2_5_2020_full_cov_CV_UKB_air_dataset.csv")
+ukb_covid_pm25_popDens_df$smoker = ifelse(ukb_covid_pm25_popDens_df$smoking =="Current", "smoking", "not_smoking")
+
+library(MASS)
+summary(ukb_covid_pm25.nb <-glm.nb(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                               whr + sex + age + pm25_val))
+summary(ukb_covid_pm25.p <-glm(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                     whr + sex + age + pm25_val, family = 'poisson'))
+#I dont' think that pop density should be an offset here
+#check for multicolinearity
+car::vif(ukb_covid_pm25.nb)
+# according to http://www.jstor.org/stable/2290467, GVIF^(1/(2*Df)) < 5 is ok 
+# model reduction: 
+
+summary(ukb_covid_pm25.nb_red <-glm.nb(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + smoking +pm25_val))
+summary(ukb_covid_pm25.p_red <-glm(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + smoking + pm25_val, family = 'poisson'))
+
+#check 
+anova(ukb_covid_pm25.nb, ukb_covid_pm25.nb_red) # p < 0.05 -> not significantly different 
+
+```
+Conclusion: <br>
+1. PM2.5 is a significant predictor of COVID-19: more cases with PM2.5 levels are high <br>
+2. Smoking interpretation <br>
+The probability of infection of people who never smoked is the expected difference in log count between reference group -> 1.442676 * rate of current smoker<br>
+That of previous smokers = 1.5001871 * rate of current smoker <br>
+3. In the actual analysis, I can explore using binary models  <br>
+
+### Convert the rest of the pollutant variables from X Y to long lat 
+```{r}
+### convert NO2 x y to lat lon ----
+### shortcuts (from https://stephendavidgregory.github.io/useful/UKgrid_to_LatLon)
+no2_raw_dt = na.omit(read.csv("data/processed_30_4_2020_NO2_map2018g.csv", na.strings = "MISSING")[c("x","y","no22018")])
+
+ukgrid <- "+init=epsg:27700"
+latlong <- "+init=epsg:4326"
+
+### Create coordinates variable
+no2_coords <- cbind(Easting = as.numeric(as.character(no2_raw_dt$x)),
+                     Northing = as.numeric(as.character(no2_raw_dt$y)))
+
+no2_LL <- spTransform(SpatialPointsDataFrame(no2_coords,
+                                  data = no2_raw_dt,
+                                  proj4string = CRS("+init=epsg:27700")), CRS(latlong))
+
+no2_LL_df = data.frame('no2_lon' = coordinates(no2_LL)[, 1], 'no2_lat' = coordinates(no2_LL)[, 2], 'no2_val' = no2_LL$no22018)
+
+write.csv(no2_LL_df,"data_output/processed_no2_lonlat.csv")
+
+### convert SO2 x y to lat lon ----
+so2_raw_dt = na.omit(read.csv("data/processed_30_4_2020_SO2_map2018g.csv", na.strings = "MISSING")[c("x","y","so22018")])
+
+so2_coords <- cbind(Easting = as.numeric(as.character(so2_raw_dt$x)),
+                    Northing = as.numeric(as.character(so2_raw_dt$y)))
+
+so2_LL <- spTransform(SpatialPointsDataFrame(so2_coords,
+                                             data = so2_raw_dt,
+                                             proj4string = CRS("+init=epsg:27700")), CRS(latlong))
+
+so2_LL_df = data.frame('so2_lon' = coordinates(so2_LL)[, 1], 'so2_lat' = coordinates(so2_LL)[, 2], 'so2_val' = so2_LL$so22018)
+
+write.csv(so2_LL_df,"data_output/processed_so2_lonlat.csv")
+
+### convert 03 x y to lat lon ----
+
+o3_raw_dt = na.omit(read.csv("data/processed_30_4_2020_O3_map2018g.csv", na.strings = "MISSING")[c("x","y","dgt12018")])
+
+o3_coords <- cbind(Easting = as.numeric(as.character(o3_raw_dt$x)),
+                    Northing = as.numeric(as.character(o3_raw_dt$y)))
+
+o3_LL <- spTransform(SpatialPointsDataFrame(o3_coords,
+                                             data = o3_raw_dt,
+                                             proj4string = CRS("+init=epsg:27700")), CRS(latlong))
+
+o3_LL_df = data.frame('o3_lon' = coordinates(o3_LL)[, 1], 'o3_lat' = coordinates(o3_LL)[, 2], 'o3_val' = o3_LL$dgt12018)
+
+write.csv(o3_LL_df,"data_output/processed_o3_lonlat.csv")
+
+### convert PM10 x y to lat lon ----
+
+pm10_raw_dt = na.omit(read.csv("data/processed_30_4_2020_PM10_mappm102018g.csv", na.strings = "MISSING")[c("x","y","pm102018g")])
+
+pm10_coords <- cbind(Easting = as.numeric(as.character(pm10_raw_dt$x)),
+                   Northing = as.numeric(as.character(pm10_raw_dt$y)))
+
+pm10_LL <- spTransform(SpatialPointsDataFrame(pm10_coords,
+                                            data = pm10_raw_dt,
+                                            proj4string = CRS("+init=epsg:27700")), CRS(latlong))
+
+pm10_LL_df = data.frame('pm10_lon' = coordinates(pm10_LL)[, 1], 'pm10_lat' = coordinates(pm10_LL)[, 2], 'pm10_val' = pm10_LL$pm102018g)
+
+write.csv(pm10_LL_df,"data_output/processed_pm10_lonlat.csv")
+
+
+### convert NOx x y to lat lon ----
+
+nox_raw_dt = na.omit(read.csv("data/processed_30_4_2020_NOX_map2018g.csv", na.strings = "MISSING")[c("x","y","nox2018")])
+
+nox_coords <- cbind(Easting = as.numeric(as.character(nox_raw_dt$x)),
+                     Northing = as.numeric(as.character(nox_raw_dt$y)))
+
+nox_LL <- spTransform(SpatialPointsDataFrame(nox_coords,
+                                              data = nox_raw_dt,
+                                              proj4string = CRS("+init=epsg:27700")), CRS(latlong))
+
+nox_LL_df = data.frame('nox_lon' = coordinates(nox_LL)[, 1], 'nox_lat' = coordinates(nox_LL)[, 2], 'nox_val' = nox_LL$nox2018)
+
+write.csv(nox_LL_df,"data_output/processed_nox_lonlat.csv")
+```
+
+### Analysis 
+
+load and merge all data 
+```{r}
+no2_ukb = read.csv("data_output/merged_ukb_no2.csv")[c('eid','no2_val')]
+so2_ukb = read.csv("data_output/merged_ukb_so2.csv")[c('eid','so2_val')]
+o3_ukb = read.csv("data_output/merged_ukb_o3.csv")[c('eid','o3_val')]
+nox_ukb = read.csv("data_output/merged_ukb_nox.csv")[c('eid','nox_val')]
+pm10_ukb = read.csv("data_output/merged_ukb_pm10.csv")[c('eid','pm10_val')]
+
+ukb_additional_pol = merge(no2_ukb, so2_ukb, by = 'eid')
+ukb_additional_pol = merge(ukb_additional_pol, o3_ukb, by = 'eid')
+ukb_additional_pol = merge(ukb_additional_pol, nox_ukb, by = 'eid')
+ukb_additional_pol = merge(ukb_additional_pol, pm10_ukb, by = 'eid')
+
+ukb_covid_allPol_df = merge(ukb_covid_pm25_popDens_df, ukb_additional_pol, by = 'eid')
+```
+
+#### Descriptive statistics of the UK Biobank data
+
+```{r message = FALSE}
+library(arsenal)
+ukb_descript_stats <- tableby(result ~ ., data = ukb_covid_allPol_df[,3:ncol(ukb_covid_allPol_df)])
+summary(ukb_descript_stats, title = "Descriptive statistics of the UK Biobank data")
+```
+
+
+### model with all pollutants: glm
+
+```{r}
+# PM2.5
+summary(ukb_covid_pm25.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                     whr + sex + age + pm25_val))
+summary(ukb_covid_pm25.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + pm25_val, family = 'poisson'))
+car::vif(ukb_covid_pm25.nb)
+# according to http://www.jstor.org/stable/2290467, GVIF^(1/(2*Df)) < 5 is ok 
+# model reduction: 
+
+summary(ukb_covid_pm25.nb_red <-glm.nb(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + smoking +pm25_val))
+summary(ukb_covid_pm25.p_red <-glm(data = ukb_covid_pm25_popDens_df, result ~ merged_popDens_km2 + smoking + pm25_val, family = 'poisson'))
+
+#check 
+anova(ukb_covid_pm25.nb, ukb_covid_pm25.nb_red) # p < 0.05 -> not significantly different 
+
+#PM10 
+summary(ukb_covid_pm10.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                     whr + sex + age + pm10_val))
+summary(ukb_covid_pm10.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + pm10_val, family = 'poisson'))
+car::vif(ukb_covid_pm10.nb)
+
+#nox
+summary(ukb_covid_nox.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                     whr + sex + age + nox_val))
+summary(ukb_covid_nox.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + nox_val, family = 'poisson'))
+car::vif(ukb_covid_nox.nb)
+
+#no2
+summary(ukb_covid_no2.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                     whr + sex + age + no2_val))
+summary(ukb_covid_no2.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + no2_val, family = 'poisson'))
+car::vif(ukb_covid_no2.nb)
+
+#o3
+summary(ukb_covid_o3.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                    whr + sex + age + o3_val))
+summary(ukb_covid_o3.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                whr + sex + age + o3_val, family = 'poisson'))
+car::vif(ukb_covid_o3.nb)
+
+#so2
+summary(ukb_covid_so2.nb <-glm.nb(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                   whr + sex + age + so2_val))
+summary(ukb_covid_so2.p <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                               whr + sex + age + so2_val, family = 'poisson'))
+car::vif(ukb_covid_so2.nb)
+```
+
+### model with all pollutants: binary
+
+binary model to account for the fact that the response variable is 1/0
+```{r}
+# PM2.5
+summary(ukb_covid_pm25.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + pm25_val, family = 'binomial'))
+car::vif(ukb_covid_pm25.b)
+
+#PM10 
+summary(ukb_covid_pm10.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                 whr + sex + age + pm10_val, family = 'binomial'))
+car::vif(ukb_covid_pm10.b)
+
+#nox
+summary(ukb_covid_nox.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                whr + sex + age + nox_val, family = 'binomial'))
+
+#no2
+summary(ukb_covid_no2.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                whr + sex + age + no2_val, family = 'binomial'))
+car::vif(ukb_covid_no2.b)
+
+#o3
+summary(ukb_covid_o3.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                               whr + sex + age + o3_val, family = 'binomial'))
+car::vif(ukb_covid_o3.b)
+
+#so2
+summary(ukb_covid_so2.b <-glm(data = ukb_covid_allPol_df, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+
+                                whr + sex + age + so2_val, family = 'binomial'))
+car::vif(ukb_covid_so2.b)
+```
+
+### Supplementary Table 6. Effect of air pollutants on the probability of being infected, using the UK Biobank data
+Add <br>
+plot binary modelsAdd <br>
+```{r results = "asis"}
+stargazer(ukb_covid_pm25.b, ukb_covid_pm10.b, ukb_covid_nox.b, ukb_covid_no2.b,
+          ukb_covid_o3.b, ukb_covid_so2.b,type="html",out = "fig_out/ukb_covid_allPoll_binary.html",
+          dep.var.labels="COVID positive or not",
+          single.row=TRUE)
+```
+ <br>
+Each column of the table corresponds to a binary model used to predict whether one would get infected based on the concentration of an air pollutant, as well as covariates. We used different models to characterise each pollutant because the pollutants are highly correlated. The raw estimate values of each model are listed with their standard error in parentheses. The p-values are indicated using the number of asterisks beside the estimates. Average_Pop_densitykm2, average population density per square kilometer; NO.levels, nitrogen oxides levels; no2_val, nitrogen dioxide levels; O3.levels, ozone levels; Akaike Inf. Crit., Akaike’s Information Criteria
+
+
+### Calculate infectivity odds ratios
+### Format odds ratios 
+```{r, message=FALSE, warning=FALSE}
+
+ukb_covid_pm25.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_pm25.b), confint(ukb_covid_pm25.b))), p_value = summary(ukb_covid_pm25.b)$coefficients[,4]))
+ukb_covid_pm10.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_pm10.b), confint(ukb_covid_pm10.b))), p_value = summary(ukb_covid_pm10.b)$coefficients[,4]))
+ukb_covid_nox.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_nox.b), confint(ukb_covid_nox.b))), p_value = summary(ukb_covid_nox.b)$coefficients[,4]))
+ukb_covid_no2.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_no2.b), confint(ukb_covid_no2.b))), p_value = summary(ukb_covid_no2.b)$coefficients[,4]))
+ukb_covid_o3.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_o3.b), confint(ukb_covid_o3.b))), p_value = summary(ukb_covid_o3.b)$coefficients[,4]))
+ukb_covid_so2.b_odds = data.frame(cbind(exp(cbind(OR = coef(ukb_covid_so2.b), confint(ukb_covid_so2.b))), p_value = summary(ukb_covid_so2.b)$coefficients[,4]))
+#make a df just with the pollutants 
+
+ukb_covid_onlyPoll = data.frame(rbind(ukb_covid_pm25.b_odds[nrow(ukb_covid_pm25.b_odds),],
+                           ukb_covid_pm10.b_odds[nrow(ukb_covid_pm10.b_odds),],
+                           ukb_covid_nox.b_odds[nrow(ukb_covid_nox.b_odds),],
+                           ukb_covid_no2.b_odds[nrow(ukb_covid_no2.b_odds),],
+                           ukb_covid_o3.b_odds[nrow(ukb_covid_o3.b_odds),],
+                           ukb_covid_so2.b_odds[nrow(ukb_covid_so2.b_odds),]))
+```
+
+#### Plot infectivity odds ratios
+
+sort data 
+```{r}
+ukb_covid_onlyPoll$names = row.names(ukb_covid_onlyPoll)
+ukb_covid_onlyPoll$significance = "p-value > 0.05"
+ukb_covid_onlyPoll$significance[ukb_covid_onlyPoll$p_value < 0.05] <- "p-value < 0.05"
+```
+
+plot 
+```{r, message=FALSE}
+ggplot(ukb_covid_onlyPoll, aes(x=reorder(names, OR), y=OR, color=significance)) + 
+    geom_point(fill="white", shape=21, size = 2) +
+    geom_errorbar(aes(ymin=X2.5.., ymax=X97.5..),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_bw() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Infectivity odds ratios") + 
+  xlab("Pollutants")+
+  ylim(0.75, 1.6)
+ggsave('fig_out/UKB_infectivityOR_bar.pdf')
+```
+
+```{r results = "asis"}
+stargazer(ukb_covid_onlyPoll, type ="html", single.row=TRUE, summary = FALSE, out = "fig_out/ukb_covid_onlyPoll.html")
+```
+
+### UKB analysis with 5YA 
+
+#### Adding the 5YA air pollution data
+
+```{r}
+ukb_dt = read.csv("data_output/2_5_2020_full_cov_CV_UKB_air_dataset.csv")
+ukb_dt= ukb_dt[ , -which(names(ukb_dt) %in% c("pm25_val"))]
+ukb_5yAP = read.csv("data_output/ukb_covid_dt_out.csv")[,c("eid","no2_5yAvg","nox_5yAvg","pm10_5yAvg","o3_5yAvg","pm25_5yAvg","no2_val",	"nox_val",	"pm10_val",	"o3_val",	"pm25_val")]
+ukb_dt = merge(ukb_dt,ukb_5yAP, by = "eid", all.x = T)
+nrow(ukb_dt)
+```
+
+#### models - cases only
+
+```{r}
+
+ukb_covid.b_pm25 <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          pm25_val, family = 'binomial')
+
+ukb_covid.b_no2 <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          no2_val, family = 'binomial')
+
+ukb_covid.b_nox <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          nox_val, family = 'binomial')
+
+ukb_covid.b_pm10 <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          pm10_val, family = 'binomial')
+
+ukb_covid.b_o3 <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          o3_val, family = 'binomial')
+
+
+ukb_covid.b_pm25_5yAvg <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          pm25_5yAvg, family = 'binomial')
+
+ukb_covid.b_no2_5yAvg <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          no2_5yAvg, family = 'binomial')
+
+ukb_covid.b_nox_5yAvg <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          nox_5yAvg, family = 'binomial')
+
+ukb_covid.b_pm10_5yAvg <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          pm10_5yAvg, family = 'binomial')
+
+ukb_covid.b_o3_5yAvg <-glm(data = ukb_dt, result ~ merged_popDens_km2 + n_cancers +townsend + smoking + whistling + diabetes+whr + sex + age+
+                          o3_5yAvg, family = 'binomial')
+
+stargazer::stargazer(ukb_covid.b_pm25,ukb_covid.b_pm10,ukb_covid.b_no2,ukb_covid.b_nox,ukb_covid.b_o3,
+                     ukb_covid.b_pm25_5yAvg,ukb_covid.b_pm10_5yAvg,ukb_covid.b_no2_5yAvg,
+                         ukb_covid.b_nox_5yAvg,ukb_covid.b_o3_5yAvg,
+                     type="html",out = "fig_out/ukb_covidInfections_binomial_resub.html",
+          dep.var.labels="COVID-19 positive or not",
+          single.row=TRUE)
+
+```
+
+```{r}
+
+list_df_full = do.call("rbind", list(
+                summary(ukb_covid.b_pm25)$coefficients[nrow(summary(ukb_covid.b_pm25)$coefficients),1:4],
+                 summary(ukb_covid.b_pm10)$coefficients[nrow(summary(ukb_covid.b_pm10)$coefficients),1:4],
+                 summary(ukb_covid.b_no2)$coefficients[nrow(summary(ukb_covid.b_no2)$coefficients),1:4],
+                 summary(ukb_covid.b_nox)$coefficients[nrow(summary(ukb_covid.b_nox)$coefficients),1:4],
+                 summary(ukb_covid.b_o3)$coefficients[nrow(summary(ukb_covid.b_o3)$coefficients),1:4],
+                 summary(ukb_covid.b_pm25_5yAvg)$coefficients[nrow(summary(ukb_covid.b_pm25_5yAvg)$coefficients),1:4],
+                 summary(ukb_covid.b_pm10_5yAvg)$coefficients[nrow(summary(ukb_covid.b_pm10_5yAvg)$coefficients),1:4],
+                 summary(ukb_covid.b_no2_5yAvg)$coefficients[nrow(summary(ukb_covid.b_no2_5yAvg)$coefficients),1:4],
+                 summary(ukb_covid.b_nox_5yAvg)$coefficients[nrow(summary(ukb_covid.b_nox_5yAvg)$coefficients),1:4],
+                 summary(ukb_covid.b_o3_5yAvg)$coefficients[nrow(summary(ukb_covid.b_o3_5yAvg)$coefficients),1:4]))
+#add labels 
+
+pollutants = c("pm25","pm10","no2","nox","o3",
+         "pm25_5yAvg","pm10_5yAvg","no2_5yAvg","nox_5yAvg","o3_5yAvg")
+pollutants = data.frame(pollutants)
+
+list_df_full = cbind(pollutants, list_df_full)
+
+colnames(list_df_full) <- c("pollutants", "Estimate","Std", "z","p")
+
+list_df_full$OR = exp(list_df_full$Estimate)
+list_df_full$upper = exp(list_df_full$Estimate + list_df_full$Std)
+list_df_full$lower = exp(list_df_full$Estimate - list_df_full$Std)
+
+list_df_full$significance = "p-value<0.05"
+list_df_full$significance[list_df_full$p > 0.05] <- "p-value>0.05"
+
+write.csv(list_df_full, "data_output/UKB_covidInfection_IORs_resub.csv", row.names=F)
+
+## odds ratios and 95% CI
+
+library(ggplot2)
+ggplot(list_df_full, 
+       aes(x=reorder(pollutants, OR), y=OR, color = significance)) + 
+    geom_point(shape=21, size = 2) +
+    geom_errorbar(aes(ymin=lower, ymax=upper),
+                  width=.2,                    # Width of the error bars
+                  position=position_dodge(.9)) +
+  theme_classic() + 
+  geom_hline(yintercept = 1, linetype="dotted") +
+  coord_flip()+ylab("Infectivity odds ratios, resub") + 
+  xlab("pollutants")
+ggsave('fig_out/UKB_covidInfection_IORs_resub.pdf', width = 6, height = 4)
+
+```
+

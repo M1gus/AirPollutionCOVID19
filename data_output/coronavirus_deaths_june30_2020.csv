@@ -1,0 +1,388 @@
+﻿death cause,sex,geography,Code,Location,juneDeaths
+COVID-19,Persons,Unitary Authority,E06000001,Hartlepool,108
+COVID-19,Persons,Unitary Authority,E06000002,Middlesbrough,205
+COVID-19,Persons,Unitary Authority,E06000003,Redcar and Cleveland,133
+COVID-19,Persons,Unitary Authority,E06000004,Stockton-on-Tees,149
+COVID-19,Persons,Unitary Authority,E06000005,Darlington,90
+COVID-19,Persons,Unitary Authority,E06000006,Halton,126
+COVID-19,Persons,Unitary Authority,E06000007,Warrington,228
+COVID-19,Persons,Unitary Authority,E06000008,Blackburn with Darwen,90
+COVID-19,Persons,Unitary Authority,E06000009,Blackpool,139
+COVID-19,Persons,Unitary Authority,E06000010,"Kingston upon Hull, City of",207
+COVID-19,Persons,Unitary Authority,E06000011,East Riding of Yorkshire,310
+COVID-19,Persons,Unitary Authority,E06000012,North East Lincolnshire,35
+COVID-19,Persons,Unitary Authority,E06000013,North Lincolnshire,100
+COVID-19,Persons,Unitary Authority,E06000014,York,166
+COVID-19,Persons,Unitary Authority,E06000015,Derby,310
+COVID-19,Persons,Unitary Authority,E06000016,Leicester,289
+COVID-19,Persons,Unitary Authority,E06000017,Rutland,23
+COVID-19,Persons,Unitary Authority,E06000018,Nottingham,234
+COVID-19,Persons,Unitary Authority,E06000019,"Herefordshire, County of",124
+COVID-19,Persons,Unitary Authority,E06000020,Telford and Wrekin,101
+COVID-19,Persons,Unitary Authority,E06000021,Stoke-on-Trent,195
+COVID-19,Persons,Unitary Authority,E06000022,Bath and North East Somerset,90
+COVID-19,Persons,Unitary Authority,E06000023,"Bristol, City of",250
+COVID-19,Persons,Unitary Authority,E06000024,North Somerset,144
+COVID-19,Persons,Unitary Authority,E06000025,South Gloucestershire,168
+COVID-19,Persons,Unitary Authority,E06000026,Plymouth,90
+COVID-19,Persons,Unitary Authority,E06000027,Torbay,58
+COVID-19,Persons,Unitary Authority,E06000030,Swindon,166
+COVID-19,Persons,Unitary Authority,E06000031,Peterborough,99
+COVID-19,Persons,Unitary Authority,E06000032,Luton,210
+COVID-19,Persons,Unitary Authority,E06000033,Southend-on-Sea,197
+COVID-19,Persons,Unitary Authority,E06000034,Thurrock,145
+COVID-19,Persons,Unitary Authority,E06000035,Medway,188
+COVID-19,Persons,Unitary Authority,E06000036,Bracknell Forest,70
+COVID-19,Persons,Unitary Authority,E06000037,West Berkshire,131
+COVID-19,Persons,Unitary Authority,E06000038,Reading,165
+COVID-19,Persons,Unitary Authority,E06000039,Slough,107
+COVID-19,Persons,Unitary Authority,E06000040,Windsor and Maidenhead,129
+COVID-19,Persons,Unitary Authority,E06000041,Wokingham,149
+COVID-19,Persons,Unitary Authority,E06000042,Milton Keynes,196
+COVID-19,Persons,Unitary Authority,E06000043,Brighton and Hove,158
+COVID-19,Persons,Unitary Authority,E06000044,Portsmouth,104
+COVID-19,Persons,Unitary Authority,E06000045,Southampton,165
+COVID-19,Persons,Unitary Authority,E06000046,Isle of Wight,79
+COVID-19,Persons,Unitary Authority,E06000047,County Durham,700
+COVID-19,Persons,Unitary Authority,E06000049,Cheshire East,540
+COVID-19,Persons,Unitary Authority,E06000050,Cheshire West and Chester,394
+COVID-19,Persons,Unitary Authority,E06000051,Shropshire,250
+COVID-19,Persons,Unitary Authority,E06000052,Cornwall,207
+COVID-19,Persons,Unitary Authority,E06000053,Isles of Scilly,0
+COVID-19,Persons,Unitary Authority,E06000054,Wiltshire,362
+COVID-19,Persons,Unitary Authority,E06000055,Bedford,166
+COVID-19,Persons,Unitary Authority,E06000056,Central Bedfordshire,270
+COVID-19,Persons,Unitary Authority,E06000057,Northumberland,273
+COVID-19,Persons,Unitary Authority,E06000058,"Bournemouth, Christchurch and Poole",186
+COVID-19,Persons,Unitary Authority,E06000059,Dorset,161
+COVID-19,Persons,Unitary Authority,E06000060,Buckinghamshire,391
+COVID-19,Persons,Non-Metropolitan District,E07000008,Cambridge,82
+COVID-19,Persons,Non-Metropolitan District,E07000009,East Cambridgeshire,50
+COVID-19,Persons,Non-Metropolitan District,E07000010,Fenland,79
+COVID-19,Persons,Non-Metropolitan District,E07000011,Huntingdonshire,127
+COVID-19,Persons,Non-Metropolitan District,E07000012,South Cambridgeshire,61
+COVID-19,Persons,Non-Metropolitan District,E07000026,Allerdale,67
+COVID-19,Persons,Non-Metropolitan District,E07000027,Barrow-in-Furness,76
+COVID-19,Persons,Non-Metropolitan District,E07000028,Carlisle,128
+COVID-19,Persons,Non-Metropolitan District,E07000029,Copeland,62
+COVID-19,Persons,Non-Metropolitan District,E07000030,Eden,41
+COVID-19,Persons,Non-Metropolitan District,E07000031,South Lakeland,150
+COVID-19,Persons,Non-Metropolitan District,E07000032,Amber Valley,101
+COVID-19,Persons,Non-Metropolitan District,E07000033,Bolsover,54
+COVID-19,Persons,Non-Metropolitan District,E07000034,Chesterfield,85
+COVID-19,Persons,Non-Metropolitan District,E07000035,Derbyshire Dales,77
+COVID-19,Persons,Non-Metropolitan District,E07000036,Erewash,99
+COVID-19,Persons,Non-Metropolitan District,E07000037,High Peak,103
+COVID-19,Persons,Non-Metropolitan District,E07000038,North East Derbyshire,140
+COVID-19,Persons,Non-Metropolitan District,E07000039,South Derbyshire,110
+COVID-19,Persons,Non-Metropolitan District,E07000040,East Devon,49
+COVID-19,Persons,Non-Metropolitan District,E07000041,Exeter,39
+COVID-19,Persons,Non-Metropolitan District,E07000042,Mid Devon,17
+COVID-19,Persons,Non-Metropolitan District,E07000043,North Devon,26
+COVID-19,Persons,Non-Metropolitan District,E07000044,South Hams,12
+COVID-19,Persons,Non-Metropolitan District,E07000045,Teignbridge,33
+COVID-19,Persons,Non-Metropolitan District,E07000046,Torridge,20
+COVID-19,Persons,Non-Metropolitan District,E07000047,West Devon,15
+COVID-19,Persons,Non-Metropolitan District,E07000061,Eastbourne,68
+COVID-19,Persons,Non-Metropolitan District,E07000062,Hastings,10
+COVID-19,Persons,Non-Metropolitan District,E07000063,Lewes,113
+COVID-19,Persons,Non-Metropolitan District,E07000064,Rother,54
+COVID-19,Persons,Non-Metropolitan District,E07000065,Wealden,112
+COVID-19,Persons,Non-Metropolitan District,E07000066,Basildon,205
+COVID-19,Persons,Non-Metropolitan District,E07000067,Braintree,117
+COVID-19,Persons,Non-Metropolitan District,E07000068,Brentwood,86
+COVID-19,Persons,Non-Metropolitan District,E07000069,Castle Point,92
+COVID-19,Persons,Non-Metropolitan District,E07000070,Chelmsford,148
+COVID-19,Persons,Non-Metropolitan District,E07000071,Colchester,109
+COVID-19,Persons,Non-Metropolitan District,E07000072,Epping Forest,183
+COVID-19,Persons,Non-Metropolitan District,E07000073,Harlow,74
+COVID-19,Persons,Non-Metropolitan District,E07000074,Maldon,34
+COVID-19,Persons,Non-Metropolitan District,E07000075,Rochford,88
+COVID-19,Persons,Non-Metropolitan District,E07000076,Tendring,169
+COVID-19,Persons,Non-Metropolitan District,E07000077,Uttlesford,62
+COVID-19,Persons,Non-Metropolitan District,E07000078,Cheltenham,133
+COVID-19,Persons,Non-Metropolitan District,E07000079,Cotswold,58
+COVID-19,Persons,Non-Metropolitan District,E07000080,Forest of Dean,48
+COVID-19,Persons,Non-Metropolitan District,E07000081,Gloucester,144
+COVID-19,Persons,Non-Metropolitan District,E07000082,Stroud,92
+COVID-19,Persons,Non-Metropolitan District,E07000083,Tewkesbury,104
+COVID-19,Persons,Non-Metropolitan District,E07000084,Basingstoke and Deane,117
+COVID-19,Persons,Non-Metropolitan District,E07000085,East Hampshire,82
+COVID-19,Persons,Non-Metropolitan District,E07000086,Eastleigh,99
+COVID-19,Persons,Non-Metropolitan District,E07000087,Fareham,98
+COVID-19,Persons,Non-Metropolitan District,E07000088,Gosport,56
+COVID-19,Persons,Non-Metropolitan District,E07000089,Hart,48
+COVID-19,Persons,Non-Metropolitan District,E07000090,Havant,109
+COVID-19,Persons,Non-Metropolitan District,E07000091,New Forest,130
+COVID-19,Persons,Non-Metropolitan District,E07000092,Rushmoor,83
+COVID-19,Persons,Non-Metropolitan District,E07000093,Test Valley,115
+COVID-19,Persons,Non-Metropolitan District,E07000094,Winchester,109
+COVID-19,Persons,Non-Metropolitan District,E07000095,Broxbourne,74
+COVID-19,Persons,Non-Metropolitan District,E07000096,Dacorum,121
+COVID-19,Persons,Non-Metropolitan District,E07000098,Hertsmere,179
+COVID-19,Persons,Non-Metropolitan District,E07000099,North Hertfordshire,96
+COVID-19,Persons,Non-Metropolitan District,E07000102,Three Rivers,87
+COVID-19,Persons,Non-Metropolitan District,E07000103,Watford,120
+COVID-19,Persons,Non-Metropolitan District,E07000105,Ashford,150
+COVID-19,Persons,Non-Metropolitan District,E07000106,Canterbury,126
+COVID-19,Persons,Non-Metropolitan District,E07000107,Dartford,113
+COVID-19,Persons,Non-Metropolitan District,E07000108,Dover,121
+COVID-19,Persons,Non-Metropolitan District,E07000109,Gravesham,88
+COVID-19,Persons,Non-Metropolitan District,E07000110,Maidstone,115
+COVID-19,Persons,Non-Metropolitan District,E07000111,Sevenoaks,98
+COVID-19,Persons,Non-Metropolitan District,E07000112,Folkestone and Hythe,128
+COVID-19,Persons,Non-Metropolitan District,E07000113,Swale,120
+COVID-19,Persons,Non-Metropolitan District,E07000114,Thanet,146
+COVID-19,Persons,Non-Metropolitan District,E07000115,Tonbridge and Malling,74
+COVID-19,Persons,Non-Metropolitan District,E07000116,Tunbridge Wells,76
+COVID-19,Persons,Non-Metropolitan District,E07000117,Burnley,62
+COVID-19,Persons,Non-Metropolitan District,E07000118,Chorley,112
+COVID-19,Persons,Non-Metropolitan District,E07000119,Fylde,93
+COVID-19,Persons,Non-Metropolitan District,E07000120,Hyndburn,58
+COVID-19,Persons,Non-Metropolitan District,E07000121,Lancaster,69
+COVID-19,Persons,Non-Metropolitan District,E07000122,Pendle,75
+COVID-19,Persons,Non-Metropolitan District,E07000123,Preston,130
+COVID-19,Persons,Non-Metropolitan District,E07000124,Ribble Valley,27
+COVID-19,Persons,Non-Metropolitan District,E07000125,Rossendale,52
+COVID-19,Persons,Non-Metropolitan District,E07000126,South Ribble,90
+COVID-19,Persons,Non-Metropolitan District,E07000127,West Lancashire,116
+COVID-19,Persons,Non-Metropolitan District,E07000128,Wyre,115
+COVID-19,Persons,Non-Metropolitan District,E07000129,Blaby,79
+COVID-19,Persons,Non-Metropolitan District,E07000130,Charnwood,116
+COVID-19,Persons,Non-Metropolitan District,E07000131,Harborough,57
+COVID-19,Persons,Non-Metropolitan District,E07000132,Hinckley and Bosworth,101
+COVID-19,Persons,Non-Metropolitan District,E07000133,Melton,28
+COVID-19,Persons,Non-Metropolitan District,E07000134,North West Leicestershire,65
+COVID-19,Persons,Non-Metropolitan District,E07000135,Oadby and Wigston,64
+COVID-19,Persons,Non-Metropolitan District,E07000136,Boston,35
+COVID-19,Persons,Non-Metropolitan District,E07000137,East Lindsey,51
+COVID-19,Persons,Non-Metropolitan District,E07000138,Lincoln,27
+COVID-19,Persons,Non-Metropolitan District,E07000139,North Kesteven,43
+COVID-19,Persons,Non-Metropolitan District,E07000140,South Holland,56
+COVID-19,Persons,Non-Metropolitan District,E07000141,South Kesteven,69
+COVID-19,Persons,Non-Metropolitan District,E07000142,West Lindsey,23
+COVID-19,Persons,Non-Metropolitan District,E07000143,Breckland,90
+COVID-19,Persons,Non-Metropolitan District,E07000144,Broadland,71
+COVID-19,Persons,Non-Metropolitan District,E07000145,Great Yarmouth,49
+COVID-19,Persons,Non-Metropolitan District,E07000146,King's Lynn and West Norfolk,142
+COVID-19,Persons,Non-Metropolitan District,E07000147,North Norfolk,53
+COVID-19,Persons,Non-Metropolitan District,E07000148,Norwich,25
+COVID-19,Persons,Non-Metropolitan District,E07000149,South Norfolk,56
+COVID-19,Persons,Non-Metropolitan District,E07000150,Corby,50
+COVID-19,Persons,Non-Metropolitan District,E07000151,Daventry,75
+COVID-19,Persons,Non-Metropolitan District,E07000152,East Northamptonshire,96
+COVID-19,Persons,Non-Metropolitan District,E07000153,Kettering,99
+COVID-19,Persons,Non-Metropolitan District,E07000154,Northampton,269
+COVID-19,Persons,Non-Metropolitan District,E07000155,South Northamptonshire,56
+COVID-19,Persons,Non-Metropolitan District,E07000156,Wellingborough,66
+COVID-19,Persons,Non-Metropolitan District,E07000163,Craven,66
+COVID-19,Persons,Non-Metropolitan District,E07000164,Hambleton,71
+COVID-19,Persons,Non-Metropolitan District,E07000165,Harrogate,194
+COVID-19,Persons,Non-Metropolitan District,E07000166,Richmondshire,50
+COVID-19,Persons,Non-Metropolitan District,E07000167,Ryedale,31
+COVID-19,Persons,Non-Metropolitan District,E07000168,Scarborough,81
+COVID-19,Persons,Non-Metropolitan District,E07000169,Selby,45
+COVID-19,Persons,Non-Metropolitan District,E07000170,Ashfield,140
+COVID-19,Persons,Non-Metropolitan District,E07000171,Bassetlaw,69
+COVID-19,Persons,Non-Metropolitan District,E07000172,Broxtowe,99
+COVID-19,Persons,Non-Metropolitan District,E07000173,Gedling,119
+COVID-19,Persons,Non-Metropolitan District,E07000174,Mansfield,73
+COVID-19,Persons,Non-Metropolitan District,E07000175,Newark and Sherwood,76
+COVID-19,Persons,Non-Metropolitan District,E07000176,Rushcliffe,86
+COVID-19,Persons,Non-Metropolitan District,E07000177,Cherwell,114
+COVID-19,Persons,Non-Metropolitan District,E07000178,Oxford,75
+COVID-19,Persons,Non-Metropolitan District,E07000179,South Oxfordshire,116
+COVID-19,Persons,Non-Metropolitan District,E07000180,Vale of White Horse,121
+COVID-19,Persons,Non-Metropolitan District,E07000181,West Oxfordshire,118
+COVID-19,Persons,Non-Metropolitan District,E07000187,Mendip,28
+COVID-19,Persons,Non-Metropolitan District,E07000188,Sedgemoor,68
+COVID-19,Persons,Non-Metropolitan District,E07000189,South Somerset,57
+COVID-19,Persons,Non-Metropolitan District,E07000192,Cannock Chase,77
+COVID-19,Persons,Non-Metropolitan District,E07000193,East Staffordshire,152
+COVID-19,Persons,Non-Metropolitan District,E07000194,Lichfield,116
+COVID-19,Persons,Non-Metropolitan District,E07000195,Newcastle-under-Lyme,136
+COVID-19,Persons,Non-Metropolitan District,E07000196,South Staffordshire,100
+COVID-19,Persons,Non-Metropolitan District,E07000197,Stafford,120
+COVID-19,Persons,Non-Metropolitan District,E07000198,Staffordshire Moorlands,75
+COVID-19,Persons,Non-Metropolitan District,E07000199,Tamworth,67
+COVID-19,Persons,Non-Metropolitan District,E07000200,Babergh,59
+COVID-19,Persons,Non-Metropolitan District,E07000202,Ipswich,124
+COVID-19,Persons,Non-Metropolitan District,E07000203,Mid Suffolk,76
+COVID-19,Persons,Non-Metropolitan District,E07000207,Elmbridge,110
+COVID-19,Persons,Non-Metropolitan District,E07000208,Epsom and Ewell,81
+COVID-19,Persons,Non-Metropolitan District,E07000209,Guildford,92
+COVID-19,Persons,Non-Metropolitan District,E07000210,Mole Valley,105
+COVID-19,Persons,Non-Metropolitan District,E07000211,Reigate and Banstead,181
+COVID-19,Persons,Non-Metropolitan District,E07000212,Runnymede,72
+COVID-19,Persons,Non-Metropolitan District,E07000213,Spelthorne,90
+COVID-19,Persons,Non-Metropolitan District,E07000214,Surrey Heath,90
+COVID-19,Persons,Non-Metropolitan District,E07000215,Tandridge,92
+COVID-19,Persons,Non-Metropolitan District,E07000216,Waverley,141
+COVID-19,Persons,Non-Metropolitan District,E07000217,Woking,75
+COVID-19,Persons,Non-Metropolitan District,E07000218,North Warwickshire,83
+COVID-19,Persons,Non-Metropolitan District,E07000219,Nuneaton and Bedworth,153
+COVID-19,Persons,Non-Metropolitan District,E07000220,Rugby,74
+COVID-19,Persons,Non-Metropolitan District,E07000221,Stratford-on-Avon,165
+COVID-19,Persons,Non-Metropolitan District,E07000222,Warwick,99
+COVID-19,Persons,Non-Metropolitan District,E07000223,Adur,40
+COVID-19,Persons,Non-Metropolitan District,E07000224,Arun,67
+COVID-19,Persons,Non-Metropolitan District,E07000225,Chichester,81
+COVID-19,Persons,Non-Metropolitan District,E07000226,Crawley,76
+COVID-19,Persons,Non-Metropolitan District,E07000227,Horsham,118
+COVID-19,Persons,Non-Metropolitan District,E07000228,Mid Sussex,164
+COVID-19,Persons,Non-Metropolitan District,E07000229,Worthing,77
+COVID-19,Persons,Non-Metropolitan District,E07000234,Bromsgrove,135
+COVID-19,Persons,Non-Metropolitan District,E07000235,Malvern Hills,49
+COVID-19,Persons,Non-Metropolitan District,E07000236,Redditch,59
+COVID-19,Persons,Non-Metropolitan District,E07000237,Worcester,62
+COVID-19,Persons,Non-Metropolitan District,E07000238,Wychavon,108
+COVID-19,Persons,Non-Metropolitan District,E07000239,Wyre Forest,115
+COVID-19,Persons,Non-Metropolitan District,E07000240,St Albans,125
+COVID-19,Persons,Non-Metropolitan District,E07000241,Welwyn Hatfield,111
+COVID-19,Persons,Non-Metropolitan District,E07000242,East Hertfordshire,100
+COVID-19,Persons,Non-Metropolitan District,E07000243,Stevenage,59
+COVID-19,Persons,Non-Metropolitan District,E07000244,East Suffolk,220
+COVID-19,Persons,Non-Metropolitan District,E07000245,West Suffolk,76
+COVID-19,Persons,Non-Metropolitan District,E07000246,Somerset West and Taunton,47
+COVID-19,Persons,Metropolitan District,E08000001,Bolton,314
+COVID-19,Persons,Metropolitan District,E08000002,Bury,236
+COVID-19,Persons,Metropolitan District,E08000003,Manchester,398
+COVID-19,Persons,Metropolitan District,E08000004,Oldham,257
+COVID-19,Persons,Metropolitan District,E08000005,Rochdale,222
+COVID-19,Persons,Metropolitan District,E08000006,Salford,317
+COVID-19,Persons,Metropolitan District,E08000007,Stockport,356
+COVID-19,Persons,Metropolitan District,E08000008,Tameside,287
+COVID-19,Persons,Metropolitan District,E08000009,Trafford,236
+COVID-19,Persons,Metropolitan District,E08000010,Wigan,344
+COVID-19,Persons,Metropolitan District,E08000011,Knowsley,143
+COVID-19,Persons,Metropolitan District,E08000012,Liverpool,572
+COVID-19,Persons,Metropolitan District,E08000013,St. Helens,196
+COVID-19,Persons,Metropolitan District,E08000014,Sefton,291
+COVID-19,Persons,Metropolitan District,E08000015,Wirral,430
+COVID-19,Persons,Metropolitan District,E08000016,Barnsley,243
+COVID-19,Persons,Metropolitan District,E08000017,Doncaster,252
+COVID-19,Persons,Metropolitan District,E08000018,Rotherham,321
+COVID-19,Persons,Metropolitan District,E08000019,Sheffield,563
+COVID-19,Persons,Metropolitan District,E08000021,Newcastle upon Tyne,246
+COVID-19,Persons,Metropolitan District,E08000022,North Tyneside,154
+COVID-19,Persons,Metropolitan District,E08000023,South Tyneside,162
+COVID-19,Persons,Metropolitan District,E08000024,Sunderland,335
+COVID-19,Persons,Metropolitan District,E08000025,Birmingham,"1,208"
+COVID-19,Persons,Metropolitan District,E08000026,Coventry,284
+COVID-19,Persons,Metropolitan District,E08000027,Dudley,308
+COVID-19,Persons,Metropolitan District,E08000028,Sandwell,368
+COVID-19,Persons,Metropolitan District,E08000029,Solihull,273
+COVID-19,Persons,Metropolitan District,E08000030,Walsall,384
+COVID-19,Persons,Metropolitan District,E08000031,Wolverhampton,311
+COVID-19,Persons,Metropolitan District,E08000032,Bradford,492
+COVID-19,Persons,Metropolitan District,E08000033,Calderdale,113
+COVID-19,Persons,Metropolitan District,E08000034,Kirklees,309
+COVID-19,Persons,Metropolitan District,E08000035,Leeds,694
+COVID-19,Persons,Metropolitan District,E08000036,Wakefield,342
+COVID-19,Persons,Metropolitan District,E08000037,Gateshead,236
+COVID-19,Persons,London Borough,E09000001,City of London,4
+COVID-19,Persons,London Borough,E09000002,Barking and Dagenham,165
+COVID-19,Persons,London Borough,E09000003,Barnet,453
+COVID-19,Persons,London Borough,E09000004,Bexley,228
+COVID-19,Persons,London Borough,E09000005,Brent,487
+COVID-19,Persons,London Borough,E09000006,Bromley,340
+COVID-19,Persons,London Borough,E09000007,Camden,160
+COVID-19,Persons,London Borough,E09000008,Croydon,492
+COVID-19,Persons,London Borough,E09000009,Ealing,406
+COVID-19,Persons,London Borough,E09000010,Enfield,388
+COVID-19,Persons,London Borough,E09000011,Greenwich,226
+COVID-19,Persons,London Borough,E09000012,Hackney,222
+COVID-19,Persons,London Borough,E09000013,Hammersmith and Fulham,168
+COVID-19,Persons,London Borough,E09000014,Haringey,271
+COVID-19,Persons,London Borough,E09000015,Harrow,397
+COVID-19,Persons,London Borough,E09000016,Havering,273
+COVID-19,Persons,London Borough,E09000017,Hillingdon,313
+COVID-19,Persons,London Borough,E09000018,Hounslow,229
+COVID-19,Persons,London Borough,E09000019,Islington,150
+COVID-19,Persons,London Borough,E09000020,Kensington and Chelsea,124
+COVID-19,Persons,London Borough,E09000021,Kingston upon Thames,131
+COVID-19,Persons,London Borough,E09000022,Lambeth,287
+COVID-19,Persons,London Borough,E09000023,Lewisham,292
+COVID-19,Persons,London Borough,E09000024,Merton,203
+COVID-19,Persons,London Borough,E09000025,Newham,307
+COVID-19,Persons,London Borough,E09000026,Redbridge,312
+COVID-19,Persons,London Borough,E09000027,Richmond upon Thames,150
+COVID-19,Persons,London Borough,E09000028,Southwark,249
+COVID-19,Persons,London Borough,E09000029,Sutton,178
+COVID-19,Persons,London Borough,E09000030,Tower Hamlets,188
+COVID-19,Persons,London Borough,E09000031,Waltham Forest,248
+COVID-19,Persons,London Borough,E09000032,Wandsworth,213
+COVID-19,Persons,London Borough,E09000033,Westminster,184
+COVID-19,Persons,County,E10000003,Cambridgeshire,399
+COVID-19,Persons,County,E10000006,Cumbria,524
+COVID-19,Persons,County,E10000007,Derbyshire,769
+COVID-19,Persons,County,E10000008,Devon,211
+COVID-19,Persons,County,E10000011,East Sussex,357
+COVID-19,Persons,County,E10000012,Essex,"1,367"
+COVID-19,Persons,County,E10000013,Gloucestershire,579
+COVID-19,Persons,County,E10000014,Hampshire,"1,046"
+COVID-19,Persons,County,E10000015,Hertfordshire,"1,072"
+COVID-19,Persons,County,E10000016,Kent,"1,355"
+COVID-19,Persons,County,E10000017,Lancashire,999
+COVID-19,Persons,County,E10000018,Leicestershire,510
+COVID-19,Persons,County,E10000019,Lincolnshire,304
+COVID-19,Persons,County,E10000020,Norfolk,486
+COVID-19,Persons,County,E10000021,Northamptonshire,711
+COVID-19,Persons,County,E10000023,North Yorkshire,538
+COVID-19,Persons,County,E10000024,Nottinghamshire,662
+COVID-19,Persons,County,E10000025,Oxfordshire,544
+COVID-19,Persons,County,E10000027,Somerset,200
+COVID-19,Persons,County,E10000028,Staffordshire,843
+COVID-19,Persons,County,E10000029,Suffolk,555
+COVID-19,Persons,County,E10000030,Surrey,"1,129"
+COVID-19,Persons,County,E10000031,Warwickshire,574
+COVID-19,Persons,County,E10000032,West Sussex,623
+COVID-19,Persons,County,E10000034,Worcestershire,528
+COVID-19,Persons,Metropolitan County,E11000001,Greater Manchester,"2,967"
+COVID-19,Persons,Metropolitan County,E11000002,Merseyside,"1,632"
+COVID-19,Persons,Metropolitan County,E11000003,South Yorkshire,"1,379"
+COVID-19,Persons,Metropolitan County,E11000005,West Midlands,"3,136"
+COVID-19,Persons,Metropolitan County,E11000006,West Yorkshire,"1,950"
+COVID-19,Persons,Metropolitan County,E11000007,Tyne and Wear,"1,133"
+COVID-19,Persons,Region,E12000001,North East,"2,791"
+COVID-19,Persons,Region,E12000002,North West,"7,639"
+COVID-19,Persons,Region,E12000003,Yorkshire and The Humber,"4,685"
+COVID-19,Persons,Region,E12000004,East Midlands,"3,812"
+COVID-19,Persons,Region,E12000005,West Midlands,"5,751"
+COVID-19,Persons,Region,E12000006,East of England,"4,966"
+COVID-19,Persons,Region,E12000007,London,"8,438"
+COVID-19,Persons,Region,E12000008,South East,"7,086"
+COVID-19,Persons,Region,E12000009,South West,"2,872"
+COVID-19,Persons,Country,E92000001,England,"48,040"
+COVID-19,Persons,Other,J99000001,Usual residence outside England and Wales,74
+COVID-19,Persons,Country,"K04000001, J99000001","ENGLAND, WALES AND ELSEWHERE","50,574"
+COVID-19,Persons,Unitary Authority,W06000001,Isle of Anglesey,33
+COVID-19,Persons,Unitary Authority,W06000002,Gwynedd,68
+COVID-19,Persons,Unitary Authority,W06000003,Conwy,93
+COVID-19,Persons,Unitary Authority,W06000004,Denbighshire,100
+COVID-19,Persons,Unitary Authority,W06000005,Flintshire,131
+COVID-19,Persons,Unitary Authority,W06000006,Wrexham,83
+COVID-19,Persons,Unitary Authority,W06000008,Ceredigion,7
+COVID-19,Persons,Unitary Authority,W06000009,Pembrokeshire,40
+COVID-19,Persons,Unitary Authority,W06000010,Carmarthenshire,84
+COVID-19,Persons,Unitary Authority,W06000011,Swansea,204
+COVID-19,Persons,Unitary Authority,W06000012,Neath Port Talbot,103
+COVID-19,Persons,Unitary Authority,W06000013,Bridgend,91
+COVID-19,Persons,Unitary Authority,W06000014,Vale of Glamorgan,101
+COVID-19,Persons,Unitary Authority,W06000015,Cardiff,373
+COVID-19,Persons,Unitary Authority,W06000016,Rhondda Cynon Taf,294
+COVID-19,Persons,Unitary Authority,W06000018,Caerphilly,132
+COVID-19,Persons,Unitary Authority,W06000019,Blaenau Gwent,64
+COVID-19,Persons,Unitary Authority,W06000020,Torfaen,66
+COVID-19,Persons,Unitary Authority,W06000021,Monmouthshire,74
+COVID-19,Persons,Unitary Authority,W06000022,Newport,162
+COVID-19,Persons,Unitary Authority,W06000023,Powys,92
+COVID-19,Persons,Unitary Authority,W06000024,Merthyr Tydfil,65
+COVID-19,Persons,Local Health Board,W11000023,Betsi Cadwaladr University Health Board,508
+COVID-19,Persons,Local Health Board,W11000024,Powys Teaching Health Board,92
+COVID-19,Persons,Local Health Board,W11000025,Hywel Dda University Health Board,131
+COVID-19,Persons,Local Health Board,W11000028,Aneurin Bevan University Health Board,498
+COVID-19,Persons,Local Health Board,W11000029,Cardiff and Vale University Health Board,474
+COVID-19,Persons,Local Health Board,W11000030,Cwm Taf Morgannwg University Health Board,450
+COVID-19,Persons,Local Health Board,W11000031,Swansea Bay University Health Board,307
+COVID-19,Persons,Country,W92000004,Wales,"2,460"

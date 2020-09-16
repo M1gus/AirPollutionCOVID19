@@ -1,0 +1,19 @@
+Variable name,UK Biobank ID,Description of the variable
+x_coord,20074,Home location at assessment - east co-ordinate 
+y_coord,20075,Home location at assessment - north co-ordinate 
+townsend,189,Townsend deprivation index at recruitment
+Age,34,2020 subtracted by year of birth
+whr,"48, 49",Waist circumference divided by hip circumference
+highBP,"4079, 4080",High Blood pressure*
+WP_dusty,22609,Workplace very dusty*
+WP_chemicals,22610,Workplace full of chemical or other fumes*
+WP_cig,22611,Workplace had a lot of cigarette smoke from other people smoking*
+WP_diesel,22615,Workplace had a lot of diesel exhaust*
+breathing,22616,Breathing problems during period of job*
+whistling,2316,Wheeze or whistling in the chest in last year
+sex,31,Sex
+fev,20153,"Forced expiratory volume in 1-second (FEV1), predicted*"
+copd,22130,Doctor diagnosed COPD (chronic obstructive pulmonary disease)*
+diabetes,2443,Diabetes diagnosed by doctor
+n_cancers,134,Number of self-reported cancers
+smoking,20116,Smoking status*
