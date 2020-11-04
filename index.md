@@ -1,5 +1,8 @@
-Links between air pollution and COVID-19 in
-England, Travaglio et al., 2020
+**Links between air pollution and COVID-19 in
+England**
+Marco Travaglio, Yizhou Yu, Rebeka Popovic, Liza Selley, Nuno Santos Leal, and Luis Miguel Martins
+MRC Toxicology Unit, University of Cambridge
+
 ================
 Yizhou Yu, MRC Toxicology Unit, University of
 Cambridge, (<yzy21@mrc-tox.cam.ac.uk>)
