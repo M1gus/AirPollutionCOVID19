@@ -1,4 +1,5 @@
-Travaglio et al., 2020
+Links between air pollution and COVID-19 in
+England, Travaglio et al., 2020
 ================
 Yizhou Yu, MRC Toxicology Unit, University of
 Cambridge, (<yzy21@mrc-tox.cam.ac.uk>)
@@ -7,12 +8,18 @@ September 2020
 # General information
 
 This pipeline relates to data included in **Figures 3 to 5**
-of our manuscript titled **Links between air pollution and COVID-19 in
+of our study entitled **Links between air pollution and COVID-19 in
 England**, as well as Supplementary tables included in the supplementary
 materials.
 
 The input files for this analysis pipeline are on the master branch of
-this GitHub page (link: <https://github.com/M1gus/AirPollutionCOVID19>)
+this GitHub page: <https://github.com/M1gus/AirPollutionCOVID19>
+
+This study was first deposited in a preprint server (medRxiv) in April 2020:
+
+After peer-review, the study was published in the journal "Environmental Pollution" in October 2020:
+<https://www.sciencedirect.com/science/article/pii/S0269749120365489?via%3Dihub#abs0020>
+
 
 The main aims of the workflow presented here were as follows: <br> 1.
 Determine a relationship between air pollutants and COVID-19-associated
