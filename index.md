@@ -6,8 +6,8 @@ September 2020
 
 # General information
 
-This pipeline relates to data included in **Figure 3** to **Figure 5**
-of out manuscript titled **Links between air pollution and COVID-19 in
+This pipeline relates to data included in **Figures 3 to 5**
+of our manuscript titled **Links between air pollution and COVID-19 in
 England**, as well as Supplementary tables included in the supplementary
 materials.
 
