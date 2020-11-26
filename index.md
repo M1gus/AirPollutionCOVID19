@@ -12,7 +12,7 @@ September 2020
 ## General information
 
 This pipeline relates to data included in **Figures 3 to 5**
-of our study entitled **Links between air pollution and COVID-19 in
+of our study titled **Links between air pollution and COVID-19 in
 England**, as well as Supplementary tables included in the supplementary
 materials.
 
