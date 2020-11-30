@@ -6,7 +6,7 @@ MRC Toxicology Unit, University of Cambridge
 <br>
 <br>
 Yizhou Yu, MRC Toxicology Unit, University of
-Cambridge, (<yzy21@mrc-tox.cam.ac.uk>)
+Cambridge, (yzy21 [at] mrc-tox.cam.ac.uk)
 September 2020
 
 ## General information
